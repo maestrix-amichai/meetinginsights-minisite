@@ -650,31 +650,229 @@
             height: 280px;
         }
 
-        /* Pricing Section */
-        .pricing {
+        /* Resources Section */
+        .resources-section {
             padding: 80px 0;
             background: var(--white);
         }
 
-        .pricing-grid {
+        .resources-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
             margin-top: 3rem;
-            max-width: 1000px;
+        }
+
+        .resource-card {
+            background: var(--white);
+            border: 2px solid var(--gray-300);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .resource-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--accent-cyan);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .resource-card:hover {
+            border-color: var(--accent-cyan);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,188,212,0.15);
+        }
+
+        .resource-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .resource-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--accent-cyan), #00acc1);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2.5rem;
+            color: var(--white);
+            transition: all 0.3s;
+            box-shadow: 0 8px 25px rgba(0,188,212,0.2);
+        }
+
+        .resource-card:hover .resource-icon {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(0,188,212,0.3);
+        }
+
+        .resource-card h3 {
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            line-height: 1.3;
+        }
+
+        .resource-card p {
+            color: var(--gray-600);
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .resource-badge {
+            background: var(--light-blue);
+            color: var(--primary-blue);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .resource-cta {
+            background: var(--accent-cyan);
+            color: var(--white);
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+
+        .resource-cta:hover {
+            background: #00acc1;
+            transform: translateY(-1px);
+        }
+
+        .resources-more {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .see-more-btn {
+            background: transparent;
+            color: var(--accent-cyan);
+            border: 2px solid var(--accent-cyan);
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .see-more-btn:hover {
+            background: var(--accent-cyan);
+            color: var(--white);
+        }
+
+        .additional-resources {
+            display: none;
+            margin-top: 3rem;
+            padding-top: 3rem;
+            border-top: 1px solid var(--gray-300);
+        }
+
+        .additional-resources.show {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .additional-resources h3 {
+            color: var(--primary-blue);
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+
+        .additional-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .additional-item {
+            background: var(--gray-100);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: left;
+            border-left: 4px solid var(--accent-cyan);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .additional-item:hover {
+            background: var(--white);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+
+        .additional-item h4 {
+            color: var(--primary-blue);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+            line-height: 1.3;
+        }
+
+        .additional-type {
+            background: var(--accent-cyan);
+            color: var(--white);
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 80px 0;
+            background: var(--gray-100);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+            max-width: 1200px;
             margin-left: auto;
             margin-right: auto;
         }
 
         .pricing-card {
             background: var(--white);
-            padding: 2.5rem 2rem;
+            padding: 2rem 1.5rem;
             border-radius: 15px;
             text-align: center;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             position: relative;
             transition: transform 0.3s;
             border: 1px solid var(--gray-300);
+            height: fit-content;
         }
 
         .pricing-card:hover {
@@ -683,7 +881,7 @@
 
         .pricing-card.featured {
             border: 3px solid var(--accent-cyan);
-            transform: scale(1.05);
+            transform: scale(1.02);
         }
 
         .pricing-card.featured::before {
@@ -696,39 +894,42 @@
             color: var(--white);
             padding: 0.5rem 1.5rem;
             border-radius: 20px;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             font-weight: 600;
         }
 
         .pricing-tier {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: bold;
             color: var(--primary-blue);
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
         }
 
         .pricing-price {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             font-weight: bold;
             color: var(--primary-blue);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.3rem;
         }
 
         .pricing-period {
             color: var(--gray-600);
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
         }
 
         .pricing-features {
             list-style: none;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             text-align: left;
         }
 
         .pricing-features li {
-            margin-bottom: 0.8rem;
-            padding-left: 1.5rem;
+            margin-bottom: 0.6rem;
+            padding-left: 1.2rem;
             position: relative;
+            font-size: 0.85rem;
+            line-height: 1.3;
         }
 
         .pricing-features li::before {
@@ -737,16 +938,17 @@
             left: 0;
             color: var(--accent-cyan);
             font-weight: bold;
+            font-size: 0.8rem;
         }
 
         .pricing-cta {
             width: 100%;
-            padding: 1rem;
+            padding: 0.8rem;
             background: var(--primary-blue);
             color: var(--white);
             border: none;
             border-radius: 25px;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
             text-decoration: none;
             display: inline-block;
@@ -807,6 +1009,15 @@
             .value-grid {
                 grid-template-columns: 1fr;
                 gap: 1.5rem;
+            }
+            
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .pricing-card.featured {
+                transform: none;
             }
         }
 
@@ -1020,6 +1231,7 @@
             <div class="logos-carousel">
                 <div class="logos-track">
                     <div class="logo-item">Microsoft</div>
+                    <div class="logo-item">Google</div>
                     <div class="logo-item">Amazon</div>
                     <div class="logo-item">Salesforce</div>
                     <div class="logo-item">Adobe</div>
@@ -1177,6 +1389,62 @@
         </div>
     </section>
 
+    <!-- Resources Section -->
+    <section class="resources-section">
+        <div class="container">
+            <h2 class="section-title">Essential Resources for IT Leaders</h2>
+            <div class="resources-grid">
+                <div class="resource-card" onclick="window.open('https://online.audiocodes.com/12-must-have-requirements-for-choosing-ai-meeting-intelligence?hs_preview=LRvkDWSk-191748739252', '_blank')">
+                    <div class="resource-icon">📋</div>
+                    <span class="resource-badge">Requirements Guide</span>
+                    <h3>12 Must-Have Requirements for AI Meeting Intelligence</h3>
+                    <p>A comprehensive checklist to evaluate and select the right meeting intelligence solution for your enterprise. Don't make a decision without this guide.</p>
+                    <span class="resource-cta">Download Free Guide</span>
+                </div>
+
+                <div class="resource-card" onclick="window.open('https://online.audiocodes.com/executive-guide-unlocking-organizational-meeting-intelligence', '_blank')">
+                    <div class="resource-icon">📚</div>
+                    <span class="resource-badge">Executive Guide</span>
+                    <h3>Executive Guide to Organizational Meeting Intelligence</h3>
+                    <p>Strategic insights for C-suite leaders on transforming meetings into competitive advantages. Learn ROI calculations and implementation strategies.</p>
+                    <span class="resource-cta">Get Executive Guide</span>
+                </div>
+
+                <div class="resource-card" onclick="window.open('https://online.audiocodes.com/how-to-implement-organizational-meeting-intelligence-the-right-way?hs_preview=CwBxOvMt-190128698513', '_blank')">
+                    <div class="resource-icon">🎯</div>
+                    <span class="resource-badge">Frost & Sullivan Report</span>
+                    <h3>How to Implement Meeting Intelligence the Right Way</h3>
+                    <p>Independent analysis from Frost & Sullivan on best practices, common pitfalls, and proven strategies for successful enterprise deployment.</p>
+                    <span class="resource-cta">Access Report</span>
+                </div>
+            </div>
+
+            <div class="resources-more">
+                <button class="see-more-btn" id="seeMoreBtn">See More Resources</button>
+            </div>
+
+            <div class="additional-resources" id="additionalResources">
+                <h3>Additional Learning Resources</h3>
+                <div class="additional-grid">
+                    <div class="additional-item" onclick="window.open('https://www.youtube.com/watch?v=81xH_AwC5A4&list=PLWI2eO0GVBO_ZVzetLMyjTj4Gu8Fxjn7Z&index=2', '_blank')">
+                        <span class="additional-type">Webinar</span>
+                        <h4>Transform Meetings into Valuable Business Assets with Generative AI</h4>
+                    </div>
+                    
+                    <div class="additional-item" onclick="window.open('https://empowering.cloud/understanding-audiocodes-meeting-insights-ai-for-smarter-meeting-management/', '_blank')">
+                        <span class="additional-type">Webinar</span>
+                        <h4>Understanding AudioCodes Meeting Insights: AI for Smarter Meeting Management</h4>
+                    </div>
+                    
+                    <div class="additional-item" onclick="window.open('https://www.audiocodes.com/media/nykobuil/meeting-insights-ai-meeting-assistant-app-for-ucaas-platforms.pdf', '_blank')">
+                        <span class="additional-type">Brochure</span>
+                        <h4>Meeting Insights AI Meeting Assistant App for UCaaS Platforms</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Pricing Section -->
     <section id="pricing" class="pricing">
         <div class="container">
@@ -1245,6 +1513,20 @@
     </section>
 
     <script>
+        // See More Resources functionality
+        document.getElementById('seeMoreBtn').addEventListener('click', function() {
+            const additionalResources = document.getElementById('additionalResources');
+            const button = document.getElementById('seeMoreBtn');
+            
+            if (additionalResources.classList.contains('show')) {
+                additionalResources.classList.remove('show');
+                button.textContent = 'See More Resources';
+            } else {
+                additionalResources.classList.add('show');
+                button.textContent = 'Show Less Resources';
+            }
+        });
+
         // Add video functionality
         document.getElementById('videoThumbnail').addEventListener('click', function() {
             const thumbnail = document.getElementById('videoThumbnail');
