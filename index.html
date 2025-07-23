@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting Insights - Transform Meetings Into Organizational Intelligence</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-blue: #1e3a5f;
+            --accent-cyan: #00bcd4;
+            --light-blue: #f0f8ff;
+            --white: #ffffff;
+            --gray-100: #f8f9fa;
+            --gray-300: #dee2e6;
+            --gray-600: #6c757d;
+            --gray-800: #343a40;
+            --gradient: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--gray-800);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-blue);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--gray-600);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-cyan);
+        }
+
+        .nav-cta {
+            background: var(--accent-cyan);
+            color: var(--white);
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .nav-cta:hover {
+            background: #00acc1;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: var(--gradient);
+            color: var(--white);
+            padding: 120px 0 80px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: var(--accent-cyan);
+            color: var(--white);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background: #00acc1;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            padding: 1rem 2rem;
+            border: 2px solid var(--white);
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: var(--white);
+            color: var(--primary-blue);
+        }
+
+        /* What It Is Section */
+        .what-it-is {
+            padding: 80px 0;
+            background: var(--gray-100);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 3rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--accent-cyan);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            color: var(--white);
+        }
+
+        .feature-card h3 {
+            color: var(--primary-blue);
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+        }
+
+        .feature-card p {
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        /* Value Prop Section */
+        .value-props {
+            padding: 80px 0;
+        }
+
+        .value-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .value-card {
+            padding: 1.5rem;
+            border-left: 4px solid var(--accent-cyan);
+            background: var(--light-blue);
+            border-radius: 10px;
+        }
+
+        .value-card h3 {
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .value-list {
+            list-style: none;
+        }
+
+        .value-list li {
+            margin-bottom: 0.6rem;
+            padding-left: 1.2rem;
+            position: relative;
+            font-size: 0.9rem;
+            line-height: 1.3;
+        }
+
+        .value-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--accent-cyan);
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        /* Video Section */
+        .video-section {
+            padding: 80px 0;
+            background: var(--gray-100);
+            text-align: center;
+        }
+
+        .video-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--white);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .video-placeholder {
+            background: var(--primary-blue);
+            height: 400px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .video-placeholder:hover {
+            background: #2c5282;
+        }
+
+        /* Personas Section */
+        .personas {
+            padding: 80px 0;
+        }
+
+        .personas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .persona-card {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            cursor: pointer;
+            height: 300px;
+            position: relative;
+            perspective: 1000px;
+        }
+
+        .persona-card:hover {
+            transform: scale(1.05);
+        }
+
+        .persona-front, .persona-back {
+            padding: 2rem;
+            text-align: center;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: absolute;
+            width: 100%;
+            transition: transform 0.6s;
+            backface-visibility: hidden;
+        }
+
+        .persona-back {
+            background: var(--primary-blue);
+            color: var(--white);
+            transform: rotateY(180deg);
+        }
+
+        .persona-card:hover .persona-front {
+            transform: rotateY(180deg);
+        }
+
+        .persona-card:hover .persona-back {
+            transform: rotateY(0deg);
+        }
+
+        .persona-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--accent-cyan);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: var(--white);
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 80px 0;
+            background: var(--light-blue);
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .testimonial-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .testimonial-author {
+            font-weight: bold;
+            color: var(--primary-blue);
+        }
+
+        /* Customer Logos */
+        .customer-logos {
+            padding: 60px 0;
+            background: var(--white);
+            text-align: center;
+        }
+
+        .logos-carousel {
+            overflow: hidden;
+            margin-top: 2rem;
+        }
+
+        .logos-track {
+            display: flex;
+            align-items: center;
+            animation: scroll 30s linear infinite;
+            gap: 4rem;
+        }
+
+        .logo-item {
+            flex: 0 0 auto;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.6;
+            transition: opacity 0.3s;
+            background: var(--gray-100);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            min-width: 150px;
+            font-weight: 600;
+            color: var(--gray-600);
+        }
+
+        .logo-item:hover {
+            opacity: 1;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .logos-track:hover {
+            animation-play-state: paused;
+        }
+
+        /* Awards Section */
+        .awards {
+            padding: 60px 0;
+            background: var(--primary-blue);
+            color: var(--white);
+            text-align: center;
+        }
+
+        .awards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .award-item {
+            padding: 1.5rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 80px 0;
+            background: var(--gray-100);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .pricing-card {
+            background: var(--white);
+            padding: 2.5rem 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+            transition: transform 0.3s;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .pricing-card.featured {
+            border: 3px solid var(--accent-cyan);
+            transform: scale(1.05);
+        }
+
+        .pricing-card.featured::before {
+            content: "Most Popular";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-cyan);
+            color: var(--white);
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .pricing-tier {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+
+        .pricing-price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-period {
+            color: var(--gray-600);
+            margin-bottom: 2rem;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .pricing-features li {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .pricing-features li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--accent-cyan);
+            font-weight: bold;
+        }
+
+        .pricing-cta {
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary-blue);
+            color: var(--white);
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.3s;
+        }
+
+        .pricing-cta:hover {
+            background: #2c5282;
+        }
+
+        .pricing-card.featured .pricing-cta {
+            background: var(--accent-cyan);
+        }
+
+        .pricing-card.featured .pricing-cta:hover {
+            background: #00acc1;
+        }
+
+        /* CTA Section */
+        .final-cta {
+            padding: 80px 0;
+            background: var(--gradient);
+            color: var(--white);
+            text-align: center;
+        }
+
+        .final-cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .final-cta p {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-ctas {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+            
+            .value-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">Meeting Insights</div>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#value">Benefits</a></li>
+                <li><a href="#personas">Who It's For</a></li>
+                <li><a href="#testimonials">Customers</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+            </ul>
+            <a href="#demo" class="nav-cta">Schedule a Demo</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Transform Meetings Into Organizational Intelligence</h1>
+            <p>Go beyond note-taking. Turn every meeting into strategic business intelligence with enterprise-grade AI that scales across your entire organization.</p>
+            <div class="hero-ctas">
+                <a href="#demo" class="btn-primary">Schedule a Demo</a>
+                <a href="#video" class="btn-secondary">▶ Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- What It Is Section -->
+    <section id="features" class="what-it-is">
+        <div class="container">
+            <h2 class="section-title">Meeting Insights Capabilities</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Real-Time Meeting Intelligence</h3>
+                    <p>Captures and processes meeting content instantly, delivering accurate transcription and immediate insights while discussions happen.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3>AI-Powered Strategic Insights</h3>
+                    <p>Transforms conversations into tailored summaries, key decisions, and actionable intelligence that accelerates business outcomes.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Enterprise-Ready Security</h3>
+                    <p>Built with enterprise-grade security, ensuring your sensitive meeting data stays protected and compliant with industry regulations.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📋</div>
+                    <h3>Intelligent Task Management</h3>
+                    <p>Automatically identifies action items, tracks commitments, and builds an organizational knowledge repository.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Value Proposition Section -->
+    <section id="value" class="value-props">
+        <div class="container">
+            <h2 class="section-title">Transformative Benefits for Every Level</h2>
+            <div class="value-grid">
+                <div class="value-card">
+                    <h3>For Meeting Attendees</h3>
+                    <ul class="value-list">
+                        <li>Reclaim your mental focus - be fully present</li>
+                        <li>Never fall behind on critical decisions</li>
+                        <li>Come prepared with intelligent context</li>
+                        <li>Own your accountability with clear action items</li>
+                    </ul>
+                </div>
+                <div class="value-card">
+                    <h3>For Business Leaders</h3>
+                    <ul class="value-list">
+                        <li>See the big picture with strategic intelligence</li>
+                        <li>Accelerate decision velocity across departments</li>
+                        <li>Build a culture of accountability</li>
+                        <li>Turn meetings into strategic assets</li>
+                    </ul>
+                </div>
+                <div class="value-card">
+                    <h3>For IT Leaders</h3>
+                    <ul class="value-list">
+                        <li>Enable AI innovation responsibly</li>
+                        <li>Unlock competitive advantage securely</li>
+                        <li>Maintain complete control & governance</li>
+                        <li>Future-proof with universal platform support</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Section -->
+    <section id="video" class="video-section">
+        <div class="container">
+            <h2 class="section-title">Introducing Meeting Insights</h2>
+            <div class="video-container">
+                <div class="video-placeholder">▶</div>
+                <p>Discover how Meeting Insights revolutionizes the way organizations capture, analyze, and act on meeting intelligence.</p>
+                <a href="#demo" class="btn-primary" style="margin-top: 1rem;">Schedule a Demo</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Personas Section -->
+    <section id="personas" class="personas">
+        <div class="container">
+            <h2 class="section-title">Who Is It For?</h2>
+            <div class="personas-grid">
+                <div class="persona-card">
+                    <div class="persona-front">
+                        <div class="persona-icon">👥</div>
+                        <h3>HR Leaders</h3>
+                    </div>
+                    <div class="persona-back">
+                        <p>Transform talent acquisition with searchable interview intelligence. Turn company meetings into engagement opportunities, building the culture you've always envisioned.</p>
+                    </div>
+                </div>
+                <div class="persona-card">
+                    <div class="persona-front">
+                        <div class="persona-icon">🎯</div>
+                        <h3>C-Suite</h3>
+                    </div>
+                    <div class="persona-back">
+                        <p>Command your organization with unprecedented clarity. Get strategic intelligence to spot opportunities and ensure your vision translates into coordinated action.</p>
+                    </div>
+                </div>
+                <div class="persona-card">
+                    <div class="persona-front">
+                        <div class="persona-icon">💼</div>
+                        <h3>Sales Teams</h3>
+                    </div>
+                    <div class="persona-back">
+                        <p>Never lose a deal to poor follow-up. Build a repository of customer intelligence that drives consistent revenue growth and relationship depth.</p>
+                    </div>
+                </div>
+                <div class="persona-card">
+                    <div class="persona-front">
+                        <div class="persona-icon">⚖️</div>
+                        <h3>Legal Teams</h3>
+                    </div>
+                    <div class="persona-back">
+                        <p>Maintain ironclad confidentiality while building searchable case knowledge that helps spot patterns and risks before they become problems.</p>
+                    </div>
+                </div>
+                <div class="persona-card">
+                    <div class="persona-front">
+                        <div class="persona-icon">🔧</div>
+                        <h3>IT Admins</h3>
+                    </div>
+                    <div class="persona-back">
+                        <p>Lead AI transformation with confidence. Enable productivity gains while maintaining complete control over data sovereignty and compliance.</p>
+                    </div>
+                </div>
+                <div class="persona-card">
+                    <div class="persona-front">
+                        <div class="persona-icon">🎨</div>
+                        <h3>Product Teams</h3>
+                    </div>
+                    <div class="persona-back">
+                        <p>Build products customers actually want. Create a living repository of product intelligence that guides roadmap decisions and validates opportunities.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials">
+        <div class="container">
+            <h2 class="section-title">What Our Customers Say</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Meeting Insights allows me to share detailed meeting summaries and action items quickly. The repository helps me keep progress towards objectives on track."</p>
+                    <div class="testimonial-author">Paul Oaten, Marketing Director</div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Meeting Insights has transformed our productivity with AI-powered capabilities. It ensures those who missed meetings can stay informed."</p>
+                    <div class="testimonial-author">Jude O'Sullivan, Chief Customer Officer</div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"What used to take days now happens in hours, with AI-generated summaries, action items, and secure access."</p>
+                    <div class="testimonial-author">Jaime Wascalus, CIO, City of Saint Paul</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Customer Logos Section -->
+    <section class="customer-logos">
+        <div class="container">
+            <h2 class="section-title">Trusted by Leading Organizations</h2>
+            <div class="logos-carousel">
+                <div class="logos-track">
+                    <div class="logo-item">Microsoft</div>
+                    <div class="logo-item">Google</div>
+                    <div class="logo-item">Amazon</div>
+                    <div class="logo-item">Salesforce</div>
+                    <div class="logo-item">Adobe</div>
+                    <div class="logo-item">Oracle</div>
+                    <div class="logo-item">IBM</div>
+                    <div class="logo-item">Cisco</div>
+                    <!-- Duplicate for seamless loop -->
+                    <div class="logo-item">Microsoft</div>
+                    <div class="logo-item">Google</div>
+                    <div class="logo-item">Amazon</div>
+                    <div class="logo-item">Salesforce</div>
+                    <div class="logo-item">Adobe</div>
+                    <div class="logo-item">Oracle</div>
+                    <div class="logo-item">IBM</div>
+                    <div class="logo-item">Cisco</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Awards Section -->
+    <section id="awards" class="awards">
+        <div class="container">
+            <h2>Industry Recognition</h2>
+            <div class="awards-grid">
+                <div class="award-item">
+                    <h3>🏆 UC Today</h3>
+                    <p>"Best Use of AI" Award</p>
+                </div>
+                <div class="award-item">
+                    <h3>📊 Frost & Sullivan</h3>
+                    <p>Market Recognition Report</p>
+                </div>
+                <div class="award-item">
+                    <h3>🎤 AudioCodes</h3>
+                    <p>Enterprise Voice Expertise</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <h2 class="section-title">Simple, Transparent Pricing</h2>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-tier">Essential</div>
+                    <div class="pricing-price">$10</div>
+                    <div class="pricing-period">per user/month</div>
+                    <ul class="pricing-features">
+                        <li>Automatic MS Teams & Zoom recording</li>
+                        <li>Central repository for all meetings</li>
+                        <li>AI-generated summaries & action items</li>
+                        <li>Q&A and issue detection</li>
+                        <li>7,500 minutes AI analysis/month (per 50 users)</li>
+                        <li>6 months meeting retention</li>
+                    </ul>
+                    <a href="#demo" class="pricing-cta">Start Free Trial</a>
+                </div>
+                
+                <div class="pricing-card featured">
+                    <div class="pricing-tier">Pro</div>
+                    <div class="pricing-price">$15</div>
+                    <div class="pricing-period">per user/month</div>
+                    <ul class="pricing-features">
+                        <li>Everything in Essential</li>
+                        <li>Advanced AI: summary by topic & speaker</li>
+                        <li>"Prepare me for next meeting" feature</li>
+                        <li>Organizational analytics dashboard</li>
+                        <li>15,000 minutes AI analysis/month (per 50 users)</li>
+                        <li>12 months meeting retention</li>
+                        <li>Salesforce integration</li>
+                        <li>Bring Your Own Storage (BYOS)</li>
+                    </ul>
+                    <a href="#demo" class="pricing-cta">Start Free Trial</a>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="pricing-tier">Enterprise</div>
+                    <div class="pricing-price">Custom</div>
+                    <div class="pricing-period">contact for pricing</div>
+                    <ul class="pricing-features">
+                        <li>Everything in Pro</li>
+                        <li>On-premise deployment options</li>
+                        <li>Custom integrations & APIs</li>
+                        <li>Advanced security & compliance</li>
+                        <li>Dedicated customer success</li>
+                        <li>Custom training & onboarding</li>
+                        <li>SLA guarantees & 24/7 support</li>
+                    </ul>
+                    <a href="#demo" class="pricing-cta">Talk to an Expert</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section id="demo" class="final-cta">
+        <div class="container">
+            <h2>Ready to Transform Your Meetings?</h2>
+            <p>Join leading organizations using Meeting Insights to unlock organizational intelligence.</p>
+            <div class="hero-ctas">
+                <a href="#" class="btn-primary">Schedule a Demo</a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll effect to navigation
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 100) {
+                nav.style.background = 'rgba(255, 255, 255, 0.95)';
+                nav.style.backdropFilter = 'blur(10px)';
+            } else {
+                nav.style.background = '#ffffff';
+                nav.style.backdropFilter = 'none';
+            }
+        });
+
+        // Add demo form functionality
+        document.querySelectorAll('a[href="#demo"], a[href="#"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                if (this.textContent.includes('Schedule a Demo') || this.textContent.includes('Talk to an Expert')) {
+                    e.preventDefault();
+                    alert('Demo form would open here! This is a mockup - in a real implementation, this would connect to your scheduling system.');
+                }
+            });
+        });
+
+        // Add video placeholder functionality
+        document.querySelector('.video-placeholder').addEventListener('click', function() {
+            alert('Video would play here! This is a mockup - in a real implementation, this would embed your product demo video.');
+        });
+    </script>
+</body>
+</html>
