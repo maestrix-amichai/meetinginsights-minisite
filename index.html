@@ -286,10 +286,64 @@
             margin-bottom: 1.5rem;
             cursor: pointer;
             transition: background 0.3s;
+            position: relative;
+            background-image: url('https://img.youtube.com/vi/paP1j3NQE9Q/maxresdefault.jpg');
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
         }
 
-        .video-placeholder:hover {
-            background: #2c5282;
+        .video-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(30, 58, 95, 0.7);
+            transition: background 0.3s;
+        }
+
+        .video-placeholder:hover::before {
+            background: rgba(30, 58, 95, 0.5);
+        }
+
+        .video-play-button {
+            position: relative;
+            z-index: 2;
+            width: 80px;
+            height: 80px;
+            background: rgba(0, 188, 212, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(0, 188, 212, 0.4);
+        }
+
+        .video-placeholder:hover .video-play-button {
+            background: var(--accent-cyan);
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(0, 188, 212, 0.6);
+        }
+
+        .video-iframe {
+            width: 100%;
+            height: 400px;
+            border-radius: 10px;
+            border: none;
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+
+        .video-iframe.active {
+            display: block;
+        }
+
+        .video-placeholder.hidden {
+            display: none;
         }
 
         /* Personas Section */
@@ -862,7 +916,13 @@
         <div class="container">
             <h2 class="section-title">Introducing Meeting Insights</h2>
             <div class="video-container">
-                <div class="video-placeholder">▶</div>
+                <div class="video-placeholder" id="videoThumbnail">
+                    <div class="video-play-button">▶</div>
+                </div>
+                <iframe class="video-iframe" id="videoFrame" 
+                        src="https://www.youtube.com/embed/paP1j3NQE9Q?enablejsapi=1&rel=0&modestbranding=1" 
+                        allowfullscreen>
+                </iframe>
                 <p>Discover how Meeting Insights revolutionizes the way organizations capture, analyze, and act on meeting intelligence.</p>
                 <a href="#contact" class="btn-primary" style="margin-top: 1rem;">Get Started</a>
             </div>
@@ -1185,6 +1245,20 @@
     </section>
 
     <script>
+        // Add video functionality
+        document.getElementById('videoThumbnail').addEventListener('click', function() {
+            const thumbnail = document.getElementById('videoThumbnail');
+            const iframe = document.getElementById('videoFrame');
+            
+            // Hide thumbnail and show video
+            thumbnail.classList.add('hidden');
+            iframe.classList.add('active');
+            
+            // Auto-play the video by updating the src with autoplay parameter
+            const currentSrc = iframe.src;
+            iframe.src = currentSrc + '&autoplay=1';
+        });
+
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -1209,11 +1283,6 @@
                 nav.style.background = '#ffffff';
                 nav.style.backdropFilter = 'none';
             }
-        });
-
-        // Add video placeholder functionality
-        document.querySelector('.video-placeholder').addEventListener('click', function() {
-            alert('Video would play here! This is a mockup - in a real implementation, this would embed your product demo video.');
         });
     </script>
 </body>
