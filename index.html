@@ -95,29 +95,70 @@
             background: var(--gradient);
             color: var(--white);
             padding: 120px 0 80px;
-            text-align: center;
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            width: 100%;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 1rem;
+            align-items: center;
+            width: 100%;
+        }
+
+        .hero-text {
+            text-align: left;
         }
 
         .hero h1 {
             font-size: 3.5rem;
-            margin-bottom: 1.5rem;
-            line-height: 1.2;
+            margin-bottom: 1.8rem;
+            line-height: 1.1;
+            font-weight: 700;
+            letter-spacing: -0.02em;
         }
 
         .hero p {
             font-size: 1.3rem;
-            margin-bottom: 2.5rem;
-            opacity: 0.9;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+            margin-bottom: 3rem;
+            opacity: 0.95;
+            line-height: 1.4;
+            font-weight: 400;
+            max-width: 700px;
         }
 
         .hero-ctas {
             display: flex;
-            gap: 1rem;
-            justify-content: center;
+            gap: 1.5rem;
             flex-wrap: wrap;
+        }
+
+        .hero-image {
+            position: relative;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease;
+        }
+
+        .hero-image img:hover {
+            transform: scale(1.02);
         }
 
         .btn-primary {
@@ -155,7 +196,77 @@
             color: var(--primary-blue);
         }
 
-        /* What It Is Section */
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                text-align: center;
+            }
+            
+            .hero-text {
+                text-align: center;
+            }
+            
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+            
+            .hero p {
+                max-width: 600px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            .hero-ctas {
+                justify-content: center;
+            }
+            
+            .hero-image {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero {
+                padding: 100px 0 60px;
+                min-height: auto;
+            }
+            
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .hero p {
+                font-size: 1.3rem;
+            }
+            
+            .hero-content {
+                padding: 0 1rem;
+                gap: 2rem;
+            }
+            
+            .hero-ctas {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* Features Section */
         .what-it-is {
             padding: 80px 0;
             background: var(--gray-100);
@@ -212,7 +323,20 @@
             line-height: 1.4;
         }
 
-        /* Value Prop Section */
+        @media (max-width: 768px) {
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Value Proposition Section */
         .value-props {
             padding: 80px 0;
         }
@@ -346,6 +470,18 @@
             display: none;
         }
 
+        @media (max-width: 768px) {
+            .value-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .video-placeholder,
+            .video-iframe {
+                height: 300px;
+            }
+        }
+
         /* Personas Section */
         .personas {
             padding: 80px 0;
@@ -443,6 +579,88 @@
         .testimonial-author {
             font-weight: bold;
             color: var(--primary-blue);
+        }
+
+        /* Industry Solutions Section */
+        .industry-section {
+            padding: 80px 0;
+            background: var(--white);
+        }
+
+        .industry-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .industry-card {
+            background: var(--gray-100);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+            border-left: 4px solid transparent;
+        }
+
+        .industry-card:hover {
+            background: var(--white);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transform: translateY(-3px);
+            border-left-color: var(--accent-cyan);
+        }
+
+        .industry-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary-blue), #2c5282);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: var(--white);
+            transition: all 0.3s;
+        }
+
+        .industry-card:hover .industry-icon {
+            background: linear-gradient(135deg, var(--accent-cyan), #00acc1);
+            transform: scale(1.1);
+        }
+
+        .industry-card h3 {
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .industry-card p {
+            color: var(--gray-600);
+            line-height: 1.5;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .industry-learn-more {
+            background: var(--accent-cyan);
+            color: var(--white);
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.3s;
+            border: 2px solid var(--accent-cyan);
+        }
+
+        .industry-learn-more:hover {
+            background: var(--white);
+            color: var(--accent-cyan);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,188,212,0.2);
         }
 
         /* Customer Logos */
@@ -650,6 +868,104 @@
             height: 280px;
         }
 
+        /* Integrations Section */
+        .integrations-section {
+            padding: 80px 0;
+            background: var(--white);
+            text-align: center;
+        }
+
+        .integrations-subtitle {
+            font-size: 1.2rem;
+            color: var(--gray-600);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .integrations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .integration-card {
+            background: var(--gray-100);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+            border-left: 4px solid transparent;
+        }
+
+        .integration-card:hover {
+            background: var(--white);
+            transform: translateY(-5px);
+            border-left-color: var(--accent-cyan);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .integration-logo {
+            width: 80px;
+            height: 60px;
+            margin: 0 auto 1.5rem;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: bold;
+            color: var(--white);
+            transition: all 0.3s;
+        }
+
+        .integration-logo.teams {
+            background: linear-gradient(135deg, #5059c9, #4c52c7);
+        }
+
+        .integration-logo.zoom {
+            background: linear-gradient(135deg, #2d8cff, #1976d2);
+        }
+
+        .integration-logo.salesforce {
+            background: linear-gradient(135deg, #00a1e0, #0288d1);
+        }
+
+        .integration-logo.hubspot {
+            background: linear-gradient(135deg, #ff7a59, #f4511e);
+        }
+
+        .integration-logo.monday {
+            background: linear-gradient(135deg, #ff3d57, #e91e63);
+        }
+
+        .integration-logo.zoho {
+            background: linear-gradient(135deg, #3366cc, #1976d2);
+        }
+
+        .integration-card:hover .integration-logo {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .integration-card h3 {
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+
+        .integration-card p {
+            color: var(--gray-600);
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+
         /* Resources Section */
         .resources-section {
             padding: 80px 0;
@@ -757,94 +1073,6 @@
         .resource-cta:hover {
             background: #00acc1;
             transform: translateY(-1px);
-        }
-
-        .resources-more {
-            text-align: center;
-            margin-top: 3rem;
-        }
-
-        .see-more-btn {
-            background: transparent;
-            color: var(--accent-cyan);
-            border: 2px solid var(--accent-cyan);
-            padding: 0.8rem 2rem;
-            border-radius: 25px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .see-more-btn:hover {
-            background: var(--accent-cyan);
-            color: var(--white);
-        }
-
-        .additional-resources {
-            display: none;
-            margin-top: 3rem;
-            padding-top: 3rem;
-            border-top: 1px solid var(--gray-300);
-        }
-
-        .additional-resources.show {
-            display: block;
-            animation: fadeIn 0.5s ease-in;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .additional-resources h3 {
-            color: var(--primary-blue);
-            margin-bottom: 2rem;
-            font-size: 1.8rem;
-            text-align: center;
-        }
-
-        .additional-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .additional-item {
-            background: var(--gray-100);
-            padding: 1.5rem;
-            border-radius: 10px;
-            text-align: left;
-            border-left: 4px solid var(--accent-cyan);
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .additional-item:hover {
-            background: var(--white);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transform: translateY(-2px);
-        }
-
-        .additional-item h4 {
-            color: var(--primary-blue);
-            margin-bottom: 0.5rem;
-            font-size: 1rem;
-            line-height: 1.3;
-        }
-
-        .additional-type {
-            background: var(--accent-cyan);
-            color: var(--white);
-            padding: 0.2rem 0.6rem;
-            border-radius: 12px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         /* Pricing Section */
@@ -967,7 +1195,7 @@
             background: #00acc1;
         }
 
-        /* CTA Section */
+        /* Final CTA Section */
         .final-cta {
             padding: 80px 0;
             background: var(--gradient);
@@ -986,31 +1214,8 @@
             opacity: 0.9;
         }
 
-        /* Responsive */
+        /* Additional Responsive Rules */
         @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-            
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .hero-ctas {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .features-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1rem;
-            }
-            
-            .value-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-            
             .pricing-grid {
                 grid-template-columns: 1fr;
                 gap: 1.5rem;
@@ -1018,12 +1223,6 @@
             
             .pricing-card.featured {
                 transform: none;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .features-grid {
-                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -1037,8 +1236,7 @@
                 <li><a href="#features">Features</a></li>
                 <li><a href="#value">Benefits</a></li>
                 <li><a href="#security">Security</a></li>
-                <li><a href="#personas">Who It's For</a></li>
-                <li><a href="#testimonials">Customers</a></li>
+                <li><a href="#industries">Industries</a></li>
                 <li><a href="#pricing">Pricing</a></li>
             </ul>
             <a href="#contact" class="nav-cta">Contact Us</a>
@@ -1048,16 +1246,30 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
-            <h1>The #1 Meeting Intelligence Platform for Organizations</h1>
-            <p>Go beyond note-taking. Turn every meeting into strategic business intelligence with enterprise-grade AI that scales across your entire organization.</p>
-            <div class="hero-ctas">
-                <a href="#contact" class="btn-primary">Get Started</a>
-                <a href="#video" class="btn-secondary">▶ Learn More</a>
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>The #1 Meeting Intelligence Platform for Organizations</h1>
+                    <p>Turn every meeting into strategic business intelligence with enterprise-grade AI that scales across your entire organization.</p>
+                    <div class="hero-ctas">
+                        <a href="#contact" class="btn-primary">Get Started</a>
+                        <a href="#video" class="btn-secondary">▶ Learn More</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="https://res.cloudinary.com/dukf4ckq1/image/upload/v1753865912/MeetingInsights/Meeting-Insights-Municipalites-Header-New-2_zzp1kz.webp" 
+                         alt="Meeting Insights Platform showing meeting transcription and analysis on desktop and mobile"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                    <div style="display: none; background: rgba(255,255,255,0.1); border: 2px dashed rgba(255,255,255,0.3); border-radius: 20px; padding: 3rem; text-align: center; min-height: 400px; align-items: center; justify-content: center; flex-direction: column;">
+                        <div style="font-size: 4rem; margin-bottom: 1rem;">🖥️📱</div>
+                        <div style="font-size: 1.2rem; opacity: 0.8;">Meeting Insights Platform</div>
+                        <div style="font-size: 1rem; opacity: 0.6; margin-top: 0.5rem;">Desktop & Mobile Interface</div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- What It Is Section -->
+    <!-- Features Section -->
     <section id="features" class="what-it-is">
         <div class="container">
             <h2 class="section-title">Meeting Insights Capabilities</h2>
@@ -1219,6 +1431,70 @@
                 <div class="testimonial-card">
                     <p class="testimonial-text">"What used to take days now happens in hours, with AI-generated summaries, action items, and secure access."</p>
                     <div class="testimonial-author">Jaime Wascalus, CIO, City of Saint Paul</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Industry Solutions Section -->
+    <section id="industries" class="industry-section">
+        <div class="container">
+            <h2 class="section-title">Industry Solutions</h2>
+            <div class="industry-grid">
+                <div class="industry-card">
+                    <div class="industry-icon">⚖️</div>
+                    <h3>Legal</h3>
+                    <p>Maintain attorney-client privilege with secure case discussions, deposition summaries, and confidential client meeting intelligence.</p>
+                    <a href="#" class="industry-learn-more">Learn More</a>
+                </div>
+
+                <div class="industry-card">
+                    <div class="industry-icon">🏛️</div>
+                    <h3>Government & Municipalities</h3>
+                    <p>Enhance public sector efficiency with transparent meeting records, policy discussion tracking, and citizen engagement insights.</p>
+                    <a href="https://online.audiocodes.com/lp/mi-paid_usa_local-governments-meeting-insights-book-call-gen2" target="_blank" class="industry-learn-more">Learn More</a>
+                </div>
+
+                <div class="industry-card">
+                    <div class="industry-icon">🎓</div>
+                    <h3>Higher Education</h3>
+                    <p>Transform academic collaboration with faculty meeting insights, research discussion summaries, and administrative efficiency.</p>
+                    <a href="#" class="industry-learn-more">Learn More</a>
+                </div>
+
+                <div class="industry-card">
+                    <div class="industry-icon">🏦</div>
+                    <h3>Banking & Financial Services</h3>
+                    <p>Meet compliance requirements with secure financial discussions, risk assessment meetings, and regulatory-ready documentation.</p>
+                    <a href="#" class="industry-learn-more">Learn More</a>
+                </div>
+
+                <div class="industry-card">
+                    <div class="industry-icon">🛡️</div>
+                    <h3>Insurance</h3>
+                    <p>Streamline claims processing with detailed meeting records, risk assessment discussions, and customer interaction insights.</p>
+                    <a href="#" class="industry-learn-more">Learn More</a>
+                </div>
+
+                <div class="industry-card">
+                    <div class="industry-icon">🚛</div>
+                    <h3>Transportation & Logistics</h3>
+                    <p>Optimize operations with safety meeting records, logistics planning insights, and supply chain coordination intelligence.</p>
+                    <a href="#" class="industry-learn-more">Learn More</a>
+                </div>
+
+                <div class="industry-card">
+                    <div class="industry-icon">📡</div>
+                    <h3>Telecommunications</h3>
+                    <p>Enhance customer relationships with service discussion tracking, partner meeting insights, and technical consultation records.</p>
+                    <a href="#" class="industry-learn-more">Learn More</a>
+                </div>
+
+                <div class="industry-card">
+                    <div class="industry-icon">💻</div>
+                    <h3>Independent Software Vendors</h3>
+                    <p>Accelerate product development with customer feedback insights, feature discussion tracking, and development meeting intelligence.</p>
+                    <a href="#" class="industry-learn-more">Learn More</a>
                 </div>
             </div>
         </div>
@@ -1389,6 +1665,52 @@
         </div>
     </section>
 
+    <!-- Integrations Section -->
+    <section class="integrations-section">
+        <div class="container">
+            <h2 class="section-title">Connect to the Tools You Love</h2>
+            <p class="integrations-subtitle">Seamlessly integrate Meeting Insights with your existing workflow. Automatically sync meeting intelligence to your favorite business applications.</p>
+            
+            <div class="integrations-grid">
+                <div class="integration-card">
+                    <div class="integration-logo teams">Teams</div>
+                    <h3>Microsoft Teams</h3>
+                    <p>Native Teams app integration with automatic recording, real-time transcription, and instant meeting summaries delivered directly in your Teams workflow.</p>
+                </div>
+
+                <div class="integration-card">
+                    <div class="integration-logo zoom">Zoom</div>
+                    <h3>Zoom</h3>
+                    <p>Invite your AI Meeting Agent for automatic real-time transcription, key takeaways and action items, and comprehensive meeting analysis.</p>
+                </div>
+
+                <div class="integration-card">
+                    <div class="integration-logo salesforce">SFDC</div>
+                    <h3>Salesforce</h3>
+                    <p>Log meeting transcripts and notes automatically to push sales insights to your CRM. Keep customer conversations organized and accessible.</p>
+                </div>
+
+                <div class="integration-card">
+                    <div class="integration-logo hubspot">HS</div>
+                    <h3>HubSpot</h3>
+                    <p>Automatically sync meeting data and insights to your HubSpot CRM for better customer relationship management and sales pipeline visibility.</p>
+                </div>
+
+                <div class="integration-card">
+                    <div class="integration-logo monday">Mon</div>
+                    <h3>Monday.com</h3>
+                    <p>Stay on track by automatically turning your meeting notes into simple action items with deadlines for enhanced project management.</p>
+                </div>
+
+                <div class="integration-card">
+                    <div class="integration-logo zoho">Zoho</div>
+                    <h3>Zoho</h3>
+                    <p>Seamlessly integrate with your Zoho workspace to centralize meeting intelligence across your business applications and workflows.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Resources Section -->
     <section class="resources-section">
         <div class="container">
@@ -1416,30 +1738,6 @@
                     <h3>How to Implement Meeting Intelligence the Right Way</h3>
                     <p>Independent analysis from Frost & Sullivan on best practices, common pitfalls, and proven strategies for successful enterprise deployment.</p>
                     <span class="resource-cta">Access Report</span>
-                </div>
-            </div>
-
-            <div class="resources-more">
-                <button class="see-more-btn" id="seeMoreBtn">See More Resources</button>
-            </div>
-
-            <div class="additional-resources" id="additionalResources">
-                <h3>Additional Learning Resources</h3>
-                <div class="additional-grid">
-                    <div class="additional-item" onclick="window.open('https://www.youtube.com/watch?v=81xH_AwC5A4&list=PLWI2eO0GVBO_ZVzetLMyjTj4Gu8Fxjn7Z&index=2', '_blank')">
-                        <span class="additional-type">Webinar</span>
-                        <h4>Transform Meetings into Valuable Business Assets with Generative AI</h4>
-                    </div>
-                    
-                    <div class="additional-item" onclick="window.open('https://empowering.cloud/understanding-audiocodes-meeting-insights-ai-for-smarter-meeting-management/', '_blank')">
-                        <span class="additional-type">Webinar</span>
-                        <h4>Understanding AudioCodes Meeting Insights: AI for Smarter Meeting Management</h4>
-                    </div>
-                    
-                    <div class="additional-item" onclick="window.open('https://www.audiocodes.com/media/nykobuil/meeting-insights-ai-meeting-assistant-app-for-ucaas-platforms.pdf', '_blank')">
-                        <span class="additional-type">Brochure</span>
-                        <h4>Meeting Insights AI Meeting Assistant App for UCaaS Platforms</h4>
-                    </div>
                 </div>
             </div>
         </div>
@@ -1513,20 +1811,6 @@
     </section>
 
     <script>
-        // See More Resources functionality
-        document.getElementById('seeMoreBtn').addEventListener('click', function() {
-            const additionalResources = document.getElementById('additionalResources');
-            const button = document.getElementById('seeMoreBtn');
-            
-            if (additionalResources.classList.contains('show')) {
-                additionalResources.classList.remove('show');
-                button.textContent = 'See More Resources';
-            } else {
-                additionalResources.classList.add('show');
-                button.textContent = 'Show Less Resources';
-            }
-        });
-
         // Add video functionality
         document.getElementById('videoThumbnail').addEventListener('click', function() {
             const thumbnail = document.getElementById('videoThumbnail');
@@ -1541,6 +1825,18 @@
             iframe.src = currentSrc + '&autoplay=1';
         });
 
+        // Add scroll effect to navigation
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 100) {
+                nav.style.background = 'rgba(255, 255, 255, 0.95)';
+                nav.style.backdropFilter = 'blur(10px)';
+            } else {
+                nav.style.background = '#ffffff';
+                nav.style.backdropFilter = 'none';
+            }
+        });
+
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -1553,18 +1849,6 @@
                     });
                 }
             });
-        });
-
-        // Add scroll effect to navigation
-        window.addEventListener('scroll', function() {
-            const nav = document.querySelector('nav');
-            if (window.scrollY > 100) {
-                nav.style.background = 'rgba(255, 255, 255, 0.95)';
-                nav.style.backdropFilter = 'blur(10px)';
-            } else {
-                nav.style.background = '#ffffff';
-                nav.style.backdropFilter = 'none';
-            }
         });
     </script>
 </body>
