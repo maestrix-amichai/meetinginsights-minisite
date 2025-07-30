@@ -91,6 +91,7 @@
         }
 
         /* Hero Section */
+        
         .hero {
             background: var(--gradient);
             color: var(--white);
@@ -98,6 +99,8 @@
             min-height: 90vh;
             display: flex;
             align-items: center;
+            /* Add overflow hidden to clip any overflowing content, including shadows */
+            overflow: hidden; 
         }
 
         .hero .container {
@@ -152,13 +155,11 @@
         .hero-image img {
             max-width: 100%;
             height: auto;
-            border-radius: 20px;
-            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
+            /* Remove the border-radius */
+            border-radius: 0; 
+            /* Remove the box-shadow */
+            box-shadow: none; 
             transition: transform 0.3s ease;
-        }
-
-        .hero-image img:hover {
-            transform: scale(1.02);
         }
 
         .btn-primary {
