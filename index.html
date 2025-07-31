@@ -382,7 +382,61 @@
             font-weight: bold;
             font-size: 0.8rem;
         }
+<!-- Supported Platforms Section -->
+<section class="platforms-section">
+    <div class="container">
+        <h2 class="section-title">Get Value From All Your Meetings</h2>
+        <p class="platforms-subtitle">Meeting Insights captures intelligence from every meeting format and platform your organization uses.</p>
+        
+        <div class="platforms-grid">
+            <div class="platform-card">
+                <div class="platform-logo face-to-face">F2F</div>
+                <h3>Face-to-Face Meetings</h3>
+                <p>Record in-person meetings with mobile app or bring your own recording device for comprehensive meeting capture.</p>
+            </div>
 
+            <div class="platform-card">
+                <div class="platform-logo meeting-rooms">🏢</div>
+                <h3>Meeting Rooms</h3>
+                <p>Integrate with conference room systems and capture boardroom discussions with professional audio quality.</p>
+            </div>
+
+            <div class="platform-card">
+                <div class="platform-logo mobile">📱</div>
+                <h3>Mobile Meetings</h3>
+                <p>Use our mobile app to record meetings on-the-go, perfect for client visits and remote work scenarios.</p>
+            </div>
+
+            <div class="platform-card available">
+                <div class="platform-logo zoom">Zoom</div>
+                <h3>Zoom</h3>
+                <p>Native bot integration for automatic recording, real-time transcription, and instant meeting summaries.</p>
+                <span class="platform-status available">Available Now</span>
+            </div>
+
+            <div class="platform-card available">
+                <div class="platform-logo teams">Teams</div>
+                <h3>Microsoft Teams</h3>
+                <p>Built-in Teams app with seamless recording and AI-powered insights delivered directly in your workflow.</p>
+                <span class="platform-status available">Available Now</span>
+            </div>
+
+            <div class="platform-card coming-soon">
+                <div class="platform-logo google-meet">Meet</div>
+                <h3>Google Meet</h3>
+                <p>Comprehensive meeting intelligence for Google Workspace teams with automatic recording and analysis.</p>
+                <span class="platform-status coming-soon">Coming Soon</span>
+            </div>
+
+            <div class="platform-card coming-soon">
+                <div class="platform-logo webex">Webex</div>
+                <h3>Cisco Webex</h3>
+                <p>Enterprise-grade meeting capture and insights for Webex meetings and events.</p>
+                <span class="platform-status coming-soon">Coming Soon</span>
+            </div>
+        </div>
+    </div>
+</section>
         /* Video Section */
         .video-section {
             padding: 80px 0;
@@ -868,6 +922,107 @@
         .security-card-large {
             height: 280px;
         }
+/* Platforms Section */
+.platforms-section {
+    padding: 80px 0;
+    background: var(--light-blue);
+}
+
+.platforms-subtitle {
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--gray-600);
+    margin-bottom: 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.platforms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.platform-card {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    transition: all 0.3s;
+    position: relative;
+    border-left: 4px solid transparent;
+}
+
+.platform-card.available {
+    border-left-color: var(--accent-cyan);
+}
+
+.platform-card.coming-soon {
+    border-left-color: #ffa726;
+    opacity: 0.8;
+}
+
+.platform-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+
+.platform-logo {
+    width: 80px;
+    height: 60px;
+    margin: 0 auto 1.5rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--white);
+}
+
+.platform-logo.face-to-face {
+    background: linear-gradient(135deg, #6c5ce7, #5a4fcf);
+}
+
+.platform-logo.meeting-rooms {
+    background: linear-gradient(135deg, #00cec9, #00b894);
+    font-size: 2rem;
+}
+
+.platform-logo.mobile {
+    background: linear-gradient(135deg, #fd79a8, #e84393);
+    font-size: 2rem;
+}
+
+.platform-status {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.platform-status.available {
+    background: #00e676;
+    color: white;
+}
+
+.platform-status.coming-soon {
+    background: #ffa726;
+    color: white;
+}
+
+/* Business Integrations Section */
+.business-integrations-section {
+    padding: 80px 0;
+    background: var(--white);
+}
 
         /* Integrations Section */
         .integrations-section {
