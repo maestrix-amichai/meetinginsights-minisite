@@ -140,50 +140,72 @@
         }
 
         .hero-ctas {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 1rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .hero-ctas .btn-primary,
+        .hero-ctas .btn-secondary {
+            height: 60px;
             display: flex;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
+            min-width: 200px;
+            font-size: 1rem;
         }
         
         .hero-app-badges {
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
-            margin-left: 2rem;
+            display: contents; /* This makes the badges behave as direct grid children */
         }
         
         .app-badge {
             transition: all 0.3s;
             opacity: 0.9;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         .app-badge:hover {
             opacity: 1;
             transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.15);
         }
         
-       .app-badge img {
-            height: 40px;
-            width: 135px;
-            object-fit: cover;
+        .app-badge img {
+            height: 35px;
+            width: auto;
+            max-width: 90%;
+            object-fit: contain;
             border-radius: 6px;
         }
         
         /* Mobile responsive */
         @media (max-width: 768px) {
             .hero-ctas {
-                flex-direction: column;
-                gap: 1.5rem;
+                grid-template-columns: 1fr;
+                grid-template-rows: repeat(4, 1fr);
+                max-width: 300px;
             }
             
-            .hero-app-badges {
-                margin-left: 0;
-                gap: 0.8rem;
+            .hero-ctas .btn-primary,
+            .hero-ctas .btn-secondary {
+                min-width: auto;
+                font-size: 0.95rem;
             }
-        }
-        
+            
+            .app-badge img {
+                height: 32px;
+            }
+        }        
                 
         .hero-image {
             position: relative;
