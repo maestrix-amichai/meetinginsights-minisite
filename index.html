@@ -144,11 +144,13 @@
             gap: 1.5rem;
             flex-wrap: wrap;
         }
+      
         .hero-main-ctas {
             display: flex;
             gap: 1.5rem;
             flex-wrap: wrap;
             margin-bottom: 1.5rem;
+            justify-content: center;
         }
         
         .hero-app-badges {
@@ -169,11 +171,20 @@
         }
         
         .app-badge img {
-            height: 40px;
+            height: 50px;
             width: auto;
-            border-radius: 8px;
+            border-radius: 6px;
         }
         
+        @media (max-width: 768px) {
+            .hero-app-badges {
+                gap: 0.8rem;
+            }
+            
+            .app-badge img {
+                height: 45px;
+            }
+        }
         /* Mobile responsive */
         @media (max-width: 768px) {
             .hero-main-ctas {
@@ -1583,14 +1594,12 @@
                         </div>
                         <div class="hero-app-badges">
                             <a href="#" class="app-badge" target="_blank">
-                                <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83" 
-                                     alt="Download on the App Store" 
-                                     style="height: 40px; width: auto;" />
+                                <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" 
+                                     alt="Download on the App Store" />
                             </a>
                             <a href="#" class="app-badge" target="_blank">
                                 <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" 
-                                     alt="Get it on Google Play" 
-                                     style="height: 40px; width: auto;" />
+                                     alt="Get it on Google Play" />
                             </a>
                         </div>
                     </div>
