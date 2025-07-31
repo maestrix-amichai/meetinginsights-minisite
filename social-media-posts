@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting Insights Social Media Mockups</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f3f2ef;
+            padding: 20px;
+            line-height: 1.4;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .platform-section {
+            margin-bottom: 40px;
+        }
+        
+        .platform-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+        
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+        }
+        
+        /* LinkedIn Styles */
+        .linkedin-post {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 0 1px rgba(0,0,0,0.15), 0 2px 3px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        .linkedin-header {
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .linkedin-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #15307b 0%, #23b0e1 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .linkedin-user-info h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 2px;
+        }
+        
+        .linkedin-user-info p {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .linkedin-content {
+            padding: 0 16px 12px 16px;
+        }
+        
+        .linkedin-text {
+            font-size: 14px;
+            color: #000;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+        
+        .linkedin-hashtags {
+            color: #0073b1;
+            font-size: 14px;
+        }
+        
+        .linkedin-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #15307b 0%, #23b0e1 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 48px;
+            margin: 12px 0;
+        }
+        
+        .linkedin-engagement {
+            padding: 8px 16px;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .linkedin-actions {
+            padding: 8px 16px;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-around;
+        }
+        
+        .linkedin-action {
+            padding: 8px 12px;
+            color: #666;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        
+        .linkedin-action:hover {
+            background: #f3f2ef;
+        }
+        
+        /* Twitter/X Styles */
+        .twitter-post {
+            background: white;
+            border: 1px solid #eff3f4;
+            border-radius: 16px;
+            padding: 12px 16px;
+            margin-bottom: 12px;
+        }
+        
+        .twitter-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .twitter-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #15307b 0%, #23b0e1 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .twitter-user-info h3 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #0f1419;
+            margin-bottom: 0;
+        }
+        
+        .twitter-user-info p {
+            font-size: 15px;
+            color: #536471;
+        }
+        
+        .twitter-content {
+            font-size: 15px;
+            color: #0f1419;
+            line-height: 1.3125;
+            margin-bottom: 12px;
+        }
+        
+        .twitter-hashtags {
+            color: #1d9bf0;
+        }
+        
+        .twitter-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #15307b 0%, #23b0e1 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 48px;
+            margin: 12px 0;
+        }
+        
+        .twitter-engagement {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 12px;
+            color: #536471;
+            font-size: 13px;
+        }
+        
+        .twitter-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 12px;
+            max-width: 425px;
+        }
+        
+        .twitter-action {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #536471;
+            font-size: 13px;
+            padding: 8px;
+            border-radius: 9999px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .twitter-action:hover {
+            background: rgba(29, 155, 240, 0.1);
+        }
+        
+        .bullet-point {
+            color: #15307b;
+            font-weight: bold;
+        }
+        
+        .highlight {
+            background: linear-gradient(135deg, #15307b 20%, #23b0e1 80%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 600;
+        }
+        
+        body.twitter-view {
+            background: #000;
+        }
+        
+        .twitter-view .twitter-post {
+            background: #000;
+            border: 1px solid #2f3336;
+            color: #e7e9ea;
+        }
+        
+        .twitter-view .twitter-user-info h3 {
+            color: #e7e9ea;
+        }
+        
+        .twitter-view .twitter-content {
+            color: #e7e9ea;
+        }
+        
+        @media (max-width: 768px) {
+            .posts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center; margin-bottom: 40px; color: #15307b;">Meeting Insights Social Media Mockups</h1>
+        
+        <!-- LinkedIn Section -->
+        <div class="platform-section">
+            <h2 class="platform-title">📘 LinkedIn Posts</h2>
+            <div class="posts-grid">
+                
+                <!-- LinkedIn Post 1: Mobile App -->
+                <div class="linkedin-post">
+                    <div class="linkedin-header">
+                        <div class="linkedin-avatar">MI</div>
+                        <div class="linkedin-user-info">
+                            <h3>Meeting Insights by AudioCodes</h3>
+                            <p>Enterprise Meeting Intelligence • 2h</p>
+                        </div>
+                    </div>
+                    
+                    <div class="linkedin-content">
+                        <div class="linkedin-text">
+                            🚀 Meeting intelligence is now truly mobile!<br><br>
+                            
+                            Introducing the Meeting Insights mobile app - bringing enterprise-grade meeting AI to every corner of your business.<br><br>
+                            
+                            ✅ Record face-to-face client meetings<br>
+                            ✅ Upload audio files on the go<br>
+                            ✅ Access meeting insights anywhere<br>
+                            ✅ Perfect for field teams & hybrid workers<br><br>
+                            
+                            Available now for registered Meeting Insights users on iOS and Android.<br><br>
+                            
+                            Transform every conversation into actionable business intelligence - even when you're away from your desk.
+                        </div>
+                        
+                        <div class="linkedin-image" style="background: white; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                            <img src="https://res.cloudinary.com/dukf4ckq1/image/upload/c_scale,w_300,f_auto,q_auto/v1753865912/MeetingInsights/Meeting-Insights-Municipalites-Header-New-2_zzp1kk.webp" 
+                                 alt="Meeting Insights Mobile App" 
+                                 style="max-width: 100%; height: auto; border-radius: 8px;" />
+                        </div>
+                        
+                        <!-- Mobile App Badges -->
+                        <div style="text-align: center; margin: 12px 0; padding: 12px; background: linear-gradient(135deg, #e6eaf5 0%, #e1f4fd 100%); border-radius: 8px;">
+                            <p style="color: #15307b; font-size: 12px; margin-bottom: 8px; font-weight: 600;">
+                                Download for registered users:
+                            </p>
+                            <div style="display: inline-flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: center;">
+                                <a href="#" style="display: block;">
+                                    <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" 
+                                         alt="Download on the App Store" 
+                                         style="height: 32px; width: 108px; border-radius: 4px; object-fit: contain;" />
+                                </a>
+                                <a href="#" style="display: block;">
+                                    <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" 
+                                         alt="Get it on Google Play" 
+                                         style="height: 38px; width: 130px; border-radius: 4px; object-fit: contain;" />
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="linkedin-hashtags">
+                            #MeetingIntelligence #MobileFirst #AI #BusinessProductivity #AudioCodes
+                        </div>
+                    </div>
+                    
+                    <div class="linkedin-engagement">
+                        <span>👍 42 • 💬 8 • 🔄 12</span>
+                        <span>2 hours ago</span>
+                    </div>
+                    
+                    <div class="linkedin-actions">
+                        <div class="linkedin-action">👍 Like</div>
+                        <div class="linkedin-action">💬 Comment</div>
+                        <div class="linkedin-action">🔄 Repost</div>
+                        <div class="linkedin-action">📤 Send</div>
+                    </div>
+                </div>
+                
+                <!-- LinkedIn Post 2: Integrations -->
+                <div class="linkedin-post">
+                    <div class="linkedin-header">
+                        <div class="linkedin-avatar">MI</div>
+                        <div class="linkedin-user-info">
+                            <h3>Meeting Insights by AudioCodes</h3>
+                            <p>Enterprise Meeting Intelligence • 4h</p>
+                        </div>
+                    </div>
+                    
+                    <div class="linkedin-content">
+                        <div class="linkedin-text">
+                            The best meeting insights are the ones that integrate seamlessly with your existing workflow.<br><br>
+                            
+                            Meeting Insights now connects directly with:<br><br>
+                            
+                            🌩️ Salesforce - Auto-update opportunities and leads<br>
+                            📊 Zoho - Route action items to projects<br>
+                            📋 Monday.com - Transform insights into trackable tasks<br><br>
+                            
+                            No more manual data entry. No more lost follow-ups. Just seamless workflow automation that turns every meeting into measurable business outcomes.<br><br>
+                            
+                            Which integration would transform your team's productivity the most?
+                        </div>
+                        
+                        <div class="linkedin-image" style="background: white; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                            <div style="font-size: 24px; font-weight: bold; color: #15307b; margin-bottom: 15px;">Seamless Integrations</div>
+                            <div style="display: flex; gap: 20px; align-items: center; justify-content: center; flex-wrap: wrap;">
+                                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                                    <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #00A1E4 0%, #0073E6 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 12px;">
+                                        SFDC
+                                    </div>
+                                    <span style="font-size: 12px; font-weight: 600; color: #15307b;">Salesforce</span>
+                                </div>
+                                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                                    <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #E94B3C 0%, #C7342B 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 12px;">
+                                        ZOHO
+                                    </div>
+                                    <span style="font-size: 12px; font-weight: 600; color: #15307b;">Zoho</span>
+                                </div>
+                                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                                    <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #6C6CFF 0%, #5A5AE6 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 10px;">
+                                        MONDAY
+                                    </div>
+                                    <span style="font-size: 12px; font-weight: 600; color: #15307b;">Monday.com</span>
+                                </div>
+                            </div>
+                            <div style="margin-top: 15px; font-size: 14px; color: #666; text-align: center;">
+                                Auto-sync meeting insights with your workflow tools
+                            </div>
+                        </div>
+                        
+                        <div class="linkedin-hashtags">
+                            #WorkflowAutomation #CRM #ProjectManagement #BusinessEfficiency #AudioCodes
+                        </div>
+                    </div>
+                    
+                    <div class="linkedin-engagement">
+                        <span>👍 67 • 💬 23 • 🔄 15</span>
+                        <span>4 hours ago</span>
+                    </div>
+                    
+                    <div class="linkedin-actions">
+                        <div class="linkedin-action">👍 Like</div>
+                        <div class="linkedin-action">💬 Comment</div>
+                        <div class="linkedin-action">🔄 Repost</div>
+                        <div class="linkedin-action">📤 Send</div>
+                    </div>
+                </div>
+                
+                <!-- LinkedIn Post 3: Privacy -->
+                <div class="linkedin-post">
+                    <div class="linkedin-header">
+                        <div class="linkedin-avatar">MI</div>
+                        <div class="linkedin-user-info">
+                            <h3>Meeting Insights by AudioCodes</h3>
+                            <p>Enterprise Meeting Intelligence • 1d</p>
+                        </div>
+                    </div>
+                    
+                    <div class="linkedin-content">
+                        <div class="linkedin-text">
+                            Privacy isn't just a feature - it's a fundamental business requirement.<br><br>
+                            
+                            Introducing Zero Retention mode: Meeting Insights can now process your meetings, extract valuable insights, then immediately delete all media files and transcriptions.<br><br>
+                            
+                            🔒 GDPR & HIPAA compliant<br>
+                            🗑️ Automatic data deletion<br>
+                            🧠 Retain anonymized AI insights<br>
+                            ⚖️ Perfect for regulated industries<br><br>
+                            
+                            Meeting intelligence that respects your privacy policies as much as it enhances your productivity.
+                        </div>
+                        
+                        <div class="linkedin-image">🔒</div>
+                        
+                        <div class="linkedin-hashtags">
+                            #DataPrivacy #GDPR #HIPAA #Compliance #EnterpriseSecurity #AudioCodes
+                        </div>
+                    </div>
+                    
+                    <div class="linkedin-engagement">
+                        <span>👍 89 • 💬 31 • 🔄 18</span>
+                        <span>1 day ago</span>
+                    </div>
+                    
+                    <div class="linkedin-actions">
+                        <div class="linkedin-action">👍 Like</div>
+                        <div class="linkedin-action">💬 Comment</div>
+                        <div class="linkedin-action">🔄 Repost</div>
+                        <div class="linkedin-action">📤 Send</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- X (Twitter) Section -->
+        <div class="platform-section">
+            <h2 class="platform-title">𝕏 (Twitter) Posts</h2>
+            <div class="posts-grid">
+                
+                <!-- Twitter Post 1: Mobile App -->
+                <div class="twitter-post">
+                    <div class="twitter-header">
+                        <div class="twitter-avatar">MI</div>
+                        <div class="twitter-user-info">
+                            <h3>Meeting Insights <span style="color: #1d9bf0;">✓</span></h3>
+                            <p>@MeetingInsights • 2h</p>
+                        </div>
+                    </div>
+                    
+                    <div class="twitter-content">
+                        📱 Meeting intelligence goes mobile!<br><br>
+                        
+                        Our new app lets you:<br>
+                        <span class="bullet-point">•</span> Record F2F meetings<br>
+                        <span class="bullet-point">•</span> Upload audio files<br>
+                        <span class="bullet-point">•</span> Access insights anywhere<br><br>
+                        
+                        Perfect for sales reps, consultants & field teams who can't afford to miss crucial conversations.<br><br>
+                        
+                        Available for registered users 📲<br><br>
+                        
+                        <span class="twitter-hashtags">#MeetingAI #MobileApp #BusinessIntel</span>
+                    </div>
+                    
+                    <div style="width: 100%; background: white; border-radius: 16px; padding: 12px; margin: 12px 0; display: flex; align-items: center; justify-content: center;">
+                        <img src="https://res.cloudinary.com/dukf4ckq1/image/upload/c_scale,w_280,f_auto,q_auto/v1753865912/MeetingInsights/Meeting-Insights-Municipalites-Header-New-2_zzp1kk.webp" 
+                             alt="Meeting Insights Mobile App" 
+                             style="max-width: 100%; height: auto; border-radius: 12px;" />
+                    </div>
+                    
+                    <!-- Mobile App Badges -->
+                    <div style="text-align: center; margin: 8px 0; padding: 8px; background: linear-gradient(135deg, #e6eaf5 0%, #e1f4fd 100%); border-radius: 12px;">
+                        <p style="color: #15307b; font-size: 11px; margin-bottom: 6px; font-weight: 600;">
+                            Download for registered users:
+                        </p>
+                        <div style="display: inline-flex; gap: 6px; align-items: center; flex-wrap: wrap; justify-content: center;">
+                            <a href="#" style="display: block;">
+                                <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" 
+                                     alt="Download on the App Store" 
+                                     style="height: 28px; width: 94px; border-radius: 4px; object-fit: contain;" />
+                            </a>
+                            <a href="#" style="display: block;">
+                                <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" 
+                                     alt="Get it on Google Play" 
+                                     style="height: 34px; width: 113px; border-radius: 4px; object-fit: contain;" />
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="twitter-engagement">
+                        <span>2:15 PM • Mar 15, 2024 • 12.3K Views</span>
+                    </div>
+                    
+                    <div class="twitter-actions">
+                        <div class="twitter-action">💬 24</div>
+                        <div class="twitter-action">🔄 89</div>
+                        <div class="twitter-action">❤️ 156</div>
+                        <div class="twitter-action">📊 12.3K</div>
+                        <div class="twitter-action">📤</div>
+                    </div>
+                </div>
+                
+                <!-- Twitter Post 2: Integrations -->
+                <div class="twitter-post">
+                    <div class="twitter-header">
+                        <div class="twitter-avatar">MI</div>
+                        <div class="twitter-user-info">
+                            <h3>Meeting Insights <span style="color: #1d9bf0;">✓</span></h3>
+                            <p>@MeetingInsights • 4h</p>
+                        </div>
+                    </div>
+                    
+                    <div class="twitter-content">
+                        Stop losing meeting insights in the shuffle 🔄<br><br>
+                        
+                        Meeting Insights now auto-syncs with:<br>
+                        <span class="bullet-point">•</span> Salesforce (opportunities & leads)<br>
+                        <span class="bullet-point">•</span> Zoho (project tasks)<br>
+                        <span class="bullet-point">•</span> Monday.com (trackable items)<br><br>
+                        
+                        Turn every conversation into action items that actually get done ✅<br><br>
+                        
+                        <span class="twitter-hashtags">#WorkflowAutomation #CRM #Productivity</span>
+                    </div>
+                    
+                    <div style="width: 100%; background: white; border-radius: 16px; padding: 15px; margin: 12px 0;">
+                        <div style="font-size: 16px; font-weight: bold; color: #15307b; margin-bottom: 12px; text-align: center;">Seamless Integrations</div>
+                        <div style="display: flex; gap: 15px; align-items: center; justify-content: center; flex-wrap: wrap;">
+                            <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
+                                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #00A1E4 0%, #0073E6 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 10px;">
+                                    SFDC
+                                </div>
+                                <span style="font-size: 10px; font-weight: 600; color: #15307b;">Salesforce</span>
+                            </div>
+                            <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
+                                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #E94B3C 0%, #C7342B 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 10px;">
+                                    ZOHO
+                                </div>
+                                <span style="font-size: 10px; font-weight: 600; color: #15307b;">Zoho</span>
+                            </div>
+                            <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
+                                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #6C6CFF 0%, #5A5AE6 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 8px;">
+                                    MONDAY
+                                </div>
+                                <span style="font-size: 10px; font-weight: 600; color: #15307b;">Monday.com</span>
+                            </div>
+                        </div>
+                        <div style="margin-top: 10px; font-size: 11px; color: #666; text-align: center;">
+                            Auto-sync with your workflow tools
+                        </div>
+                    </div>
+                    
+                    <div class="twitter-engagement">
+                        <span>10:30 AM • Mar 15, 2024 • 8.7K Views</span>
+                    </div>
+                    
+                    <div class="twitter-actions">
+                        <div class="twitter-action">💬 18</div>
+                        <div class="twitter-action">🔄 67</div>
+                        <div class="twitter-action">❤️ 134</div>
+                        <div class="twitter-action">📊 8.7K</div>
+                        <div class="twitter-action">📤</div>
+                    </div>
+                </div>
+                
+                <!-- Twitter Post 3: Face-to-Face -->
+                <div class="twitter-post">
+                    <div class="twitter-header">
+                        <div class="twitter-avatar">MI</div>
+                        <div class="twitter-user-info">
+                            <h3>Meeting Insights <span style="color: #1d9bf0;">✓</span></h3>
+                            <p>@MeetingInsights • 6h</p>
+                        </div>
+                    </div>
+                    
+                    <div class="twitter-content">
+                        The best business happens face-to-face 🤝<br><br>
+                        
+                        But those conversations were getting lost...<br><br>
+                        
+                        Now Meeting Insights captures in-person meetings with the same AI intelligence as virtual ones.<br><br>
+                        
+                        Perfect for:<br>
+                        <span class="bullet-point">•</span> Client dinners<br>
+                        <span class="bullet-point">•</span> Site visits<br>
+                        <span class="bullet-point">•</span> Coffee meetings<br>
+                        <span class="bullet-point">•</span> Hallway conversations<br><br>
+                        
+                        <span class="twitter-hashtags">#F2FMeetings #SalesAI</span>
+                    </div>
+                    
+                    <div class="twitter-image">🤝</div>
+                    
+                    <div class="twitter-engagement">
+                        <span>8:45 AM • Mar 15, 2024 • 15.2K Views</span>
+                    </div>
+                    
+                    <div class="twitter-actions">
+                        <div class="twitter-action">💬 42</div>
+                        <div class="twitter-action">🔄 123</div>
+                        <div class="twitter-action">❤️ 287</div>
+                        <div class="twitter-action">📊 15.2K</div>
+                        <div class="twitter-action">📤</div>
+                    </div>
+                </div>
+                
+                <!-- Twitter Post 4: External Teams -->
+                <div class="twitter-post">
+                    <div class="twitter-header">
+                        <div class="twitter-avatar">MI</div>
+                        <div class="twitter-user-info">
+                            <h3>Meeting Insights <span style="color: #1d9bf0;">✓</span></h3>
+                            <p>@MeetingInsights • 1d</p>
+                        </div>
+                    </div>
+                    
+                    <div class="twitter-content">
+                        Your most important meetings aren't always the ones you host 🌐<br><br>
+                        
+                        Meeting Insights now captures external Teams meetings too (with anonymous access).<br><br>
+                        
+                        Vendor calls. Partner discussions. Client presentations.<br><br>
+                        
+                        One unified knowledge repository for ALL your business conversations.<br><br>
+                        
+                        <span class="twitter-hashtags">#ExternalMeetings #TeamsIntegration</span>
+                    </div>
+                    
+                    <div class="twitter-image">🌐</div>
+                    
+                    <div class="twitter-engagement">
+                        <span>3:20 PM • Mar 14, 2024 • 9.4K Views</span>
+                    </div>
+                    
+                    <div class="twitter-actions">
+                        <div class="twitter-action">💬 31</div>
+                        <div class="twitter-action">🔄 78</div>
+                        <div class="twitter-action">❤️ 195</div>
+                        <div class="twitter-action">📊 9.4K</div>
+                        <div class="twitter-action">📤</div>
+                    </div>
+                </div>
+                
+                <!-- Twitter Post 5: Privacy -->
+                <div class="twitter-post">
+                    <div class="twitter-header">
+                        <div class="twitter-avatar">MI</div>
+                        <div class="twitter-user-info">
+                            <h3>Meeting Insights <span style="color: #1d9bf0;">✓</span></h3>
+                            <p>@MeetingInsights • 1d</p>
+                        </div>
+                    </div>
+                    
+                    <div class="twitter-content">
+                        Meeting intelligence without the privacy concerns 🔒<br><br>
+                        
+                        New Zero Retention mode:<br>
+                        ✅ Process meetings with AI<br>
+                        ✅ Extract valuable insights<br>
+                        ✅ Delete all files immediately<br>
+                        ✅ Keep anonymized learnings<br><br>
+                        
+                        Perfect for regulated industries that need intelligence, not storage.<br><br>
+                        
+                        <span class="twitter-hashtags">#DataPrivacy #GDPR #Compliance</span>
+                    </div>
+                    
+                    <div class="twitter-image">🔒</div>
+                    
+                    <div class="twitter-engagement">
+                        <span>11:15 AM • Mar 14, 2024 • 18.6K Views</span>
+                    </div>
+                    
+                    <div class="twitter-actions">
+                        <div class="twitter-action">💬 56</div>
+                        <div class="twitter-action">🔄 142</div>
+                        <div class="twitter-action">❤️ 324</div>
+                        <div class="twitter-action">📊 18.6K</div>
+                        <div class="twitter-action">📤</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
