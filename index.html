@@ -143,35 +143,37 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             grid-template-rows: 1fr 1fr;
-            gap: 1rem;
-            max-width: 500px;
-            margin: 0 auto;
+            gap: 0.8rem;
+            max-width: 320px;
+            margin: 0;
+            justify-self: start;
         }
         
         .hero-ctas .btn-primary,
         .hero-ctas .btn-secondary {
-            height: 60px;
+            height: 45px;
             display: flex;
             align-items: center;
             justify-content: center;
-            min-width: 200px;
-            font-size: 1rem;
+            font-size: 0.9rem;
+            padding: 0 1rem;
         }
         
         .hero-app-badges {
-            display: contents; /* This makes the badges behave as direct grid children */
+            display: contents;
         }
         
         .app-badge {
             transition: all 0.3s;
             opacity: 0.9;
-            height: 60px;
+            height: 45px;
             display: flex;
             align-items: center;
             justify-content: center;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
+            border-radius: 8px;
             border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 4px;
         }
         
         .app-badge:hover {
@@ -181,11 +183,10 @@
         }
         
         .app-badge img {
-            height: 35px;
-            width: auto;
-            max-width: 90%;
-            object-fit: contain;
-            border-radius: 6px;
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            border-radius: 4px;
         }
         
         /* Mobile responsive */
@@ -193,17 +194,14 @@
             .hero-ctas {
                 grid-template-columns: 1fr;
                 grid-template-rows: repeat(4, 1fr);
-                max-width: 300px;
+                max-width: 250px;
+                margin: 0 auto;
+                justify-self: center;
             }
             
             .hero-ctas .btn-primary,
             .hero-ctas .btn-secondary {
-                min-width: auto;
-                font-size: 0.95rem;
-            }
-            
-            .app-badge img {
-                height: 32px;
+                font-size: 0.85rem;
             }
         }        
                 
