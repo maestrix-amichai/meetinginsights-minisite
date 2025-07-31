@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting Insights - New Features Update</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .hero-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            font-weight: 500;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .intro {
+            background-color: #f8f9ff;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .intro h2 {
+            color: #667eea;
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+        
+        .intro p {
+            font-size: 16px;
+            color: #555;
+        }
+        
+        .features-grid {
+            display: grid;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .feature-card {
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-image {
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .feature-content {
+            padding: 20px;
+        }
+        
+        .feature-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .feature-description {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .integration-section {
+            background-color: #f8f9ff;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+        
+        .integration-section h3 {
+            color: #667eea;
+            font-size: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .integration-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .integration-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #e9ecef;
+        }
+        
+        .integration-logo {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            margin: 30px 0;
+            border-radius: 8px;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: white;
+            color: #667eea;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            margin-top: 15px;
+            transition: transform 0.2s ease;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .footer-logo {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .footer p {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 600px) {
+            .content {
+                padding: 20px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🚀 Meeting Insights Update</h1>
+            <p>Revolutionary new features to transform your meeting experience</p>
+        </div>
+        
+        <!-- Hero Image -->
+        <div style="text-align: center; background: white; padding: 30px 20px;">
+            <img src="https://res.cloudinary.com/dukf4ckq1/image/upload/c_scale,w_600,f_auto,q_auto/v1753865912/MeetingInsights/Meeting-Insights-Municipalites-Header-New-2_zzp1kk.webp" 
+                 alt="Meeting Insights Platform showing meeting transcription and analysis on desktop and mobile"
+                 style="max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.15);"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+            
+            <!-- Fallback for email clients that don't support the image -->
+            <div style="display: none; background: #f0f8ff; border: 2px dashed #667eea; border-radius: 12px; padding: 2rem; text-align: center; color: #1e3a5f;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">🖥️📱</div>
+                <div style="font-size: 1.2rem; font-weight: bold;">Meeting Insights Platform</div>
+                <div style="font-size: 1rem; margin-top: 0.5rem;">Desktop & Mobile Interface</div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Intro Section -->
+            <div class="intro">
+                <h2>Introducing Advanced Features for Enterprise Meeting Intelligence</h2>
+                <p>We're excited to share the latest enhancements to Meeting Insights that will revolutionize how your organization captures, processes, and leverages meeting intelligence. From mobile capabilities to powerful integrations, these features bring enterprise-grade meeting AI to every corner of your business.</p>
+            </div>
+            
+            <!-- Features Grid -->
+            <div class="features-grid">
+                <!-- Mobile Application -->
+                <div class="feature-card">
+                    <div class="feature-image">
+                        [Image: Mobile App Interface Screenshot]
+                    </div>
+                    <div class="feature-content">
+                        <div class="feature-title">📱 Mobile Application</div>
+                        <div class="feature-description">
+                            Access Meeting Insights on the go! Our standalone mobile app allows licensed users to record, upload, and access meetings directly from their mobile devices. Perfect for mobile professionals, field personnel, and hybrid workers who need to capture insights anywhere, anytime.
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- F2F Recording -->
+                <div class="feature-card">
+                    <div class="feature-image">
+                        [Image: Face-to-Face Meeting Recording]
+                    </div>
+                    <div class="feature-content">
+                        <div class="feature-title">🎙️ Face-to-Face Recording</div>
+                        <div class="feature-description">
+                            Record in-person conversations and client meetings using your smartphone microphone. Ideal for sales reps, consultants, and legal professionals who conduct crucial business away from digital platforms. AI processes captured audio for transcriptions and insights.
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mobile Upload -->
+                <div class="feature-card">
+                    <div class="feature-image">
+                        [Image: File Upload Interface]
+                    </div>
+                    <div class="feature-content">
+                        <div class="feature-title">📤 Mobile Recording Upload</div>
+                        <div class="feature-description">
+                            Import and upload pre-recorded audio files via the mobile app. Essential when using third-party recording tools or offline audio sources. Ensures centralized, searchable storage of all meeting content with AI transcription and summarization.
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- External Teams Support -->
+                <div class="feature-card">
+                    <div class="feature-image">
+                        [Image: Teams Meeting with External Participants]
+                    </div>
+                    <div class="feature-content">
+                        <div class="feature-title">🌐 External Teams Support</div>
+                        <div class="feature-description">
+                            Record Microsoft Teams meetings hosted by external organizations (with anonymous participant access). A game-changer for companies collaborating with vendors, clients, or partners, ensuring insights from multi-organization conversations are captured.
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Speaker Recognition -->
+                <div class="feature-card">
+                    <div class="feature-image">
+                        [Image: Speaker Attribution Interface]
+                    </div>
+                    <div class="feature-content">
+                        <div class="feature-title">👥 Enhanced Speaker Recognition</div>
+                        <div class="feature-description">
+                            <strong>Replace User:</strong> Quickly correct misattributed speaker names for individual instances.<br>
+                            <strong>Replace All:</strong> Bulk correction for all instances of a misrecognized speaker name, ensuring consistent and accurate attribution throughout transcripts.
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Zero Retention -->
+                <div class="feature-card">
+                    <div class="feature-image">
+                        [Image: Data Privacy and Security Icons]
+                    </div>
+                    <div class="feature-content">
+                        <div class="feature-title">🔒 Zero Retention Option</div>
+                        <div class="feature-description">
+                            Configure Meeting Insights to delete media files, transcriptions, and artifacts immediately after processing while retaining anonymized AI insights. Perfect for organizations with stringent data minimization policies (GDPR, HIPAA compliance).
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Integration Section -->
+            <div class="integration-section">
+                <h3>🔗 Powerful New Integrations</h3>
+                <p style="text-align: center; margin-bottom: 20px;">Seamlessly connect Meeting Insights with your existing workflow tools</p>
+                
+                <div class="integration-grid">
+                    <div class="integration-item">
+                        <div class="integration-logo">SF</div>
+                        <strong>Salesforce</strong>
+                        <p style="font-size: 12px; margin-top: 5px;">Auto-update opportunities, tasks, and leads from meeting insights</p>
+                    </div>
+                    
+                    <div class="integration-item">
+                        <div class="integration-logo">Z</div>
+                        <strong>Zoho</strong>
+                        <p style="font-size: 12px; margin-top: 5px;">Route action items directly into Zoho projects and CRM modules</p>
+                    </div>
+                    
+                    <div class="integration-item">
+                        <div class="integration-logo">M</div>
+                        <strong>Monday.com</strong>
+                        <p style="font-size: 12px; margin-top: 5px;">Transform meeting insights into trackable items in Monday workspaces</p>
+                    </div>
+                </div>
+                
+                <div style="background: white; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                    <strong>Integration Benefits:</strong>
+                    <ul style="margin: 10px 0 0 20px; font-size: 14px;">
+                        <li>Eliminate manual data entry and reduce administrative time</li>
+                        <li>Ensure meeting outcomes translate into actionable business results</li>
+                        <li>Maintain workflow continuity across your existing tools</li>
+                        <li>Boost CRM data accuracy and team accountability</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- CTA Section -->
+            <div class="cta-section">
+                <h3>Ready to experience the future of meeting intelligence?</h3>
+                <p>Join thousands of organizations already transforming their meetings into actionable business insights</p>
+                <a href="#" class="cta-button">Get Started Today</a>
+                <a href="#" class="cta-button" style="background: rgba(255,255,255,0.2); color: white; margin-left: 10px;">Schedule Demo</a>
+            </div>
+            
+            <!-- Additional Features -->
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <h4 style="color: #667eea; margin-bottom: 15px;">🛠️ Coming Soon: Manual SI Training</h4>
+                <p style="font-size: 14px; color: #666;">Enhanced AI training capabilities for even more accurate and personalized meeting insights based on your organization's specific needs and terminology.</p>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-logo">Meeting Insights by AudioCodes</div>
+            <p>Transform every meeting into actionable business intelligence</p>
+            <p style="margin-top: 10px; font-size: 12px;">
+                © 2025 AudioCodes. All rights reserved. | 
+                <a href="#" style="color: #667eea;">Unsubscribe</a> | 
+                <a href="#" style="color: #667eea;">Privacy Policy</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
