@@ -1272,19 +1272,30 @@
             border-left-color: var(--accent-cyan);
             box-shadow: 0 15px 35px rgba(0,0,0,0.15);
         }
+.integration-logo {
+    width: 80px;
+    height: 60px;
+    margin: 0 auto 1.5rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--white);
+    transition: all 0.3s;
+}
 
-        /* Integration Logo SVG Containers */
-        .integration-logo {
-            width: 80px;
-            height: 60px;
-            margin: 0 auto 1.5rem;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-            position: relative;
-        }
+/* White filter for images only */
+.integration-logo img {
+    filter: brightness(0) invert(1);
+    transition: all 0.3s;
+}
+
+.integration-card:hover .integration-logo img {
+    transform: scale(1.1);
+}
+       
         
         .integration-logo svg {
             width: 40px;
