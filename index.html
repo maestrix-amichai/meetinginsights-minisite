@@ -381,51 +381,206 @@
             }
         }
 
-        /* Value Proposition Section */
-        .value-props {
-            padding: 80px 0;
-        }
-
-        .value-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .value-card {
-            padding: 1.5rem;
-            border-left: 4px solid var(--accent-cyan);
-            background: var(--light-blue);
-            border-radius: 10px;
-        }
-
-        .value-card h3 {
-            color: var(--primary-blue);
-            margin-bottom: 1rem;
-            font-size: 1.2rem;
-        }
-
-        .value-list {
-            list-style: none;
-        }
-
-        .value-list li {
-            margin-bottom: 0.6rem;
-            padding-left: 1.2rem;
+              /* Enhanced Value Proposition Section */
+        .enhanced-value-props {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
             position: relative;
-            font-size: 0.9rem;
-            line-height: 1.3;
+            overflow: hidden;
         }
-
-        .value-list li::before {
-            content: "✓";
+        
+        .enhanced-value-props::before {
+            content: '';
             position: absolute;
+            top: 0;
             left: 0;
-            color: var(--accent-cyan);
-            font-weight: bold;
-            font-size: 0.8rem;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 20%, rgba(0, 188, 212, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(30, 58, 95, 0.05) 0%, transparent 50%);
+            pointer-events: none;
         }
+        
+        .value-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .value-description {
+            font-size: 1.2rem;
+            color: var(--gray-600);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .enhanced-value-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-top: 4rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .enhanced-value-card {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .enhanced-value-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-cyan), #00acc1);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+        
+        .enhanced-value-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .enhanced-value-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0, 188, 212, 0.15);
+        }
+        
+        .enhanced-value-card.attendees {
+            border-left: 4px solid #00e676;
+        }
+        
+        .enhanced-value-card.leaders {
+            border-left: 4px solid var(--accent-cyan);
+        }
+        
+        .enhanced-value-card.tech-leaders {
+            border-left: 4px solid #ff6b35;
+        }
+        
+        .value-card-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        
+        .value-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-cyan), #00acc1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 8px 25px rgba(0, 188, 212, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .enhanced-value-card:hover .value-icon {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(0, 188, 212, 0.4);
+        }
+        
+        .value-card-header h3 {
+            color: var(--primary-blue);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        
+        .value-subtitle {
+            color: var(--gray-600);
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .value-benefits {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+        
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 188, 212, 0.1);
+        }
+        
+        .benefit-item:hover {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-color: rgba(0, 188, 212, 0.2);
+            transform: translateX(5px);
+        }
+        
+        .benefit-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--accent-cyan), #00acc1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(0, 188, 212, 0.2);
+        }
+        
+        .benefit-item span {
+            color: var(--gray-800);
+            font-weight: 500;
+            line-height: 1.5;
+            flex: 1;
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .enhanced-value-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .enhanced-value-card {
+                padding: 2rem;
+            }
+            
+            .value-icon {
+                width: 70px;
+                height: 70px;
+                font-size: 2rem;
+            }
+            
+            .benefit-item {
+                padding: 0.8rem;
+            }
+            
+            .benefit-icon {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+        }
+ 
         /* Video Section */
         .video-section {
             padding: 80px 0;
@@ -1483,42 +1638,97 @@
         </div>
     </section>
 
-    <!-- Value Proposition Section -->
-    <section id="value" class="value-props">
+   <!-- Enhanced Value Proposition Section -->
+    <section id="value" class="enhanced-value-props">
         <div class="container">
-            <h2 class="section-title">Transformative Benefits for Every Level</h2>
-            <div class="value-grid">
-                <div class="value-card">
-                    <h3>For Meeting Attendees</h3>
-                    <ul class="value-list">
-                        <li>Reclaim your mental focus - be fully present</li>
-                        <li>Never fall behind on critical decisions</li>
-                        <li>Come prepared with intelligent context</li>
-                        <li>Own your accountability with clear action items</li>
-                    </ul>
+            <div class="value-header">
+                <h2 class="section-title">Transformative Benefits for Every Level</h2>
+                <p class="value-description">Meeting Insights delivers measurable value across your entire organization, from individual contributors to executive leadership.</p>
+            </div>
+            
+            <div class="enhanced-value-grid">
+                <div class="enhanced-value-card attendees">
+                    <div class="value-card-header">
+                        <div class="value-icon">👤</div>
+                        <h3>For Meeting Attendees</h3>
+                        <p class="value-subtitle">Individual Empowerment</p>
+                    </div>
+                    <div class="value-benefits">
+                        <div class="benefit-item">
+                            <div class="benefit-icon">🧠</div>
+                            <span>Reclaim your mental focus - be fully present</span>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-icon">📈</div>
+                            <span>Never fall behind on critical decisions</span>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-icon">💡</div>
+                            <span>Come prepared with intelligent context</span>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-icon">✅</div>
+                            <span>Own your accountability with clear action items</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="value-card">
-                    <h3>For Business Leaders</h3>
-                    <ul class="value-list">
-                        <li>See the big picture with strategic intelligence</li>
-                        <li>Accelerate decision velocity across departments</li>
-                        <li>Build a culture of accountability</li>
-                        <li>Turn meetings into strategic assets</li>
-                    </ul>
+    
+                <div class="enhanced-value-card leaders">
+                    <div class="value-card-header">
+                        <div class="value-icon">🎯</div>
+                        <h3>For Business Leaders</h3>
+                        <p class="value-subtitle">Strategic Advantage</p>
+                    </div>
+                    <div class="value-benefits">
+                        <div class="benefit-item">
+                            <div class="benefit-icon">🔍</div>
+                            <span>See the big picture with strategic intelligence</span>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-icon">⚡</div>
+                            <span>Accelerate decision velocity across departments</span>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-icon">🏆</div>
+                            <span>Build a culture of accountability</span>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-icon">💼</div>
+                            <span>Turn meetings into strategic assets</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="value-card">
-                    <h3>For the CIO and CISO</h3>
-                    <ul class="value-list">
-                        <li>Enable AI innovation responsibly</li>
-                        <li>Unlock competitive advantage securely</li>
-                        <li>Maintain complete control & governance</li>
-                        <li>Future-proof with universal platform support</li>
-                    </ul>
+    
+                <div class="enhanced-value-card tech-leaders">
+                    <div class="value-card-header">
+                        <div class="value-icon">🛡️</div>
+                        <h3>For CIO and CISO</h3>
+                        <p class="value-subtitle">Secure Innovation</p>
+                    </div>
+                    <div class="value-benefits">
+                        <div class="benefit-item">
+                            <div class="benefit-icon">🚀</div>
+                            <span>Enable AI innovation responsibly</span>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-icon">🔐</div>
+                            <span>Unlock competitive advantage securely</span>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-icon">⚙️</div>
+                            <span>Maintain complete control & governance</span>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-icon">🔮</div>
+                            <span>Future-proof with universal platform support</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
-<!-- Supported Platforms Section -->
+
+    <!-- Supported Platforms Section -->
 <section class="platforms-section">
     <div class="container">
         <h2 class="section-title">Get Value From All Your Meetings</h2>
