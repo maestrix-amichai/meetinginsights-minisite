@@ -149,20 +149,21 @@
             display: flex;
             gap: 1.5rem;
             flex-wrap: wrap;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             justify-content: center;
         }
         
         .hero-app-badges {
             display: flex;
-            gap: 1rem;
-            justify-content: center;
+            flex-direction: column;
+            gap: 0.5rem;
             align-items: center;
         }
         
         .app-badge {
             transition: all 0.3s;
             opacity: 0.9;
+            display: block;
         }
         
         .app-badge:hover {
@@ -172,17 +173,21 @@
         
         .app-badge img {
             height: 50px;
-            width: auto;
+            width: 150px;
+            object-fit: contain;
             border-radius: 6px;
         }
         
         @media (max-width: 768px) {
-            .hero-app-badges {
-                gap: 0.8rem;
+            .hero-main-ctas {
+                flex-direction: column;
+                align-items: center;
+                margin-bottom: 1.5rem;
             }
             
             .app-badge img {
                 height: 45px;
+                width: 135px;
             }
         }
         /* Mobile responsive */
