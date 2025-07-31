@@ -144,7 +144,51 @@
             gap: 1.5rem;
             flex-wrap: wrap;
         }
-
+        .hero-main-ctas {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero-app-badges {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .app-badge {
+            transition: all 0.3s;
+            opacity: 0.9;
+        }
+        
+        .app-badge:hover {
+            opacity: 1;
+            transform: translateY(-2px);
+        }
+        
+        .app-badge img {
+            height: 40px;
+            width: auto;
+            border-radius: 8px;
+        }
+        
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .hero-main-ctas {
+                justify-content: center;
+            }
+            
+            .hero-app-badges {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .app-badge img {
+                height: 35px;
+            }
+        }
         .hero-image {
             position: relative;
             display: flex;
