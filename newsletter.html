@@ -22,77 +22,86 @@
             max-width: 800px;
             margin: 0 auto;
             background-color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         
         .header {
-            background: linear-gradient(135deg, #15307b 0%, #23b0e1 50%, #00d4ff 100%);
+            background: linear-gradient(135deg, #15307b 0%, #23b0e1 100%);
             color: white;
-            padding: 50px 40px;
+            padding: 40px 30px;
             text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            animation: float 6s ease-in-out infinite;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
         }
         
         .header .tagline {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 600;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             opacity: 0.9;
         }
         
         .header h1 {
-            font-size: 32px;
+            font-size: 28px;
             font-weight: 700;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
         
         .header p {
-            font-size: 18px;
+            font-size: 16px;
             opacity: 0.9;
-            max-width: 600px;
-            margin: 0 auto;
         }
         
-        .intro-section {
-            padding: 50px 40px;
-            text-align: center;
+        /* Hero Section - Two Column Layout */
+        .hero-section {
+            display: flex;
+            align-items: center;
             background: white;
+            padding: 50px 40px;
+            gap: 50px;
         }
         
-        .intro-title {
+        .hero-content {
+            flex: 3;
+            padding-right: 20px;
+        }
+        
+        .hero-title {
+            background: linear-gradient(90deg, #15307b 0%, #23b0e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: #15307b;
             font-size: 36px;
-            font-weight: 300;
-            color: #333;
-            margin-bottom: 20px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            line-height: 1.2;
         }
         
-        .intro-description {
+        .hero-description {
             font-size: 18px;
             color: #666;
-            line-height: 1.7;
-            max-width: 700px;
-            margin: 0 auto;
+            line-height: 1.6;
         }
         
-        .features-section {
+        .hero-image {
+            flex: 2;
+        }
+        
+        .hero-image img {
+            max-width: 100%;
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        
+        .content {
             padding: 40px;
             background: #f8f9fa;
+        }
+        
+        .features-grid {
+            display: grid;
+            gap: 40px;
+            margin-bottom: 30px;
         }
         
         .feature-item {
@@ -185,12 +194,12 @@
         }
         
         .feature-highlight {
-            font-size: 14px;
+            font-size: 16px;
+            font-weight: 600;
             background: linear-gradient(135deg, #15307b 0%, #23b0e1 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            font-weight: 700;
             margin-bottom: 10px;
         }
         
@@ -319,23 +328,83 @@
         }
         
         .app-badges {
-            margin-top: 20px;
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: linear-gradient(135deg, #e6eaf5 0%, #e1f4fd 100%);
+            border-radius: 8px;
         }
         
         .app-badges p {
+            color: #15307b;
             font-size: 14px;
-            color: #666;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            font-weight: 600;
         }
         
         .app-badges-container {
-            display: flex;
-            gap: 10px;
+            display: inline-flex;
+            gap: 12px;
             align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
         }
         
         .app-badges img {
-            height: 32px;
+            height: 36px;
+            border-radius: 6px;
+        }
+        
+        .app-badges .footer-text {
+            color: #6c757d;
+            font-size: 12px;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        
+        .integration-section {
+            background: linear-gradient(135deg, #e6eaf5 0%, #e1f4fd 100%);
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+        
+        .integration-section h3 {
+            background: linear-gradient(90deg, #15307b 0%, #23b0e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: #15307b;
+            font-size: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .integration-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .integration-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #e9ecef;
+        }
+        
+        .integration-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
         }
         
         .cta-section {
@@ -362,6 +431,8 @@
             font-size: 28px;
             margin-bottom: 15px;
             font-weight: 600;
+            position: relative;
+            z-index: 1;
         }
         
         .cta-section p {
@@ -369,6 +440,8 @@
             margin-bottom: 30px;
             opacity: 0.9;
             line-height: 1.6;
+            position: relative;
+            z-index: 1;
         }
         
         .cta-button {
@@ -391,6 +464,22 @@
             transform: translateY(-3px);
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             background: linear-gradient(135deg, #ffffff 0%, #e3f2fd 100%);
+        }
+        
+        .coming-soon {
+            background: linear-gradient(135deg, #e6eaf5 0%, #e1f4fd 100%);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .coming-soon h4 {
+            background: linear-gradient(90deg, #15307b 0%, #23b0e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: #15307b;
+            margin-bottom: 15px;
         }
         
         .footer {
@@ -422,35 +511,42 @@
         }
         
         @media (max-width: 768px) {
-            .header, .intro-section, .features-section, .cta-section, .footer {
-                padding-left: 20px;
-                padding-right: 20px;
-            }
-            
-            .feature-item {
+            .hero-section {
                 flex-direction: column;
-                min-height: auto;
+                gap: 30px;
+                padding: 30px 20px;
             }
             
-            .feature-visual {
-                min-height: 200px;
+            .hero-content {
+                padding-right: 0;
+            }
+            
+            .hero-title {
+                font-size: 28px;
+            }
+            
+            .hero-description {
+                font-size: 16px;
+            }
+            
+            .content {
                 padding: 20px;
             }
             
-            .feature-content {
+            .header {
                 padding: 30px 20px;
             }
             
             .header h1 {
-                font-size: 28px;
+                font-size: 24px;
             }
             
-            .intro-title {
-                font-size: 28px;
+            .cta-section {
+                padding: 40px 20px;
             }
             
-            .feature-title {
-                font-size: 20px;
+            .cta-section h3 {
+                font-size: 24px;
             }
         }
     </style>
@@ -460,20 +556,37 @@
         <!-- Header -->
         <div class="header">
             <div class="tagline">You Asked. We Delivered.</div>
-            <h1>Meeting Insights: Latest and Greatest Update</h1>
+            <h1>🚀 Meeting Insights: Latest and Greatest Update</h1>
             <p>Enhanced organizational intelligence and streamlined workflows for enterprise teams or mobile on the go</p>
         </div>
         
-        <!-- Intro Section -->
-        <div class="intro-section">
-            <h2 class="intro-title">New features to know</h2>
-            <p class="intro-description">
-                The latest updates to Meeting Insights are here, delivering smarter, faster, and more connected ways to turn meetings into actionable intelligence. From mobile-first experiences to robust enterprise integrations, teams are now empowered with AI wherever work happens.
-            </p>
+        <!-- Hero Section - Two Column Layout -->
+        <div class="hero-section">
+            <!-- Left Column: Text Content (40% width) -->
+            <div class="hero-content">
+                <h2 class="hero-title">Introducing Advanced Features for Enterprise Meeting Intelligence</h2>
+                <p class="hero-description">
+                    The latest updates to Meeting Insights are here, delivering smarter, faster, and more connected ways to turn meetings into actionable intelligence. From mobile-first experiences to robust enterprise integrations, teams are now empowered with AI wherever work happens.
+                </p>
+            </div>
+            
+            <!-- Right Column: Hero Image (60% width) -->
+            <div class="hero-image">
+                <img src="https://res.cloudinary.com/dukf4ckq1/image/upload/c_scale,w_400,f_auto,q_auto/v1753865912/MeetingInsights/Meeting-Insights-Municipalites-Header-New-2_zzp1kk.webp" 
+                     alt="Meeting Insights Platform showing meeting transcription and analysis on desktop and mobile"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+                
+                <!-- Fallback for email clients that don't support the image -->
+                <div style="display: none; background: linear-gradient(135deg, #e6eaf5 0%, #e1f4fd 100%); border: 2px dashed #23b0e1; border-radius: 12px; padding: 2rem; text-align: center; color: #15307b;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🖥️📱</div>
+                    <div style="font-size: 1.2rem; font-weight: bold;">Meeting Insights Platform</div>
+                    <div style="font-size: 1rem; margin-top: 0.5rem;">Desktop & Mobile Interface</div>
+                </div>
+            </div>
         </div>
         
-        <!-- Features Section -->
-        <div class="features-section">
+        <!-- Main Content -->
+        <div class="content">
             
             <!-- Mobile Application -->
             <div class="feature-item">
@@ -505,6 +618,7 @@
                             <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play" style="height: 42px;" />
                         </div>
                     </div>
+                    <a href="#" class="learn-more">Learn more</a>
                 </div>
             </div>
             
@@ -527,7 +641,8 @@
                     <div class="feature-highlight">Any Meeting. Any Place. Clear Summaries Every Time.</div>
                     <p class="feature-description">
                         <strong>🎙️ Record In-Person Meetings with Your Phone</strong><br><br>
-                        Capture live, face-to-face conversations using your smartphone's microphone—on Android or iOS. Whether you're meeting clients, collaborating in the field, or having internal discussions, Meeting Insights records high-quality audio and automatically generates transcriptions and structured AI summaries.
+                        Capture live, face-to-face conversations using your smartphone's microphone—on Android or iOS. Whether you're meeting clients, collaborating in the field, or having internal discussions, Meeting Insights records high-quality audio and automatically generates transcriptions and structured AI summaries.<br><br>
+                        Ideal for sales teams, consultants, and legal professionals who work beyond digital platforms—ensuring no insight is ever lost.
                     </p>
                     <a href="#" class="learn-more">Learn more</a>
                 </div>
@@ -644,35 +759,6 @@
                 </div>
             </div>
             
-            <!-- Integrations -->
-            <div class="feature-item">
-                <div class="feature-visual">
-                    <div class="feature-mockup">
-                        <div style="font-size: 12px; color: #666; text-align: center; margin-bottom: 15px;">Workflow Integrations</div>
-                        <div class="integration-mockup">
-                            <div class="integration-box" style="background: linear-gradient(135deg, #15307b 0%, #23b0e1 100%);">MI</div>
-                            <div class="integration-arrow">→</div>
-                            <div style="display: flex; flex-direction: column; gap: 5px;">
-                                <div class="integration-box" style="background: #00A1E4; font-size: 8px;">SFDC</div>
-                                <div class="integration-box" style="background: #E94B3C; font-size: 8px;">ZOHO</div>
-                                <div class="integration-box" style="background: #6C6CFF; font-size: 7px;">MON</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="feature-content">
-                    <div class="feature-badge">Workflow Integration</div>
-                    <h3 class="feature-title">Powerful New Integrations</h3>
-                    <p class="feature-description">
-                        Seamlessly connect Meeting Insights with your existing workflow tools including Salesforce, Zoho, and Monday.com. Auto-update opportunities, route action items to projects, and transform insights into trackable tasks. Eliminate manual data entry and ensure meeting outcomes translate into actionable business results.
-                    </p>
-                    <div style="margin-top: 15px; font-style: italic; color: #666; font-size: 14px;">
-                        Stay tuned—there's more ahead.
-                    </div>
-                    <a href="#" class="learn-more">Learn more</a>
-                </div>
-            </div>
-            
             <!-- Zero Retention -->
             <div class="feature-item">
                 <div class="feature-visual">
@@ -706,14 +792,67 @@
             </div>
             
         </div>
-        
-        <!-- CTA Section -->
-        <div class="cta-section">
-            <h3>Ready to experience the future of meeting intelligence?</h3>
-            <p>Unlock the full power of Meeting Insights—from anywhere, on any device.<br>
-            Reach out to your CSM to start using the mobile app today.</p>
-            <a href="#" class="cta-button">Get Started Today</a>
-            <a href="#" class="cta-button">Schedule Demo</a>
+            
+            <!-- Integration Section -->
+            <div class="integration-section">
+                <h3>🔗 Powerful New Integrations</h3>
+                <p style="text-align: center; margin-bottom: 20px;">Seamlessly connect Meeting Insights with your existing workflow tools</p>
+                
+                <div class="integration-grid">
+                    <div class="integration-item">
+                        <div class="integration-logo" style="background: linear-gradient(135deg, #00A1E4 0%, #0073E6 100%);">
+                            <div style="font-size: 12px; font-weight: bold;">SFDC</div>
+                        </div>
+                        <strong>Salesforce</strong>
+                        <p style="font-size: 12px; margin-top: 5px;">Auto-update opportunities, tasks, and leads from meeting insights</p>
+                    </div>
+                    
+                    <div class="integration-item">
+                        <div class="integration-logo" style="background: linear-gradient(135deg, #E94B3C 0%, #C7342B 100%);">
+                            <div style="font-size: 12px; font-weight: bold;">ZOHO</div>
+                        </div>
+                        <strong>Zoho</strong>
+                        <p style="font-size: 12px; margin-top: 5px;">Route action items directly into Zoho projects and CRM modules</p>
+                    </div>
+                    
+                    <div class="integration-item">
+                        <div class="integration-logo" style="background: linear-gradient(135deg, #6C6CFF 0%, #5A5AE6 100%);">
+                            <div style="font-size: 10px; font-weight: bold;">MONDAY</div>
+                        </div>
+                        <strong>Monday.com</strong>
+                        <p style="font-size: 12px; margin-top: 5px;">Transform meeting insights into trackable items in Monday workspaces</p>
+                    </div>
+                </div>
+                
+                <div style="background: white; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                    <strong>Integration Benefits:</strong>
+                    <ul style="margin: 10px 0 0 20px; font-size: 14px;">
+                        <li>Eliminate manual data entry and reduce administrative time</li>
+                        <li>Ensure meeting outcomes translate into actionable business results</li>
+                        <li>Maintain workflow continuity across your existing tools</li>
+                        <li>Boost CRM data accuracy and team accountability</li>
+                    </ul>
+                </div>
+                
+                <p style="text-align: center; margin-top: 15px; font-style: italic; color: #666;">
+                    Stay tuned—there's more ahead.
+                </p>
+            </div>
+            
+            <!-- CTA Section -->
+            <div class="cta-section">
+                <h3>Ready to experience the future of meeting intelligence?</h3>
+                <p>Unlock the full power of Meeting Insights—from anywhere, on any device.<br>
+                Reach out to your CSM to start using the mobile app today.</p>
+                <a href="#" class="cta-button">Get Started Today</a>
+                <a href="#" class="cta-button">Schedule Demo</a>
+            </div>
+            
+            <!-- Coming Soon -->
+            <div class="coming-soon">
+                <h4>🛠️ Coming Soon: Manual SI Training</h4>
+                <p style="font-size: 14px; color: #666;">Enhanced AI training capabilities for even more accurate and personalized meeting insights based on your organization's specific needs and terminology.</p>
+            </div>
         </div>
         
         <!-- Footer -->
