@@ -462,6 +462,8 @@
             box-shadow: 0 6px 20px rgba(0,0,0,0.1);
             position: relative;
             z-index: 1;
+            border: none;
+            cursor: pointer;
         }
         
         .cta-button:hover {
@@ -514,11 +516,21 @@
             text-decoration: underline;
         }
         
-        @media (max-width: 768px) {
+                    @media (max-width: 768px) {
             .hero-section {
                 flex-direction: column;
                 gap: 30px;
                 padding: 30px 20px;
+            }
+            
+            .hero-section > div:first-child {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .hero-section > div:first-child img {
+                height: 40px;
             }
             
             .hero-content {
@@ -552,6 +564,15 @@
             .cta-section h3 {
                 font-size: 24px;
             }
+            
+            .feature-item {
+                flex-direction: column;
+                min-height: auto;
+            }
+            
+            .feature-visual {
+                min-height: 200px;
+            }
         }
     </style>
 </head>
@@ -559,12 +580,16 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; max-width: 600px; margin-left: auto; margin-right: auto;">
+            <div style="font-size: 16px; font-weight: 600; margin-bottom: 10px; opacity: 0.9;">You Asked. We Delivered.</div>
+            <h1 style="font-size: 28px; font-weight: 700; margin-bottom: 0;">🚀 Meeting Intelligence Goes Mobile — Smarter Meetings in Your Pocket</h1>
+        </div>
+        
+        <!-- Logo Section -->
+        <div style="background: white; padding: 30px 40px; text-align: center; border-bottom: 1px solid #e9ecef;">
+            <div style="display: flex; justify-content: space-between; align-items: center; max-width: 600px; margin: 0 auto;">
                 <img src="https://res.cloudinary.com/dukf4ckq1/image/upload/v1754312280/MeetingInsights/meeting-insights-logo-transparent_zbjdjy.png" alt="Meeting Insights Logo" style="height: 50px; width: auto;" />
                 <img src="https://res.cloudinary.com/dukf4ckq1/image/upload/v1754312280/MeetingInsights/_AudioCodes_Logo_-_Dark_1_omxvqv.png" alt="AudioCodes Logo" style="height: 50px; width: auto;" />
             </div>
-            <div style="font-size: 16px; font-weight: 600; margin-bottom: 10px; opacity: 0.9;">You Asked. We Delivered.</div>
-            <h1 style="font-size: 28px; font-weight: 700; margin-bottom: 0;">🚀 Meeting Intelligence Goes Mobile — Smarter Meetings in Your Pocket</h1>
         </div>
         
         <!-- Hero Section - Two Column Layout -->
@@ -803,8 +828,6 @@
                 </div>
             </div>
             
-        </div>
-            
             <!-- Integration Section -->
             <div class="integration-section">
                 <h3>🔗 Powerful New Integrations</h3>
@@ -856,8 +879,8 @@
                 <h3>Ready to experience the future of meeting intelligence?</h3>
                 <p>Unlock the full power of Meeting Insights—from anywhere, on any device.<br>
                 Reach out to your CSM to start using the mobile app today.</p>
-                <a href="#" class="cta-button">Get Started Today</a>
-                <a href="#" class="cta-button">Schedule Demo</a>
+                <button class="cta-button" onclick="alert('Contact your Customer Success Manager to get started!')">Get Started Today</button>
+                <button class="cta-button" onclick="alert('Demo scheduling coming soon!')">Schedule Demo</button>
             </div>
             
             <!-- Coming Soon -->
@@ -873,8 +896,8 @@
             <p>Transform every meeting into actionable business intelligence</p>
             <p style="margin-top: 10px; font-size: 12px;">
                 © 2025 AudioCodes. All rights reserved. | 
-                <a href="#">Unsubscribe</a> | 
-                <a href="#">Privacy Policy</a>
+                <a href="#" onclick="alert('Unsubscribe functionality would be implemented here')">Unsubscribe</a> | 
+                <a href="#" onclick="alert('Privacy Policy would be linked here')">Privacy Policy</a>
             </p>
         </div>
     </div>
