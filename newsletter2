@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting Insights - Additional Features</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .content {
+            padding: 40px;
+            background: #f8f9fa;
+        }
+        
+        .feature-item {
+            background: white;
+            margin-bottom: 40px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(35, 176, 225, 0.1);
+            display: flex;
+            align-items: center;
+            min-height: 320px;
+            border: 1px solid rgba(35, 176, 225, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 48px rgba(35, 176, 225, 0.2);
+        }
+        
+        .feature-visual {
+            flex: 1;
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e3f2fd 100%);
+            min-height: 320px;
+            position: relative;
+        }
+        
+        .feature-visual::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 30%, rgba(35, 176, 225, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        .feature-mockup {
+            width: 280px;
+            height: 200px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            border: 1px solid rgba(35, 176, 225, 0.2);
+            z-index: 1;
+        }
+        
+        .feature-content {
+            flex: 1;
+            padding: 40px;
+        }
+        
+        .feature-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #23b0e1 0%, #00d4ff 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(35, 176, 225, 0.3);
+        }
+        
+        .feature-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+        
+        .feature-description {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .feature-highlight {
+            font-size: 16px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #15307b 0%, #23b0e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+        
+        .learn-more {
+            color: #15307b;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            background: linear-gradient(135deg, #23b0e1 0%, #00d4ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transition: all 0.3s ease;
+        }
+        
+        .learn-more:hover {
+            transform: translateX(5px);
+            filter: brightness(1.2);
+        }
+        
+        .learn-more::after {
+            content: "→";
+            margin-left: 5px;
+        }
+        
+        .teams-mockup {
+            width: 260px;
+            height: 160px;
+            background: white;
+            border: 2px solid #6264a7;
+            border-radius: 8px;
+            padding: 15px;
+            position: relative;
+        }
+        
+        .teams-header {
+            height: 30px;
+            background: #6264a7;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .teams-participants {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .participant {
+            height: 40px;
+            background: #f3f2f1;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: #666;
+        }
+        
+        .integration-section {
+            background: linear-gradient(135deg, #e6eaf5 0%, #e1f4fd 100%);
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+        
+        .integration-section h3 {
+            background: linear-gradient(90deg, #15307b 0%, #23b0e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: #15307b;
+            font-size: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .integration-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .integration-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #e9ecef;
+        }
+        
+        .integration-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+            
+            .feature-item {
+                flex-direction: column;
+                min-height: auto;
+            }
+            
+            .feature-visual {
+                min-height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            
+            <!-- External Teams Support -->
+            <div class="feature-item">
+                <div class="feature-visual">
+                    <div class="feature-mockup">
+                        <div class="teams-mockup">
+                            <div class="teams-header">
+                                <span>🏢</span>&nbsp;&nbsp;External Organization Meeting
+                            </div>
+                            <div class="teams-participants">
+                                <div class="participant">You (Guest)</div>
+                                <div class="participant">Host Org</div>
+                                <div class="participant">Partner A</div>
+                                <div class="participant">Vendor B</div>
+                            </div>
+                            <div style="text-align: center; font-size: 10px; color: #15307b; font-weight: 600;">✓ Recording Enabled</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="feature-content">
+                    <div class="feature-badge">Cross-Organization</div>
+                    <h3 class="feature-title">External Teams Meeting is now Supported</h3>
+                    <div class="feature-highlight">Every Meeting, Captured and Summarized—No Exceptions</div>
+                    <p class="feature-description">
+                        Meeting Insights now supports Microsoft Teams meetings hosted by other organizations—even when you join as a guest or external participant. That means every meeting you're invited to—not just the ones you host—can now be recorded, transcribed, and summarized with no limitations. It's a breakthrough for cross-company collaboration.
+                    </p>
+                    <a href="#" class="learn-more">Learn more</a>
+                </div>
+            </div>
+            
+            <!-- Enhanced Speaker Recognition -->
+            <div class="feature-item">
+                <div class="feature-visual">
+                    <div class="feature-mockup">
+                        <div style="font-size: 48px; margin-bottom: 15px;">👥</div>
+                        <div style="font-size: 12px; color: #666; text-align: center; margin-bottom: 15px;">Smart Speaker ID</div>
+                        <div style="display: flex; flex-direction: column; gap: 8px; width: 80%;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <div style="width: 20px; height: 20px; background: #15307b; border-radius: 50%; color: white; font-size: 8px; display: flex; align-items: center; justify-content: center;">JS</div>
+                                <div style="font-size: 10px;">John Smith</div>
+                                <div style="margin-left: auto; color: #15307b; font-size: 8px; cursor: pointer;">✏️</div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <div style="width: 20px; height: 20px; background: #23b0e1; border-radius: 50%; color: white; font-size: 8px; display: flex; align-items: center; justify-content: center;">AD</div>
+                                <div style="font-size: 10px;">Anna Davis</div>
+                                <div style="margin-left: auto; color: #15307b; font-size: 8px; cursor: pointer;">✏️</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="feature-content">
+                    <div class="feature-badge">AI Enhancement</div>
+                    <h3 class="feature-title">Enhanced Speaker Recognition</h3>
+                    <div class="feature-highlight">👥 Smarter Speaker Identification and Continuous Learning</div>
+                    <p class="feature-description">
+                        Meeting Insights separates speakers during meeting recordings and assigns speaker labels whenever possible—whether they're organization members or external contacts not known to the system. This update adds the ability to review and edit speaker names directly within the platform, enabling the system to continuously improve identification accuracy through ongoing learning.
+                    </p>
+                    <a href="#" class="learn-more">Learn more</a>
+                </div>
+            </div>
+            
+            <!-- Word & Phrase Replacement -->
+            <div class="feature-item">
+                <div class="feature-visual">
+                    <div class="feature-mockup">
+                        <div style="font-size: 48px; margin-bottom: 15px;">✏️</div>
+                        <div style="font-size: 12px; color: #666; text-align: center; margin-bottom: 15px;">One-Click Edit</div>
+                        <div style="width: 80%; text-align: left;">
+                            <div style="font-size: 10px; margin-bottom: 8px; padding: 8px; background: #f8f9fa; border-radius: 4px;">
+                                Replace "Compani" → "Company"
+                            </div>
+                            <div style="display: flex; gap: 5px;">
+                                <button style="padding: 4px 8px; background: #15307b; color: white; border: none; border-radius: 4px; font-size: 8px;">Replace All</button>
+                                <button style="padding: 4px 8px; background: #e0e0e0; color: #666; border: none; border-radius: 4px; font-size: 8px;">Replace Once</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="feature-content">
+                    <div class="feature-badge">Smart Editing</div>
+                    <h3 class="feature-title">One-Click Word & Phrase Replacement</h3>
+                    <div class="feature-highlight">✏️ Edit Smarter, Not Harder</div>
+                    <p class="feature-description">
+                        You can now replace any mistakenly spelled word or phrase across the entire meeting summary with a single action. This powerful editing capability saves time, ensures consistency, and makes it easy to correct names, terminology, or recurring errors—without manual line-by-line updates.
+                    </p>
+                    <a href="#" class="learn-more">Learn more</a>
+                </div>
+            </div>
+            
+            <!-- Zero Retention -->
+            <div class="feature-item">
+                <div class="feature-visual">
+                    <div class="feature-mockup">
+                        <div style="font-size: 48px; margin-bottom: 15px;">🔒</div>
+                        <div style="font-size: 12px; color: #666; text-align: center; margin-bottom: 15px;">Zero Retention Mode</div>
+                        <div style="width: 80%; display: flex; flex-direction: column; gap: 6px;">
+                            <div style="display: flex; align-items: center; gap: 8px; font-size: 10px;">
+                                <div style="width: 12px; height: 12px; background: #ff4444; border-radius: 50%;"></div>
+                                <span>Media Files → Deleted</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px; font-size: 10px;">
+                                <div style="width: 12px; height: 12px; background: #ff4444; border-radius: 50%;"></div>
+                                <span>Transcripts → Deleted</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px; font-size: 10px;">
+                                <div style="width: 12px; height: 12px; background: #4CAF50; border-radius: 50%;"></div>
+                                <span>AI Insights → Retained</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="feature-content">
+                    <div class="feature-badge">Privacy & Compliance</div>
+                    <h3 class="feature-title">Zero Retention Option</h3>
+                    <p class="feature-description">
+                        Configure Meeting Insights to delete media files, transcriptions, and artifacts immediately after processing while retaining anonymized AI insights. Perfect for organizations with stringent data minimization policies (GDPR, HIPAA compliance).
+                    </p>
+                    <a href="#" class="learn-more">Learn more</a>
+                </div>
+            </div>
+            
+            <!-- Integration Section -->
+            <div class="integration-section">
+                <h3>🔗 Powerful New Integrations</h3>
+                <p style="text-align: center; margin-bottom: 20px;">Seamlessly connect Meeting Insights with your existing workflow tools</p>
+                
+                <div class="integration-grid">
+                    <div class="integration-item">
+                        <div class="integration-logo" style="background: linear-gradient(135deg, #00A1E4 0%, #0073E6 100%);">
+                            <div style="font-size: 12px; font-weight: bold;">SFDC</div>
+                        </div>
+                        <strong>Salesforce</strong>
+                        <p style="font-size: 12px; margin-top: 5px;">Auto-update opportunities, tasks, and leads from meeting insights</p>
+                    </div>
+                    
+                    <div class="integration-item">
+                        <div class="integration-logo" style="background: linear-gradient(135deg, #E94B3C 0%, #C7342B 100%);">
+                            <div style="font-size: 12px; font-weight: bold;">ZOHO</div>
+                        </div>
+                        <strong>Zoho</strong>
+                        <p style="font-size: 12px; margin-top: 5px;">Route action items directly into Zoho projects and CRM modules</p>
+                    </div>
+                    
+                    <div class="integration-item">
+                        <div class="integration-logo" style="background: linear-gradient(135deg, #6C6CFF 0%, #5A5AE6 100%);">
+                            <div style="font-size: 10px; font-weight: bold;">MONDAY</div>
+                        </div>
+                        <strong>Monday.com</strong>
+                        <p style="font-size: 12px; margin-top: 5px;">Transform meeting insights into trackable items in Monday workspaces</p>
+                    </div>
+                </div>
+                
+                <div style="background: white; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                    <strong>Integration Benefits:</strong>
+                    <ul style="margin: 10px 0 0 20px; font-size: 14px;">
+                        <li>Eliminate manual data entry and reduce administrative time</li>
+                        <li>Ensure meeting outcomes translate into actionable business results</li>
+                        <li>Maintain workflow continuity across your existing tools</li>
+                        <li>Boost CRM data accuracy and team accountability</li>
+                    </ul>
+                </div>
+                
+                <p style="text-align: center; margin-top: 15px; font-style: italic; color: #666;">
+                    Stay tuned—there's more ahead.
+                </p>
+            </div>
+            
+        </div>
+    </div>
+</body>
+</html>
