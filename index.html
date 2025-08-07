@@ -773,35 +773,185 @@
             color: var(--white);
         }
 
-        /* Testimonials */
+        /* Enhanced Testimonials Carousel Styles */
         .testimonials {
             padding: 80px 0;
             background: var(--light-blue);
+            overflow: hidden;
         }
-
-        .testimonial-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
+        
+        .testimonials-carousel {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
         }
-
-        .testimonial-card {
+        
+        .testimonials-track-container {
+            overflow: hidden;
+            margin: 0 60px;
+        }
+        
+        .testimonials-track {
+            display: flex;
+            transition: transform 0.5s ease;
+            gap: 30px;
+        }
+        
+        .testimonial-slide {
+            flex: 0 0 100%;
             background: var(--white);
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            position: relative;
         }
-
+        
+        .testimonial-avatar {
+            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .avatar-circle {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--accent-cyan), #00acc1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: bold;
+            font-size: 1.5rem;
+            box-shadow: 0 8px 25px rgba(0,188,212,0.3);
+        }
+        
+        .company-logo-testimonial {
+            height: 30px;
+            object-fit: contain;
+            opacity: 0.7;
+        }
+        
+        .company-name-text {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
         .testimonial-text {
-            font-style: italic;
-            margin-bottom: 1.5rem;
             font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--gray-800);
+            font-style: italic;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
         }
-
+        
+        .testimonial-text::before {
+            content: '"';
+            position: absolute;
+            left: -20px;
+            top: -10px;
+            font-size: 4rem;
+            color: var(--accent-cyan);
+            opacity: 0.3;
+        }
+        
         .testimonial-author {
             font-weight: bold;
             color: var(--primary-blue);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .testimonial-title {
+            color: var(--gray-600);
+            font-size: 0.95rem;
+        }
+        
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--white);
+            border: 2px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .carousel-btn:hover {
+            background: var(--accent-cyan);
+            color: var(--white);
+        }
+        
+        .carousel-btn-prev {
+            left: 0;
+        }
+        
+        .carousel-btn-next {
+            right: 0;
+        }
+        
+        .testimonial-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 2rem;
+        }
+        
+        .testimonial-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--gray-300);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .testimonial-dot.active {
+            background: var(--accent-cyan);
+            transform: scale(1.3);
+        }
+        
+        @media (max-width: 768px) {
+            .testimonials-track-container {
+                margin: 0 20px;
+            }
+            
+            .testimonial-slide {
+                padding: 2rem;
+            }
+            
+            .carousel-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+            
+            .testimonial-text {
+                font-size: 1rem;
+            }
+            
+            .testimonial-text::before {
+                display: none;
+            }
         }
 
         /* Industry Solutions Section */
@@ -1868,29 +2018,57 @@
         </div>
     </section>
 
-        <!-- Customer Logos Section -->
+    <!-- Customer Logos Section -->
     <section class="customer-logos">
         <div class="container">
             <h2 class="section-title">Trusted by Leading Organizations</h2>
             <div class="logos-carousel">
                 <div class="logos-track">
-                    <div class="logo-item">Microsoft</div>
-                    <div class="logo-item">Google</div>
-                    <div class="logo-item">Amazon</div>
-                    <div class="logo-item">Salesforce</div>
-                    <div class="logo-item">Adobe</div>
-                    <div class="logo-item">Oracle</div>
-                    <div class="logo-item">IBM</div>
-                    <div class="logo-item">Cisco</div>
+                    <div class="logo-item">Colt</div>
+                    <div class="logo-item">Tinkle</div>
+                    <div class="logo-item">Delphi</div>
+                    <div class="logo-item">ayf</div>
+                    <div class="logo-item">BluIP</div>
+                    <div class="logo-item">Berry</div>
+                    <div class="logo-item">Asphalt</div>
+                    <div class="logo-item">VWV</div>
+                    <div class="logo-item">Industrial Trades</div>
+                    <div class="logo-item">Cogress</div>
+                    <div class="logo-item">Marlin</div>
+                    <div class="logo-item">Ellacotts</div>
+                    <div class="logo-item">Warner Goodman</div>
+                    <div class="logo-item">Supreg</div>
+                    <div class="logo-item">Saint Paul</div>
+                    <div class="logo-item">Lumenis</div>
+                    <div class="logo-item">Ellisons</div>
+                    <div class="logo-item">Leeds Building</div>
+                    <div class="logo-item">Carolina West</div>
+                    <div class="logo-item">MPDMA</div>
+                    <div class="logo-item">Seddons</div>
+                    <div class="logo-item">Wintrust</div>
                     <!-- Duplicate for seamless loop -->
-                    <div class="logo-item">Microsoft</div>
-                    <div class="logo-item">Google</div>
-                    <div class="logo-item">Amazon</div>
-                    <div class="logo-item">Salesforce</div>
-                    <div class="logo-item">Adobe</div>
-                    <div class="logo-item">Oracle</div>
-                    <div class="logo-item">IBM</div>
-                    <div class="logo-item">Cisco</div>
+                    <div class="logo-item">Colt</div>
+                    <div class="logo-item">Tinkle</div>
+                    <div class="logo-item">Delphi</div>
+                    <div class="logo-item">ayf</div>
+                    <div class="logo-item">BluIP</div>
+                    <div class="logo-item">Berry</div>
+                    <div class="logo-item">Asphalt</div>
+                    <div class="logo-item">VWV</div>
+                    <div class="logo-item">Industrial Trades</div>
+                    <div class="logo-item">Cogress</div>
+                    <div class="logo-item">Marlin</div>
+                    <div class="logo-item">Ellacotts</div>
+                    <div class="logo-item">Warner Goodman</div>
+                    <div class="logo-item">Supreg</div>
+                    <div class="logo-item">Saint Paul</div>
+                    <div class="logo-item">Lumenis</div>
+                    <div class="logo-item">Ellisons</div>
+                    <div class="logo-item">Leeds Building</div>
+                    <div class="logo-item">Carolina West</div>
+                    <div class="logo-item">MPDMA</div>
+                    <div class="logo-item">Seddons</div>
+                    <div class="logo-item">Wintrust</div>
                 </div>
             </div>
         </div>
@@ -1917,8 +2095,6 @@
         </div>
     </section>
 
-
- 
     <!-- Industry Solutions Section -->
     <section id="industries" class="industry-section">
         <div class="container">
@@ -1982,6 +2158,7 @@
             </div>
         </div>
     </section>
+
    <!-- Personas Section -->
     <section id="personas" class="personas">
         <div class="container">
@@ -2049,20 +2226,91 @@
     <section id="testimonials" class="testimonials">
         <div class="container">
             <h2 class="section-title">What Our Customers Say</h2>
-            <div class="testimonial-grid">
-                <div class="testimonial-card">
-                    <p class="testimonial-text">"Meeting Insights allows me to share detailed meeting summaries and action items quickly. The repository helps me keep progress towards objectives on track."</p>
-                    <div class="testimonial-author">Paul Oaten, Marketing Director</div>
+            <div class="testimonials-carousel">
+                <button class="carousel-btn carousel-btn-prev" onclick="moveTestimonials(-1)">‹</button>
+                <div class="testimonials-track-container">
+                    <div class="testimonials-track" id="testimonialsTrack">
+                        <!-- Berry Global -->
+                        <div class="testimonial-slide">
+                            <div class="testimonial-avatar">
+                                <div class="avatar-circle">RK</div>
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Berry_Global_logo.svg" alt="Berry Global" class="company-logo-testimonial">
+                            </div>
+                            <p class="testimonial-text">"I highly recommend Meeting Insights for organizations seeking AI-generated meeting summaries. With its very user-friendly interface and searchable central repository of meeting content, Meeting Insights is helping us to transform meetings into valuable resources for organizational productivity and decision making."</p>
+                            <div class="testimonial-author">Robert Kuper</div>
+                            <div class="testimonial-title">Manager of Unified Communications, Berry Global</div>
+                        </div>
+                        
+                        <!-- Marlin -->
+                        <div class="testimonial-slide">
+                            <div class="testimonial-avatar">
+                                <div class="avatar-circle">PO</div>
+                                <span class="company-name-text">Marlin</span>
+                            </div>
+                            <p class="testimonial-text">"Meeting Insights allows me to share detailed meeting summaries, transcripts and action items quickly and easily with participants. The meeting repository allows me to revisit discussion points and actions from previous meetings quickly and easily which helps me to keep progress towards agreed objectives on track."</p>
+                            <div class="testimonial-author">Paul Oaten</div>
+                            <div class="testimonial-title">Marketing Director, Marlin</div>
+                        </div>
+                        
+                        <!-- Firefighters First Credit Union -->
+                        <div class="testimonial-slide">
+                            <div class="testimonial-avatar">
+                                <div class="avatar-circle">AT</div>
+                                <span class="company-name-text">Firefighters First CU</span>
+                            </div>
+                            <p class="testimonial-text">"Meeting Insights is an invaluable tool that has made our meetings more productive and efficient. The tool has freed our project managers from taking notes and tracking action items, allowing them to be more engaged with the participants. Meeting Insights takes Teams to the next level by automating the mundane tasks of facilitating meetings."</p>
+                            <div class="testimonial-author">Andy Tran</div>
+                            <div class="testimonial-title">VP of Technical Services, Firefighters First Credit Union</div>
+                        </div>
+                        
+                        <!-- Carolina West -->
+                        <div class="testimonial-slide">
+                            <div class="testimonial-avatar">
+                                <div class="avatar-circle">JO</div>
+                                <span class="company-name-text">Carolina West</span>
+                            </div>
+                            <p class="testimonial-text">"Meeting Insights has transformed our productivity with its AI-powered note-taking capabilities. It effortlessly captures key points, identifies key speakers, and summarizes action items. Meeting Insights has removed the burden from note-takers, making meetings more efficient and effective."</p>
+                            <div class="testimonial-author">Jude O'Sullivan</div>
+                            <div class="testimonial-title">Chief Customer Officer, Carolina West</div>
+                        </div>
+                        
+                        <!-- AHAVA -->
+                        <div class="testimonial-slide">
+                            <div class="testimonial-avatar">
+                                <div class="avatar-circle">AH</div>
+                                <span class="company-name-text">AHAVA</span>
+                            </div>
+                            <p class="testimonial-text">"MIA has been a game-changer for us. Before using it, we had no structured process for meeting summaries or action items. The AI-based summaries are incredibly helpful, and the meeting recordings are a valuable resource. Plus, we're excited about the future integration with Zoho Projects. MIA has made our meetings more efficient and organized."</p>
+                            <div class="testimonial-author">Asaf Hen</div>
+                            <div class="testimonial-title">CIO, AHAVA</div>
+                        </div>
+                        
+                        <!-- City of Saint Paul -->
+                        <div class="testimonial-slide">
+                            <div class="testimonial-avatar">
+                                <div class="avatar-circle">JW</div>
+                                <span class="company-name-text">City of Saint Paul</span>
+                            </div>
+                            <p class="testimonial-text">"Meeting Insights is transforming how we manage city meetings—from preparation to documentation and follow-up. What used to take days now happens in hours, with AI-generated summaries, action items, and secure access. It's not just a meeting tool—it's becoming a critical part of our city's operational workflow."</p>
+                            <div class="testimonial-author">Jaime Wascalus</div>
+                            <div class="testimonial-title">Director and CIO, City of Saint Paul</div>
+                        </div>
+                        
+                        <!-- Ramat-Gan Municipality -->
+                        <div class="testimonial-slide">
+                            <div class="testimonial-avatar">
+                                <div class="avatar-circle">KN</div>
+                                <span class="company-name-text">Ramat-Gan Municipality</span>
+                            </div>
+                            <p class="testimonial-text">"Meeting Insights helps us move faster by automatically creating meeting summaries and action items, keeping everyone aligned and accountable across all meetings."</p>
+                            <div class="testimonial-author">Kobi Noah</div>
+                            <div class="testimonial-title">CIO, Ramat-Gan Municipality</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="testimonial-card">
-                    <p class="testimonial-text">"Meeting Insights has transformed our productivity with AI-powered capabilities. It ensures those who missed meetings can stay informed."</p>
-                    <div class="testimonial-author">Jude O'Sullivan, Chief Customer Officer</div>
-                </div>
-                <div class="testimonial-card">
-                    <p class="testimonial-text">"What used to take days now happens in hours, with AI-generated summaries, action items, and secure access."</p>
-                    <div class="testimonial-author">Jaime Wascalus, CIO, City of Saint Paul</div>
-                </div>
+                <button class="carousel-btn carousel-btn-next" onclick="moveTestimonials(1)">›</button>
             </div>
+            <div class="testimonial-dots" id="testimonialDots"></div>
         </div>
     </section>
 
@@ -2373,6 +2621,49 @@
                 }
             });
         });
+        
+        // Testimonials Carousel
+        let currentTestimonial = 0;
+        const testimonials = document.querySelectorAll('.testimonial-slide');
+        const totalTestimonials = testimonials.length;
+        const track = document.getElementById('testimonialsTrack');
+        const dotsContainer = document.getElementById('testimonialDots');
+        
+        // Create dots
+        for (let i = 0; i < totalTestimonials; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'testimonial-dot';
+            if (i === 0) dot.classList.add('active');
+            dot.onclick = () => goToTestimonial(i);
+            dotsContainer.appendChild(dot);
+        }
+        
+        function updateTestimonialPosition() {
+            track.style.transform = `translateX(-${currentTestimonial * (100 + (30 / window.innerWidth * 100))}%)`;
+            
+            // Update dots
+            const dots = document.querySelectorAll('.testimonial-dot');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentTestimonial);
+            });
+        }
+        
+        function moveTestimonials(direction) {
+            currentTestimonial += direction;
+            if (currentTestimonial < 0) currentTestimonial = totalTestimonials - 1;
+            if (currentTestimonial >= totalTestimonials) currentTestimonial = 0;
+            updateTestimonialPosition();
+        }
+        
+        function goToTestimonial(index) {
+            currentTestimonial = index;
+            updateTestimonialPosition();
+        }
+        
+        // Auto-rotate testimonials
+        setInterval(() => {
+            moveTestimonials(1);
+        }, 6000);
     </script>
 </body>
 </html>
