@@ -1,0 +1,3185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting Insights - Section Editor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f9fa;
+            height: 100vh;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        body.presentation-mode {
+            background: white;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        
+        .app-container {
+            display: flex;
+            height: 100vh;
+        }
+
+        .app-container.presentation-mode {
+            display: block;
+            height: auto;
+        }
+
+        .presentation-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            background: #1e3a5f;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(30, 58, 95, 0.3);
+            transition: all 0.3s;
+        }
+
+        .presentation-toggle:hover {
+            background: #2c5282;
+            transform: translateY(-1px);
+        }
+
+        .presentation-toggle.edit-mode {
+            background: #00bcd4;
+        }
+
+        .presentation-toggle.edit-mode:hover {
+            background: #00acc1;
+        }
+
+        .edit-section-overlay {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(30, 58, 95, 0.9);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .preview-section:hover .edit-section-overlay {
+            opacity: 1;
+        }
+
+        .edit-section-overlay:hover {
+            background: rgba(0, 188, 212, 0.9);
+        }
+
+        #webpageContainer .preview-section {
+            position: relative;
+        }
+        
+        .editor-panel {
+            width: 50%;
+            background: white;
+            border-right: 1px solid #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+
+        .editor-panel.hidden {
+            width: 0;
+            overflow: hidden;
+        }
+        
+        .preview-panel {
+            width: 50%;
+            background: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+
+        .preview-panel.full-width {
+            width: 100%;
+            background: white;
+        }
+
+        .preview-panel.full-width .panel-header {
+            display: none;
+        }
+
+        .preview-panel.full-width .preview-container {
+            padding: 0;
+            background: white;
+        }
+
+        .preview-panel.full-width .preview-frame {
+            border: none;
+        }
+        
+        .panel-header {
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            background: white;
+        }
+        
+        .panel-header h2 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .template-selector {
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .template-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .template-btn {
+            padding: 10px 15px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        
+        .template-btn:hover {
+            border-color: #23b0e1;
+        }
+        
+        .template-btn.active {
+            border-color: #23b0e1;
+            background: #23b0e1;
+            color: white;
+        }
+        
+        .sections-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .section-item {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        
+        .section-item:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .section-header {
+            padding: 15px;
+            background: #f8f9fa;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .section-controls {
+            display: flex;
+            gap: 5px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .section-item:hover .section-controls {
+            opacity: 1;
+        }
+
+        .section-control-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+
+        .section-control-btn:hover {
+            background: #495057;
+        }
+
+        .section-control-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .section-control-btn.up-btn:hover {
+            background: #28a745;
+        }
+
+        .section-control-btn.down-btn:hover {
+            background: #ffc107;
+        }
+        
+        .section-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-type {
+            background: #23b0e1;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .section-title {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .section-content {
+            padding: 20px;
+            display: none;
+        }
+        
+        .section-content.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        
+        .form-textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            min-height: 80px;
+            resize: vertical;
+        }
+        
+        .array-item {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .array-item-header {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .preview-container {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: white;
+        }
+        
+        .preview-frame {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+            overflow: hidden;
+        }
+        
+        .preview-section {
+            border: 2px dashed transparent;
+            transition: border-color 0.3s;
+        }
+        
+        .preview-section.editing {
+            border-color: #23b0e1;
+            background: rgba(35, 176, 225, 0.05);
+        }
+
+        /* Preview Styles */
+        .navigation-section {
+            background: white;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #e0e0e0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navigation-section .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1e3a5f;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-links li {
+            color: #6c757d;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .nav-links li:hover {
+            color: #00bcd4;
+        }
+
+        .nav-cta {
+            background: #00bcd4;
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .nav-cta:hover {
+            background: #00acc1;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%);
+            color: white;
+            padding: 80px 40px;
+            text-align: center;
+        }
+
+        .hero-section h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero-section p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #00bcd4;
+            color: white;
+            border: none;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .features-section {
+            padding: 80px 40px;
+            background: #f8f9fa;
+        }
+
+        .features-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #1e3a5f;
+            margin-bottom: 3rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            color: #1e3a5f;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .value-props-section {
+            padding: 80px 40px;
+            background: white;
+        }
+
+        .value-props-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #1e3a5f;
+            margin-bottom: 1rem;
+        }
+
+        .value-props-section .subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #6c757d;
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .value-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .value-card {
+            background: white;
+            border-left: 4px solid #00bcd4;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .value-card-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .value-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .value-card h3 {
+            color: #1e3a5f;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .value-card .card-subtitle {
+            color: #6c757d;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .benefit-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .benefit-list li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: 8px;
+        }
+
+        .benefit-list li::before {
+            content: "✓";
+            background: #00bcd4;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        .platforms-section {
+            padding: 80px 40px;
+            background: #f0f8ff;
+        }
+
+        .video-section {
+            padding: 80px 40px;
+            background: #f8f9fa;
+            text-align: center;
+        }
+
+        .video-section h2 {
+            font-size: 2.5rem;
+            color: #1e3a5f;
+            margin-bottom: 1rem;
+        }
+
+        .video-section .description {
+            font-size: 1.1rem;
+            color: #6c757d;
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .video-container {
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .video-placeholder {
+            background: #1e3a5f;
+            height: 400px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 4rem;
+            cursor: pointer;
+            transition: background 0.3s;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+        }
+
+        .video-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(30, 58, 95, 0.7);
+            transition: background 0.3s;
+        }
+
+        .video-play-button {
+            position: relative;
+            z-index: 2;
+            width: 80px;
+            height: 80px;
+            background: rgba(0, 188, 212, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(0, 188, 212, 0.4);
+        }
+
+        .video-placeholder:hover .video-play-button {
+            background: #00bcd4;
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(0, 188, 212, 0.6);
+        }
+
+        .customer-logos-section {
+            padding: 60px 40px;
+            background: white;
+            text-align: center;
+        }
+
+        .customer-logos-section h2 {
+            font-size: 2.5rem;
+            color: #1e3a5f;
+            margin-bottom: 2rem;
+        }
+
+        .logos-carousel {
+            overflow: hidden;
+            margin-top: 2rem;
+        }
+
+        .logos-track {
+            display: flex;
+            align-items: center;
+            animation: scroll 30s linear infinite;
+            gap: 4rem;
+        }
+
+        .logo-item {
+            flex: 0 0 auto;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.6;
+            transition: opacity 0.3s;
+            background: #f8f9fa;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            min-width: 150px;
+            font-weight: 600;
+            color: #6c757d;
+        }
+
+        .logo-item:hover {
+            opacity: 1;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .logos-track:hover {
+            animation-play-state: paused;
+        }
+
+        .awards-section {
+            padding: 60px 40px;
+            background: #1e3a5f;
+            color: white;
+            text-align: center;
+        }
+
+        .awards-section h2 {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 2rem;
+        }
+
+        .awards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .award-item {
+            padding: 1.5rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            transition: background 0.3s;
+        }
+
+        .award-item:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .award-item .award-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .award-item h3 {
+            color: white;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .award-item p {
+            color: rgba(255,255,255,0.9);
+            font-size: 0.9rem;
+        }
+
+        .industry-solutions-section {
+            padding: 80px 40px;
+            background: white;
+        }
+
+        .industry-solutions-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #1e3a5f;
+            margin-bottom: 3rem;
+        }
+
+        .industry-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .industry-card {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+            border-left: 4px solid transparent;
+        }
+
+        .industry-card:hover {
+            background: white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transform: translateY(-3px);
+            border-left-color: #00bcd4;
+        }
+
+        .industry-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #1e3a5f, #2c5282);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .industry-card:hover .industry-icon {
+            background: linear-gradient(135deg, #00bcd4, #00acc1);
+            transform: scale(1.1);
+        }
+
+        .industry-card h3 {
+            color: #1e3a5f;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .industry-card p {
+            color: #6c757d;
+            line-height: 1.5;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .industry-learn-more {
+            background: #00bcd4;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            border: 2px solid #00bcd4;
+            transition: all 0.3s;
+        }
+
+        .industry-learn-more:hover {
+            background: white;
+            color: #00bcd4;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,188,212,0.2);
+        }
+
+        .personas-section {
+            padding: 80px 40px;
+            background: #f8f9fa;
+        }
+
+        .personas-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #1e3a5f;
+            margin-bottom: 3rem;
+        }
+
+        .personas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .persona-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            cursor: pointer;
+            height: 300px;
+            position: relative;
+            perspective: 1000px;
+        }
+
+        .persona-card:hover {
+            transform: scale(1.05);
+        }
+
+        .persona-front, .persona-back {
+            padding: 2rem;
+            text-align: center;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: absolute;
+            width: 100%;
+            transition: transform 0.6s;
+            backface-visibility: hidden;
+        }
+
+        .persona-back {
+            background: #1e3a5f;
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        .persona-card:hover .persona-front {
+            transform: rotateY(180deg);
+        }
+
+        .persona-card:hover .persona-back {
+            transform: rotateY(0deg);
+        }
+
+        .persona-icon {
+            width: 80px;
+            height: 80px;
+            background: #00bcd4;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .persona-front h3 {
+            color: #1e3a5f;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .persona-back h3 {
+            color: white;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .persona-back p {
+            line-height: 1.5;
+            font-size: 0.9rem;
+        }
+
+        .testimonials-section {
+            padding: 80px 40px;
+            background: #f0f8ff;
+            overflow: hidden;
+        }
+
+        .testimonials-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #1e3a5f;
+            margin-bottom: 3rem;
+        }
+
+        .testimonials-carousel {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonials-track-container {
+            overflow: hidden;
+            margin: 0 60px;
+        }
+
+        .testimonials-track {
+            display: flex;
+            transition: transform 0.5s ease;
+            gap: 30px;
+        }
+
+        .testimonial-slide {
+            flex: 0 0 100%;
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            position: relative;
+        }
+
+        .testimonial-avatar {
+            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .avatar-circle {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #00bcd4, #00acc1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.5rem;
+            box-shadow: 0 8px 25px rgba(0,188,212,0.3);
+        }
+
+        .company-logo-testimonial {
+            height: 30px;
+            object-fit: contain;
+            opacity: 0.7;
+        }
+
+        .company-name-text {
+            font-size: 0.9rem;
+            color: #6c757d;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .testimonial-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #343a40;
+            font-style: italic;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+        }
+
+        .testimonial-text::before {
+            content: '"';
+            position: absolute;
+            left: -20px;
+            top: -10px;
+            font-size: 4rem;
+            color: #00bcd4;
+            opacity: 0.3;
+        }
+
+        .testimonial-author {
+            font-weight: bold;
+            color: #1e3a5f;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .testimonial-title {
+            color: #6c757d;
+            font-size: 0.95rem;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            border: 2px solid #00bcd4;
+            color: #00bcd4;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-btn:hover {
+            background: #00bcd4;
+            color: white;
+        }
+
+        .carousel-btn-prev {
+            left: 0;
+        }
+
+        .carousel-btn-next {
+            right: 0;
+        }
+
+        .testimonial-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 2rem;
+        }
+
+        .testimonial-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #dee2e6;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .testimonial-dot.active {
+            background: #00bcd4;
+            transform: scale(1.3);
+        }
+
+        .security-section {
+            padding: 80px 40px;
+            background: #f8f9fa;
+        }
+
+        .security-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #1e3a5f;
+            margin-bottom: 1rem;
+        }
+
+        .security-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #6c757d;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .security-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .security-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            cursor: pointer;
+            height: 320px;
+            position: relative;
+            perspective: 1000px;
+        }
+
+        .security-card:hover {
+            transform: scale(1.02);
+        }
+
+        .security-front, .security-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            transition: transform 0.6s;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .security-back {
+            background: #00bcd4;
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        .security-card:hover .security-front {
+            transform: rotateY(180deg);
+        }
+
+        .security-card:hover .security-back {
+            transform: rotateY(0deg);
+        }
+
+        .security-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #00bcd4, #00acc1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2.5rem;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0,188,212,0.3);
+        }
+
+        .security-front h3 {
+            color: #1e3a5f;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .security-front .security-subtitle-card {
+            color: #6c757d;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .security-back h3 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .security-back p {
+            line-height: 1.5;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .security-badge {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .business-integrations-section {
+            padding: 80px 40px;
+            background: white;
+        }
+
+        .business-integrations-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #1e3a5f;
+            margin-bottom: 1rem;
+        }
+
+        .integrations-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #6c757d;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .integrations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .integration-card {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+            border-left: 4px solid transparent;
+            text-align: center;
+        }
+
+        .integration-card:hover {
+            background: white;
+            transform: translateY(-5px);
+            border-left-color: #00bcd4;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .integration-logo {
+            width: 80px;
+            height: 60px;
+            margin: 0 auto 1.5rem;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: bold;
+            color: white;
+            transition: all 0.3s;
+            background: linear-gradient(135deg, #1e3a5f, #2c5282);
+        }
+
+        .integration-logo img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+            transition: all 0.3s;
+        }
+
+        .integration-card:hover .integration-logo {
+            background: linear-gradient(135deg, #00bcd4, #00acc1);
+            transform: scale(1.1);
+        }
+
+        .integration-card:hover .integration-logo img {
+            transform: scale(1.1);
+        }
+
+        .integration-card h3 {
+            color: #1e3a5f;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .integration-card p {
+            color: #6c757d;
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+
+        .resources-section {
+            padding: 80px 40px;
+            background: #f8f9fa;
+        }
+
+        .resources-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #1e3a5f;
+            margin-bottom: 3rem;
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .resource-card {
+            background: white;
+            border: 2px solid #dee2e6;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .resource-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #00bcd4;
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .resource-card:hover {
+            border-color: #00bcd4;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,188,212,0.15);
+        }
+
+        .resource-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .resource-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #00bcd4, #00acc1);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2.5rem;
+            color: white;
+            transition: all 0.3s;
+            box-shadow: 0 8px 25px rgba(0,188,212,0.2);
+        }
+
+        .resource-card:hover .resource-icon {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(0,188,212,0.3);
+        }
+
+        .resource-badge {
+            background: #f0f8ff;
+            color: #1e3a5f;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .resource-card h3 {
+            color: #1e3a5f;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            line-height: 1.3;
+        }
+
+        .resource-card p {
+            color: #6c757d;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .resource-cta {
+            background: #00bcd4;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+
+        .resource-cta:hover {
+            background: #00acc1;
+            transform: translateY(-1px);
+        }
+
+        .pricing-section {
+            padding: 80px 40px;
+            background: #f8f9fa;
+        }
+
+        .pricing-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #1e3a5f;
+            margin-bottom: 3rem;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .pricing-card {
+            background: white;
+            padding: 2rem 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+            transition: transform 0.3s;
+            border: 1px solid #dee2e6;
+            height: fit-content;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .pricing-card.featured {
+            border: 3px solid #00bcd4;
+            transform: scale(1.02);
+        }
+
+        .pricing-card.featured::before {
+            content: "Most Popular";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #00bcd4;
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .pricing-tier {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #1e3a5f;
+            margin-bottom: 0.8rem;
+        }
+
+        .pricing-price {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #1e3a5f;
+            margin-bottom: 0.3rem;
+        }
+
+        .pricing-period {
+            color: #6c757d;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .pricing-features li {
+            margin-bottom: 0.6rem;
+            padding-left: 1.2rem;
+            position: relative;
+            font-size: 0.85rem;
+            line-height: 1.3;
+        }
+
+        .pricing-features li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #00bcd4;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        .pricing-cta {
+            width: 100%;
+            padding: 0.8rem;
+            background: #1e3a5f;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.3s;
+        }
+
+        .pricing-cta:hover {
+            background: #2c5282;
+        }
+
+        .pricing-card.featured .pricing-cta {
+            background: #00bcd4;
+        }
+
+        .pricing-card.featured .pricing-cta:hover {
+            background: #00acc1;
+        }
+
+        .final-cta-section {
+            padding: 80px 40px;
+            background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .final-cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .final-cta-section p {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .pricing-card.featured {
+                transform: none;
+            }
+        }
+
+        .platforms-section {
+            padding: 80px 40px;
+            background: #f0f8ff;
+        }
+
+        .platforms-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #1e3a5f;
+            margin-bottom: 1rem;
+        }
+
+        .platforms-section .subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #6c757d;
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .platforms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .platform-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .platform-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .platform-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .platform-card h3 {
+            color: #1e3a5f;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .platform-status {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-available {
+            background: #28a745;
+            color: white;
+        }
+
+        .status-coming-soon {
+            background: #ffc107;
+            color: #212529;
+        }
+    </style>
+</head>
+<body>
+    <button class="presentation-toggle" id="presentationToggle" onclick="togglePresentationMode()">
+        Hide Editor
+    </button>
+    
+    <div class="app-container" id="appContainer">
+        
+        <div class="editor-panel" id="editorPanel">
+            <div class="panel-header">
+                <h2>Content Editor</h2>
+                <p>Edit sections and see live preview</p>
+            </div>
+            
+            <div class="template-selector">
+                <div class="template-buttons">
+                    <button class="template-btn active" onclick="switchTemplate('landing')">Landing Page</button>
+                    <button class="template-btn" onclick="loadSavedPages()" style="background: #17a2b8; color: white; border-color: #17a2b8;">Version History</button>
+                    <button class="template-btn" onclick="saveChanges()" style="background: #28a745; color: white; border-color: #28a745;">Save to DB</button>
+                </div>
+                
+                <!-- Load Pages Modal -->
+                <div id="loadModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center;">
+                    <div style="background: white; border-radius: 12px; padding: 30px; max-width: 600px; width: 90%; max-height: 70vh; overflow-y: auto;">
+                        <h3 style="margin-bottom: 20px;">Load Saved Page</h3>
+                        <div id="savedPagesList"></div>
+                        <div style="margin-top: 20px; text-align: right;">
+                            <button onclick="closeLoadModal()" style="background: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer;">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sections-container" id="sectionsContainer">
+                <!-- Sections will be loaded here -->
+            </div>
+        </div>
+        
+        <div class="preview-panel">
+            <div class="panel-header">
+                <h2>Live Preview</h2>
+                <p>See your changes in real-time</p>
+            </div>
+            
+            <div class="preview-container">
+                <div class="preview-frame" id="previewFrame">
+                    <!-- Preview content will be rendered here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.js"></script>
+    <script>
+        // Supabase configuration
+        const SUPABASE_URL = 'https://wnhmtngdmhhwvwrrdtxf.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InduaG10bmdkbWhod3Z3cnJkdHhmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYxOTU4NzMsImV4cCI6MjA3MTc3MTg3M30.ye-BUdMdnUXRm44w9FguExJ3jebEhDKh1GPecQQ17G8';
+        
+        const { createClient } = supabase;
+        const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Template versioning system
+        const TEMPLATE_VERSION = '2.0.0'; // Updated with all sections
+        const VERSION_KEY = 'meeting_insights_template_version';
+
+        // Extended template data with new sections
+        const templates = {
+            landing: {
+                name: 'Landing Page',
+                version: TEMPLATE_VERSION,
+                sections: [
+                    {
+                        id: 'navigation',
+                        type: 'Navigation',
+                        fields: {
+                            logo_text: 'Meeting Insights',
+                            nav_links: ['Features', 'Benefits', 'Security', 'Industries', 'Pricing'],
+                            cta_text: 'Contact Us'
+                        }
+                    },
+                    {
+                        id: 'hero',
+                        type: 'Hero Section',
+                        fields: {
+                            title: 'The #1 Meeting Intelligence Platform for Organizations',
+                            subtitle: 'Turn every meeting into strategic business intelligence with enterprise-grade AI that scales across your entire organization.',
+                            cta_primary: 'Get Started',
+                            cta_secondary: 'Learn More',
+                            hero_image: 'https://res.cloudinary.com/dukf4ckq1/image/upload/c_scale,w_400,f_auto,q_auto/v1753865912/MeetingInsights/Meeting-Insights-Municipalites-Header-New-2_zzp1kk.webp'
+                        }
+                    },
+                    {
+                        id: 'features',
+                        type: 'Feature Grid',
+                        fields: {
+                            section_title: 'Meeting Insights Capabilities',
+                            features: [
+                                {
+                                    icon: '⚡',
+                                    title: 'Real-Time Meeting Intelligence',
+                                    description: 'Captures and processes meeting content instantly, delivering accurate transcription and immediate insights while discussions happen.'
+                                },
+                                {
+                                    icon: '🧠',
+                                    title: 'AI-Powered Strategic Insights',
+                                    description: 'Transforms conversations into tailored summaries, key decisions, and actionable intelligence that accelerates business outcomes.'
+                                },
+                                {
+                                    icon: '🔒',
+                                    title: 'Enterprise-Ready Security',
+                                    description: 'Built with enterprise-grade security, ensuring your sensitive meeting data stays protected and compliant with industry regulations.'
+                                },
+                                {
+                                    icon: '📋',
+                                    title: 'Strategic Knowledge Base',
+                                    description: 'Transforms every meeting into a searchable organizational intelligence repository that empowers data-driven decision making.'
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        id: 'value_props',
+                        type: 'Value Propositions',
+                        fields: {
+                            section_title: 'Transformative Benefits for Every Level',
+                            subtitle: 'Meeting Insights delivers measurable value across your entire organization, from individual contributors to executive leadership.',
+                            audiences: [
+                                {
+                                    icon: '👤',
+                                    title: 'For Meeting Attendees',
+                                    subtitle: 'Individual Empowerment',
+                                    benefits: [
+                                        'Reclaim your mental focus - be fully present',
+                                        'Never fall behind on critical decisions',
+                                        'Come prepared with intelligent context',
+                                        'Own your accountability with clear action items'
+                                    ]
+                                },
+                                {
+                                    icon: '🎯',
+                                    title: 'For Business Leaders',
+                                    subtitle: 'Strategic Advantage',
+                                    benefits: [
+                                        'See the big picture with strategic intelligence',
+                                        'Accelerate decision velocity across departments',
+                                        'Build a culture of accountability',
+                                        'Turn meetings into strategic assets'
+                                    ]
+                                },
+                                {
+                                    icon: '🛡️',
+                                    title: 'For CIO and CISO',
+                                    subtitle: 'Secure Innovation',
+                                    benefits: [
+                                        'Enable AI innovation responsibly',
+                                        'Unlock competitive advantage securely',
+                                        'Maintain complete control & governance',
+                                        'Future-proof with universal platform support'
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        id: 'video',
+                        type: 'Video Section',
+                        fields: {
+                            section_title: 'Introducing Meeting Insights',
+                            description: 'Discover how Meeting Insights revolutionizes the way organizations capture, analyze, and act on meeting intelligence.',
+                            video_url: 'https://www.youtube.com/embed/paP1j3NQE9Q',
+                            video_thumbnail: 'https://img.youtube.com/vi/paP1j3NQE9Q/maxresdefault.jpg',
+                            cta_text: 'Get Started'
+                        }
+                    },
+                    {
+                        id: 'customer_logos',
+                        type: 'Customer Logos',
+                        fields: {
+                            section_title: 'Trusted by Leading Organizations',
+                            logos: [
+                                'Colt', 'Tinkle', 'Delphi', 'ayf', 'BluIP', 'Berry', 'Asphalt', 'VWV', 
+                                'Industrial Trades', 'Cogress', 'Marlin', 'Ellacotts', 'Warner Goodman', 
+                                'Supreg', 'Saint Paul', 'Lumenis', 'Ellisons', 'Leeds Building', 
+                                'Carolina West', 'MPDMA', 'Seddons', 'Wintrust'
+                            ]
+                        }
+                    },
+                    {
+                        id: 'awards',
+                        type: 'Awards Section',
+                        fields: {
+                            section_title: 'Industry Recognition',
+                            awards: [
+                                {
+                                    icon: '🏆',
+                                    title: 'UC Today',
+                                    description: '"Best Use of AI" Award'
+                                },
+                                {
+                                    icon: '📊',
+                                    title: 'Frost & Sullivan',
+                                    description: 'Market Recognition Report'
+                                },
+                                {
+                                    icon: '🎤',
+                                    title: 'AudioCodes',
+                                    description: 'Enterprise Voice Expertise'
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        id: 'industry_solutions',
+                        type: 'Industry Solutions',
+                        fields: {
+                            section_title: 'Industry Solutions',
+                            industries: [
+                                {
+                                    icon: '⚖️',
+                                    title: 'Legal',
+                                    description: 'Maintain attorney-client privilege with secure case discussions, deposition summaries, and confidential client meeting intelligence.',
+                                    cta_url: '#'
+                                },
+                                {
+                                    icon: '🏛️',
+                                    title: 'Government & Municipalities',
+                                    description: 'Enhance public sector efficiency with transparent meeting records, policy discussion tracking, and citizen engagement insights.',
+                                    cta_url: 'https://online.audiocodes.com/lp/mi-paid_usa_local-governments-meeting-insights-book-call-gen2'
+                                },
+                                {
+                                    icon: '🎓',
+                                    title: 'Higher Education',
+                                    description: 'Transform academic collaboration with faculty meeting insights, research discussion summaries, and administrative efficiency.',
+                                    cta_url: '#'
+                                },
+                                {
+                                    icon: '🏦',
+                                    title: 'Banking & Financial Services',
+                                    description: 'Meet compliance requirements with secure financial discussions, risk assessment meetings, and regulatory-ready documentation.',
+                                    cta_url: '#'
+                                },
+                                {
+                                    icon: '🛡️',
+                                    title: 'Insurance',
+                                    description: 'Streamline claims processing with detailed meeting records, risk assessment discussions, and customer interaction insights.',
+                                    cta_url: '#'
+                                },
+                                {
+                                    icon: '🚛',
+                                    title: 'Transportation & Logistics',
+                                    description: 'Optimize operations with safety meeting records, logistics planning insights, and supply chain coordination intelligence.',
+                                    cta_url: '#'
+                                },
+                                {
+                                    icon: '📡',
+                                    title: 'Telecommunications',
+                                    description: 'Enhance customer relationships with service discussion tracking, partner meeting insights, and technical consultation records.',
+                                    cta_url: '#'
+                                },
+                                {
+                                    icon: '💻',
+                                    title: 'Independent Software Vendors',
+                                    description: 'Accelerate product development with customer feedback insights, feature discussion tracking, and development meeting intelligence.',
+                                    cta_url: '#'
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        id: 'personas',
+                        type: 'User Personas',
+                        fields: {
+                            section_title: 'Who Is It For?',
+                            personas: [
+                                {
+                                    icon: '👥',
+                                    title: 'HR Leaders',
+                                    description: 'Transform talent acquisition with searchable interview intelligence. Turn company meetings into engagement opportunities, building the culture you\'ve always envisioned.'
+                                },
+                                {
+                                    icon: '🎯',
+                                    title: 'C-Suite',
+                                    description: 'Command your organization with unprecedented clarity. Get strategic intelligence to spot opportunities and ensure your vision translates into coordinated action.'
+                                },
+                                {
+                                    icon: '💼',
+                                    title: 'Sales Teams',
+                                    description: 'Never lose a deal to poor follow-up. Build a repository of customer intelligence that drives consistent revenue growth and relationship depth.'
+                                },
+                                {
+                                    icon: '⚖️',
+                                    title: 'Legal Teams',
+                                    description: 'Maintain ironclad confidentiality while building searchable case knowledge that helps spot patterns and risks before they become problems.'
+                                },
+                                {
+                                    icon: '🔧',
+                                    title: 'IT Admins',
+                                    description: 'Lead AI transformation with confidence. Enable productivity gains while maintaining complete control over data sovereignty and compliance.'
+                                },
+                                {
+                                    icon: '🎨',
+                                    title: 'Product Teams',
+                                    description: 'Build products customers actually want. Create a living repository of product intelligence that guides roadmap decisions and validates opportunities.'
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        id: 'testimonials',
+                        type: 'Testimonials Carousel',
+                        fields: {
+                            section_title: 'What Our Customers Say',
+                            testimonials: [
+                                {
+                                    name: 'Robert Kuper',
+                                    title: 'Manager of Unified Communications, Berry Global',
+                                    company: 'Berry Global',
+                                    company_logo: 'https://upload.wikimedia.org/wikipedia/commons/0/0c/Berry_Global_logo.svg',
+                                    initials: 'RK',
+                                    quote: 'I highly recommend Meeting Insights for organizations seeking AI-generated meeting summaries. With its very user-friendly interface and searchable central repository of meeting content, Meeting Insights is helping us to transform meetings into valuable resources for organizational productivity and decision making.'
+                                },
+                                {
+                                    name: 'Paul Oaten',
+                                    title: 'Marketing Director, Marlin',
+                                    company: 'Marlin',
+                                    company_logo: '',
+                                    initials: 'PO',
+                                    quote: 'Meeting Insights allows me to share detailed meeting summaries, transcripts and action items quickly and easily with participants. The meeting repository allows me to revisit discussion points and actions from previous meetings quickly and easily which helps me to keep progress towards agreed objectives on track.'
+                                },
+                                {
+                                    name: 'Andy Tran',
+                                    title: 'VP of Technical Services, Firefighters First Credit Union',
+                                    company: 'Firefighters First CU',
+                                    company_logo: '',
+                                    initials: 'AT',
+                                    quote: 'Meeting Insights is an invaluable tool that has made our meetings more productive and efficient. The tool has freed our project managers from taking notes and tracking action items, allowing them to be more engaged with the participants. Meeting Insights takes Teams to the next level by automating the mundane tasks of facilitating meetings.'
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        id: 'security',
+                        type: 'Security Section',
+                        fields: {
+                            section_title: 'Enterprise-Grade Security That Actually Protects You',
+                            subtitle: 'We don\'t just check compliance boxes – we build security that keeps your most sensitive conversations safe from unauthorized access, forever.',
+                            security_features: [
+                                {
+                                    icon: '🔐',
+                                    title: 'Your Data Stays Yours',
+                                    subtitle_card: 'Complete data isolation & encryption',
+                                    description: 'Complete data isolation means your meeting content never mixes with other organizations. We treat your data like it\'s locked in your own private vault.',
+                                    badge: '256-bit AES Encryption'
+                                },
+                                {
+                                    icon: '🌍',
+                                    title: 'You Choose Where Data Lives',
+                                    subtitle_card: 'Global data localization options',
+                                    description: 'Pick exactly where your meeting data is stored and processed – Europe, North America, Asia Pacific. Your data sovereignty, your choice.',
+                                    badge: 'Global Data Localization'
+                                },
+                                {
+                                    icon: '🚫',
+                                    title: 'No Calendar Snooping',
+                                    subtitle_card: 'Privacy by design principles',
+                                    description: 'Unlike other tools, we only know about meetings you explicitly invite us to. We never access your calendar or email without permission.',
+                                    badge: 'Privacy by Design'
+                                },
+                                {
+                                    icon: '👤',
+                                    title: 'You Control Who Sees What',
+                                    subtitle_card: 'Role-based access controls',
+                                    description: 'Role-based access means only the right people see the right meetings. Your HR discussions stay with HR, C-suite meetings stay confidential.',
+                                    badge: 'RBAC Controls'
+                                },
+                                {
+                                    icon: '🏢',
+                                    title: 'Bring Your Own Storage',
+                                    subtitle_card: 'Ultimate data control',
+                                    description: 'Want ultimate control? Store all meeting data in your own infrastructure while still getting our AI insights. Your house, your rules.',
+                                    badge: 'BYOS Option'
+                                },
+                                {
+                                    icon: '📋',
+                                    title: 'Audit Trail Everything',
+                                    subtitle_card: 'Complete transparency & logging',
+                                    description: 'Complete transparency on who accessed what meeting content and when. Perfect for compliance teams and peace of mind.',
+                                    badge: 'Full Audit Logs'
+                                },
+                                {
+                                    icon: '⚖️',
+                                    title: 'Global Privacy Law Compliance',
+                                    subtitle_card: 'GDPR, CCPA, CPRA ready',
+                                    description: 'Built to meet GDPR, CCPA, and CPRA requirements out of the box. Automatic data retention policies, right to be forgotten, and consent management that actually works.',
+                                    badge: 'GDPR • CCPA • CPRA'
+                                },
+                                {
+                                    icon: '🏆',
+                                    title: 'Enterprise Certifications',
+                                    subtitle_card: 'SOC 2, ISO certified',
+                                    description: 'SOC 2 Type II, ISO 27001, and ISO 27032 certified. Built with OWASP security standards. We don\'t just claim to be secure – we prove it.',
+                                    badge: 'SOC 2 • ISO Certified'
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        id: 'business_integrations',
+                        type: 'Business Integrations',
+                        fields: {
+                            section_title: 'Power Your Business Systems with Meeting Intelligence',
+                            subtitle: 'Automatically sync meeting intelligence to the business applications that drive your organization forward.',
+                            integrations: [
+                                {
+                                    title: 'Salesforce',
+                                    description: 'Automatically log meeting transcripts, customer insights, and follow-up actions directly to your CRM records.',
+                                    logo_url: 'https://upload.wikimedia.org/wikipedia/commons/f/f9/Salesforce.com_logo.svg',
+                                    logo_text: 'SF'
+                                },
+                                {
+                                    title: 'HubSpot',
+                                    description: 'Sync meeting data and customer interactions to build comprehensive relationship histories in your CRM.',
+                                    logo_url: 'https://upload.wikimedia.org/wikipedia/commons/3/3f/HubSpot_Logo.svg',
+                                    logo_text: 'HS'
+                                },
+                                {
+                                    title: 'Microsoft Dynamics',
+                                    description: 'Enhance customer insights and streamline sales processes with automatic meeting data synchronization.',
+                                    logo_url: '',
+                                    logo_text: 'D365'
+                                },
+                                {
+                                    title: 'Zoho',
+                                    description: 'Integrate seamlessly with your Zoho workspace to centralize meeting intelligence across business applications.',
+                                    logo_url: '',
+                                    logo_text: 'Zoho'
+                                },
+                                {
+                                    title: 'Monday.com',
+                                    description: 'Transform meeting discussions into actionable tasks and project updates with automatic synchronization.',
+                                    logo_url: '',
+                                    logo_text: 'Mon'
+                                },
+                                {
+                                    title: 'Microsoft Planner',
+                                    description: 'Convert meeting action items into organized tasks and project plans within your Microsoft 365 environment.',
+                                    logo_url: '',
+                                    logo_text: 'Plan'
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        id: 'resources',
+                        type: 'Resources Section',
+                        fields: {
+                            section_title: 'Essential Resources for Business and Tech Leaders',
+                            resources: [
+                                {
+                                    icon: '📋',
+                                    title: '12 Must-Have Requirements for AI Meeting Intelligence',
+                                    description: 'A comprehensive checklist to evaluate and select the right meeting intelligence solution for your enterprise. Don\'t make a decision without this guide.',
+                                    badge: 'Requirements Guide',
+                                    cta_text: 'Download Free Guide',
+                                    cta_url: 'https://online.audiocodes.com/12-must-have-requirements-for-choosing-ai-meeting-intelligence?hs_preview=LRvkDWSk-191748739252'
+                                },
+                                {
+                                    icon: '📚',
+                                    title: 'Executive Guide to Organizational Meeting Intelligence',
+                                    description: 'Strategic insights for C-suite leaders on transforming meetings into competitive advantages. Learn ROI calculations and implementation strategies.',
+                                    badge: 'Executive Guide',
+                                    cta_text: 'Get Executive Guide',
+                                    cta_url: 'https://online.audiocodes.com/executive-guide-unlocking-organizational-meeting-intelligence'
+                                },
+                                {
+                                    icon: '🎯',
+                                    title: 'How to Implement Meeting Intelligence the Right Way',
+                                    description: 'Independent analysis from Frost & Sullivan on best practices, common pitfalls, and proven strategies for successful enterprise deployment.',
+                                    badge: 'Frost & Sullivan Report',
+                                    cta_text: 'Access Report',
+                                    cta_url: 'https://online.audiocodes.com/how-to-implement-organizational-meeting-intelligence-the-right-way?hs_preview=CwBxOvMt-190128698513'
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        id: 'pricing',
+                        type: 'Pricing Section',
+                        fields: {
+                            section_title: 'Simple, Transparent Pricing',
+                            pricing_tiers: [
+                                {
+                                    name: 'Essential',
+                                    price: '$10',
+                                    period: 'per user/month',
+                                    featured: false,
+                                    features: [
+                                        'Automatic MS Teams & Zoom recording',
+                                        'Central repository for all meetings',
+                                        'AI-generated summaries & action items',
+                                        'Q&A and issue detection',
+                                        '7,500 minutes AI analysis/month (per 50 users)',
+                                        '6 months meeting retention'
+                                    ],
+                                    cta_text: 'Start Free Trial'
+                                },
+                                {
+                                    name: 'Pro',
+                                    price: '$15',
+                                    period: 'per user/month',
+                                    featured: true,
+                                    features: [
+                                        'Everything in Essential',
+                                        'Advanced AI: summary by topic & speaker',
+                                        '"Prepare me for next meeting" feature',
+                                        'Organizational analytics dashboard',
+                                        '15,000 minutes AI analysis/month (per 50 users)',
+                                        '12 months meeting retention',
+                                        'Salesforce integration',
+                                        'Bring Your Own Storage (BYOS)'
+                                    ],
+                                    cta_text: 'Start Free Trial'
+                                },
+                                {
+                                    name: 'Enterprise',
+                                    price: 'Custom',
+                                    period: 'contact for pricing',
+                                    featured: false,
+                                    features: [
+                                        'Everything in Pro',
+                                        'On-premise deployment options',
+                                        'Custom integrations & APIs',
+                                        'Advanced security & compliance',
+                                        'Dedicated customer success',
+                                        'Custom training & onboarding',
+                                        'SLA guarantees & 24/7 support'
+                                    ],
+                                    cta_text: 'Talk to an Expert'
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        id: 'final_cta',
+                        type: 'Final CTA',
+                        fields: {
+                            title: 'Ready to Transform Your Meetings?',
+                            subtitle: 'Join leading organizations using Meeting Insights to unlock organizational intelligence.',
+                            cta_text: 'Contact Us',
+                            cta_url: 'mailto:info@meetinginsights.com'
+                        }
+                    },
+                    {
+                        id: 'platforms',
+                        type: 'Supported Platforms',
+                        fields: {
+                            section_title: 'Get Value From All Your Meetings',
+                            subtitle: 'Meeting Insights captures intelligence from every meeting format and platform your organization uses.',
+                            platforms: [
+                                {
+                                    icon: '🤝',
+                                    title: 'Face-to-Face Meetings',
+                                    description: 'Record in-person meetings with mobile app for comprehensive meeting capture.',
+                                    status: 'available'
+                                },
+                                {
+                                    icon: '🏢',
+                                    title: 'Meeting Rooms',
+                                    description: 'Integrate with conference room systems and capture boardroom discussions with professional audio quality.',
+                                    status: 'available'
+                                },
+                                {
+                                    icon: '📱',
+                                    title: 'Mobile Meetings',
+                                    description: 'Use our mobile app to record meetings on-the-go, perfect for client visits and remote work scenarios.',
+                                    status: 'available'
+                                },
+                                {
+                                    icon: '📹',
+                                    title: 'Zoom',
+                                    description: 'Native bot integration for automatic recording, real-time transcription, and instant meeting summaries.',
+                                    status: 'available'
+                                },
+                                {
+                                    icon: '👥',
+                                    title: 'Microsoft Teams',
+                                    description: 'Built-in Teams app with seamless recording and AI-powered insights delivered directly in your workflow.',
+                                    status: 'available'
+                                },
+                                {
+                                    icon: '📞',
+                                    title: 'Google Meet',
+                                    description: 'Comprehensive meeting intelligence for Google Workspace teams with automatic recording and analysis.',
+                                    status: 'coming-soon'
+                                },
+                                {
+                                    icon: '💼',
+                                    title: 'Cisco Webex',
+                                    description: 'Enterprise-grade meeting capture and insights for Webex meetings and events.',
+                                    status: 'coming-soon'
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        };
+
+        let currentTemplate = 'landing';
+        let currentSections = [];
+        let editingSection = null;
+        let presentationMode = false;
+
+        function togglePresentationMode() {
+            const appContainer = document.getElementById('appContainer');
+            const editorPanel = document.getElementById('editorPanel');
+            const previewPanel = document.querySelector('.preview-panel');
+            const toggleBtn = document.getElementById('presentationToggle');
+            const body = document.body;
+            const previewFrame = document.getElementById('previewFrame');
+
+            presentationMode = !presentationMode;
+
+            if (presentationMode) {
+                // Hide everything except the webpage content
+                body.classList.add('presentation-mode');
+                appContainer.style.display = 'none';
+                
+                // Create a new container for just the webpage content
+                const webpageContainer = document.createElement('div');
+                webpageContainer.id = 'webpageContainer';
+                webpageContainer.innerHTML = previewFrame.innerHTML;
+                webpageContainer.style.cssText = `
+                    position: fixed;
+                    top: 70px;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: white;
+                    overflow-y: auto;
+                    z-index: 1;
+                `;
+                
+                body.appendChild(webpageContainer);
+                toggleBtn.textContent = 'Show Editor';
+                toggleBtn.classList.add('edit-mode');
+                toggleBtn.style.zIndex = '10000';
+            } else {
+                // Show editor interface
+                body.classList.remove('presentation-mode');
+                appContainer.style.display = 'flex';
+                
+                // Remove the webpage container
+                const webpageContainer = document.getElementById('webpageContainer');
+                if (webpageContainer) {
+                    webpageContainer.remove();
+                }
+                
+                toggleBtn.textContent = 'Hide Editor';
+                toggleBtn.classList.remove('edit-mode');
+                toggleBtn.style.zIndex = '9999';
+            }
+        }
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('Initializing app...');
+            
+            // Check template version and handle upgrades
+            await handleTemplateVersioning();
+        });
+
+        async function handleTemplateVersioning() {
+            try {
+                await testDatabaseConnection();
+                
+                // Check stored template version
+                const storedVersion = localStorage.getItem(VERSION_KEY);
+                const currentVersion = TEMPLATE_VERSION;
+                
+                console.log(`Stored version: ${storedVersion}, Current version: ${currentVersion}`);
+                
+                if (!storedVersion || storedVersion !== currentVersion) {
+                    // This is a new deployment or version upgrade
+                    console.log('Template version updated - seeding with new template');
+                    
+                    // Load fresh template
+                    loadLocalTemplate(currentTemplate);
+                    
+                    // Save the updated template to database as new version
+                    await saveNewTemplateVersion();
+                    
+                    // Update stored version
+                    localStorage.setItem(VERSION_KEY, currentVersion);
+                    
+                } else {
+                    // Same version - load most recent user customizations
+                    console.log('Same template version - loading user customizations');
+                    
+                    const { data: recentPages, error } = await supabaseClient
+                        .from('page_layouts')
+                        .select('*')
+                        .eq('template_type', currentTemplate)
+                        .order('updated_at', { ascending: false })
+                        .limit(1);
+                    
+                    if (recentPages && recentPages.length > 0 && !error) {
+                        console.log('Loading most recent saved page:', recentPages[0].page_title);
+                        loadSavedPage(recentPages[0]);
+                    } else {
+                        console.log('No saved pages found, loading default template');
+                        loadLocalTemplate(currentTemplate);
+                    }
+                }
+                
+            } catch (error) {
+                console.log('Database not available, using local template:', error.message);
+                loadLocalTemplate(currentTemplate);
+                localStorage.setItem(VERSION_KEY, TEMPLATE_VERSION);
+            }
+        }
+
+        async function saveNewTemplateVersion() {
+            try {
+                const saveData = {
+                    page_title: `${templates[currentTemplate].name} - Template v${TEMPLATE_VERSION} - ${new Date().toLocaleDateString()}`,
+                    template_type: currentTemplate,
+                    sections_data: currentSections,
+                    template_version: TEMPLATE_VERSION,
+                    is_template_seed: true
+                };
+
+                const { data, error } = await supabaseClient
+                    .from('page_layouts')
+                    .insert([saveData])
+                    .select();
+
+                if (error) throw error;
+
+                console.log('New template version seeded to database:', data);
+                
+            } catch (error) {
+                console.error('Failed to seed new template version:', error);
+                // Continue anyway - user can still work locally
+            }
+        }
+
+        async function testDatabaseConnection() {
+            const { data, error } = await supabaseClient
+                .from('page_layouts')
+                .select('id')
+                .limit(1);
+            
+            if (error) {
+                console.error('Database connection failed:', error.message);
+                throw error;
+            }
+            
+            console.log('Database connection successful');
+        }
+
+        function loadSavedPage(pageData) {
+            currentTemplate = pageData.template_type;
+            currentSections = JSON.parse(JSON.stringify(pageData.sections_data));
+            
+            // Update active template button
+            document.querySelectorAll('.template-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            const buttons = document.querySelectorAll('.template-btn');
+            buttons.forEach(btn => {
+                if (btn.textContent.toLowerCase().includes(currentTemplate)) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            renderSections();
+            renderPreview();
+        }
+
+        async function loadSavedPages() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('page_layouts')
+                    .select('*')
+                    .order('updated_at', { ascending: false })
+                    .limit(20);
+                
+                if (error) throw error;
+                
+                const modal = document.getElementById('loadModal');
+                const list = document.getElementById('savedPagesList');
+                
+                list.innerHTML = '';
+                
+                if (data && data.length > 0) {
+                    data.forEach(page => {
+                        const div = document.createElement('div');
+                        div.style.cssText = 'border: 1px solid #ddd; border-radius: 8px; padding: 15px; margin-bottom: 10px; cursor: pointer; transition: background 0.3s;';
+                        div.onmouseover = () => div.style.background = '#f8f9fa';
+                        div.onmouseout = () => div.style.background = 'white';
+                        
+                        div.innerHTML = `
+                            <div style="font-weight: 600; margin-bottom: 5px;">${page.page_title}</div>
+                            <div style="font-size: 14px; color: #666;">${new Date(page.updated_at).toLocaleString()}</div>
+                            <div style="font-size: 12px; color: #999; margin-top: 5px;">Template: ${page.template_type}</div>
+                        `;
+                        
+                        div.onclick = () => loadPageAndClose(page.id);
+                        list.appendChild(div);
+                    });
+                } else {
+                    list.innerHTML = '<p style="text-align: center; color: #666; padding: 20px;">No saved pages found</p>';
+                }
+                
+                modal.style.display = 'flex';
+            } catch (error) {
+                console.error('Failed to load pages:', error);
+                alert('Failed to load saved pages: ' + error.message);
+            }
+        }
+
+        async function loadPageAndClose(pageId) {
+            closeLoadModal();
+            
+            try {
+                const { data, error } = await supabaseClient
+                    .from('page_layouts')
+                    .select('*')
+                    .eq('id', pageId)
+                    .single();
+                
+                if (data && !error) {
+                    loadSavedPage(data);
+                } else {
+                    throw new Error('Page not found');
+                }
+                
+            } catch (error) {
+                console.error('Failed to load page:', error);
+                alert('Failed to load page: ' + error.message);
+            }
+        }
+
+        function closeLoadModal() {
+            document.getElementById('loadModal').style.display = 'none';
+        }
+
+        function loadLocalTemplate(templateKey) {
+            const template = templates[templateKey];
+            if (!template) {
+                console.error(`Template ${templateKey} not found`);
+                return;
+            }
+            currentSections = JSON.parse(JSON.stringify(template.sections));
+            console.log(`Loaded ${currentSections.length} sections from template for ${templateKey}`);
+            renderSections();
+            renderPreview();
+        }
+
+        async function switchTemplate(templateKey) {
+            // Update active button
+            document.querySelectorAll('.template-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            currentTemplate = templateKey;
+            
+            // Try to load the most recent saved version of this template type first
+            try {
+                const { data: recentPage, error } = await supabaseClient
+                    .from('page_layouts')
+                    .select('*')
+                    .eq('template_type', templateKey)
+                    .order('updated_at', { ascending: false })
+                    .limit(1);
+                
+                if (recentPage && recentPage.length > 0 && !error) {
+                    console.log(`Loading most recent ${templateKey} version:`, recentPage[0].page_title);
+                    loadSavedPage(recentPage[0]);
+                    return;
+                }
+            } catch (error) {
+                console.log(`No saved ${templateKey} versions found, loading default template`);
+            }
+            
+            // Fallback to original template if no saved versions exist
+            console.log(`Loading default ${templateKey} template`);
+            loadLocalTemplate(templateKey);
+        }
+
+        function renderSections() {
+            const container = document.getElementById('sectionsContainer');
+            container.innerHTML = '';
+
+            if (!currentSections || currentSections.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #666; padding: 40px;">No sections loaded</p>';
+                return;
+            }
+
+            currentSections.forEach((section, index) => {
+                const sectionEl = createSectionElement(section, index);
+                container.appendChild(sectionEl);
+            });
+        }
+
+        function createSectionElement(section, index) {
+            const sectionDiv = document.createElement('div');
+            sectionDiv.className = 'section-item';
+
+            // Only show reorder controls for sections starting from index 2 (section 3)
+            const showReorderControls = index >= 2;
+            const isFirstReorderable = index === 2;
+            const isLastSection = index === currentSections.length - 1;
+
+            sectionDiv.innerHTML = `
+                <div class="section-header" onclick="toggleSection(${index})">
+                    <div class="section-info">
+                        <span class="section-type">${section.type}</span>
+                        <span class="section-title">${section.fields.title || section.fields.section_title || 'Section ' + (index + 1)}</span>
+                    </div>
+                    ${showReorderControls ? `
+                        <div class="section-controls" onclick="event.stopPropagation()">
+                            <button class="section-control-btn up-btn" 
+                                    onclick="moveSectionUp(${index})" 
+                                    ${isFirstReorderable ? 'disabled' : ''}
+                                    title="Move Up">↑</button>
+                            <button class="section-control-btn down-btn" 
+                                    onclick="moveSectionDown(${index})" 
+                                    ${isLastSection ? 'disabled' : ''}
+                                    title="Move Down">↓</button>
+                        </div>
+                    ` : ''}
+                </div>
+                <div class="section-content" id="section-content-${index}">
+                    ${renderSectionForm(section, index)}
+                </div>
+            `;
+
+            return sectionDiv;
+        }
+
+        function renderSectionForm(section, index) {
+            let formHTML = '';
+            
+            Object.entries(section.fields).forEach(([key, value]) => {
+                if (typeof value === 'string') {
+                    if (key === 'description' || key === 'content' || key === 'subtitle') {
+                        formHTML += `
+                            <div class="form-group">
+                                <label class="form-label">${formatLabel(key)}</label>
+                                <textarea class="form-textarea" onchange="updateSectionField(${index}, '${key}', this.value)">${value}</textarea>
+                            </div>
+                        `;
+                    } else {
+                        formHTML += `
+                            <div class="form-group">
+                                <label class="form-label">${formatLabel(key)}</label>
+                                <input type="text" class="form-input" value="${value}" onchange="updateSectionField(${index}, '${key}', this.value)">
+                            </div>
+                        `;
+                    }
+                } else if (Array.isArray(value)) {
+                    formHTML += `
+                        <div class="form-group">
+                            <label class="form-label">${formatLabel(key)}</label>
+                            ${value.map((item, itemIndex) => {
+                                if (typeof item === 'string') {
+                                    return `
+                                        <div class="array-item">
+                                            <div class="array-item-header">${formatLabel(key)} ${itemIndex + 1}</div>
+                                            <input type="text" class="form-input" value="${item}" onchange="updateArrayItem(${index}, '${key}', ${itemIndex}, this.value)">
+                                        </div>
+                                    `;
+                                } else if (typeof item === 'object') {
+                                    return `
+                                        <div class="array-item">
+                                            <div class="array-item-header">${item.title || item.name || `${formatLabel(key)} ${itemIndex + 1}`}</div>
+                                            ${Object.entries(item).map(([itemKey, itemValue]) => {
+                                                if (Array.isArray(itemValue)) {
+                                                    return `
+                                                        <div class="form-group">
+                                                            <label class="form-label">${formatLabel(itemKey)}</label>
+                                                            ${itemValue.map((benefit, benefitIndex) => `
+                                                                <input type="text" class="form-input" style="margin-bottom: 5px;" value="${benefit}" onchange="updateNestedArrayItem(${index}, '${key}', ${itemIndex}, '${itemKey}', ${benefitIndex}, this.value)">
+                                                            `).join('')}
+                                                        </div>
+                                                    `;
+                                                } else if (itemKey === 'description') {
+                                                    return `
+                                                        <div class="form-group">
+                                                            <label class="form-label">${formatLabel(itemKey)}</label>
+                                                            <textarea class="form-textarea" onchange="updateArrayField(${index}, '${key}', ${itemIndex}, '${itemKey}', this.value)">${itemValue}</textarea>
+                                                        </div>
+                                                    `;
+                                                } else {
+                                                    return `
+                                                        <div class="form-group">
+                                                            <label class="form-label">${formatLabel(itemKey)}</label>
+                                                            <input type="text" class="form-input" value="${itemValue}" onchange="updateArrayField(${index}, '${key}', ${itemIndex}, '${itemKey}', this.value)">
+                                                        </div>
+                                                    `;
+                                                }
+                                            }).join('')}
+                                        </div>
+                                    `;
+                                }
+                            }).join('')}
+                        </div>
+                    `;
+                }
+            });
+
+            return formHTML;
+        }
+
+        function formatLabel(key) {
+            return key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        }
+
+        function toggleSection(index) {
+            const content = document.getElementById(`section-content-${index}`);
+            const isActive = content.classList.contains('active');
+            
+            document.querySelectorAll('.section-content').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            if (!isActive) {
+                content.classList.add('active');
+                editingSection = index;
+            } else {
+                editingSection = null;
+            }
+            
+            renderPreview();
+        }
+
+        function updateSectionField(sectionIndex, field, value) {
+            if (currentSections[sectionIndex]) {
+                currentSections[sectionIndex].fields[field] = value;
+                renderPreview();
+            }
+        }
+
+        function updateArrayField(sectionIndex, arrayField, itemIndex, field, value) {
+            if (currentSections[sectionIndex] && currentSections[sectionIndex].fields[arrayField]) {
+                currentSections[sectionIndex].fields[arrayField][itemIndex][field] = value;
+                renderPreview();
+            }
+        }
+
+        function updateArrayItem(sectionIndex, arrayField, itemIndex, value) {
+            if (currentSections[sectionIndex] && currentSections[sectionIndex].fields[arrayField]) {
+                currentSections[sectionIndex].fields[arrayField][itemIndex] = value;
+                renderPreview();
+            }
+        }
+
+        function updateNestedArrayItem(sectionIndex, arrayField, itemIndex, field, benefitIndex, value) {
+            if (currentSections[sectionIndex] && 
+                currentSections[sectionIndex].fields[arrayField] && 
+                currentSections[sectionIndex].fields[arrayField][itemIndex] &&
+                currentSections[sectionIndex].fields[arrayField][itemIndex][field]) {
+                currentSections[sectionIndex].fields[arrayField][itemIndex][field][benefitIndex] = value;
+                renderPreview();
+            }
+        }
+
+        function moveSectionUp(index) {
+            // Only allow moving sections starting from index 2 (section 3)
+            if (index <= 2) return;
+            
+            // Swap with previous section
+            const temp = currentSections[index];
+            currentSections[index] = currentSections[index - 1];
+            currentSections[index - 1] = temp;
+            
+            // Re-render sections and preview
+            renderSections();
+            renderPreview();
+        }
+
+        function editSectionFromPreview(index) {
+            // Exit presentation mode
+            if (presentationMode) {
+                togglePresentationMode();
+            }
+            
+            // Open the section for editing
+            editingSection = index;
+            const content = document.getElementById(`section-content-${index}`);
+            if (content) {
+                // First expand the section
+                document.querySelectorAll('.section-content').forEach(el => {
+                    el.classList.remove('active');
+                });
+                content.classList.add('active');
+                
+                // Scroll to the section in the editor
+                content.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            renderPreview();
+        }
+
+        function moveSectionDown(index) {
+            // Only allow moving sections starting from index 2 (section 3)
+            if (index < 2 || index >= currentSections.length - 1) return;
+            
+            // Swap with next section
+            const temp = currentSections[index];
+            currentSections[index] = currentSections[index + 1];
+            currentSections[index + 1] = temp;
+            
+            // Re-render sections and preview
+            renderSections();
+            renderPreview();
+        }
+
+        function renderPreview() {
+            const previewFrame = document.getElementById('previewFrame');
+            let previewHTML = '';
+
+            currentSections.forEach((section, index) => {
+                const isEditing = editingSection === index;
+                const sectionClass = `preview-section ${isEditing ? 'editing' : ''}`;
+                const editButton = presentationMode ? 
+                    `<button class="edit-section-overlay" onclick="editSectionFromPreview(${index})">Edit</button>` : 
+                    '';
+                
+                switch (section.type) {
+                    case 'Navigation':
+                        previewHTML += `
+                            <div class="${sectionClass} navigation-section">
+                                ${editButton}
+                                <div class="logo">${section.fields.logo_text}</div>
+                                <ul class="nav-links">
+                                    ${section.fields.nav_links.map(link => `<li>${link}</li>`).join('')}
+                                </ul>
+                                <a href="#" class="nav-cta">${section.fields.cta_text}</a>
+                            </div>
+                        `;
+                        break;
+
+                    case 'Hero Section':
+                        previewHTML += `
+                            <div class="${sectionClass} hero-section">
+                                ${editButton}
+                                <h1>${section.fields.title}</h1>
+                                <p>${section.fields.subtitle}</p>
+                                <div class="hero-ctas">
+                                    <a href="#" class="btn-primary">${section.fields.cta_primary}</a>
+                                    <a href="#" class="btn-secondary">${section.fields.cta_secondary}</a>
+                                </div>
+                            </div>
+                        `;
+                        break;
+
+                    case 'Feature Grid':
+                        previewHTML += `
+                            <div class="${sectionClass} features-section">
+                                ${editButton}
+                                <h2>${section.fields.section_title}</h2>
+                                <div class="features-grid">
+                                    ${section.fields.features.map(feature => `
+                                        <div class="feature-card">
+                                            <div class="feature-icon">${feature.icon}</div>
+                                            <h3>${feature.title}</h3>
+                                            <p>${feature.description}</p>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `;
+                        break;
+
+                    case 'Value Propositions':
+                        previewHTML += `
+                            <div class="${sectionClass} value-props-section">
+                                <h2>${section.fields.section_title}</h2>
+                                <p class="subtitle">${section.fields.subtitle}</p>
+                                <div class="value-grid">
+                                    ${section.fields.audiences.map(audience => `
+                                        <div class="value-card">
+                                            <div class="value-card-header">
+                                                <div class="value-icon">${audience.icon}</div>
+                                                <h3>${audience.title}</h3>
+                                                <p class="card-subtitle">${audience.subtitle}</p>
+                                            </div>
+                                            <ul class="benefit-list">
+                                                ${audience.benefits.map(benefit => `<li>${benefit}</li>`).join('')}
+                                            </ul>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `;
+                        break;
+
+                    case 'Pricing Section':
+                        previewHTML += `
+                            <div class="${sectionClass} pricing-section">
+                                <h2>${section.fields.section_title}</h2>
+                                <div class="pricing-grid">
+                                    ${section.fields.pricing_tiers.map(tier => `
+                                        <div class="pricing-card ${tier.featured ? 'featured' : ''}">
+                                            <div class="pricing-tier">${tier.name}</div>
+                                            <div class="pricing-price">${tier.price}</div>
+                                            <div class="pricing-period">${tier.period}</div>
+                                            <ul class="pricing-features">
+                                                ${tier.features.map(feature => `<li>${feature}</li>`).join('')}
+                                            </ul>
+                                            <a href="#contact" class="pricing-cta">${tier.cta_text}</a>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `;
+                        break;
+
+                    case 'Final CTA':
+                        previewHTML += `
+                            <div class="${sectionClass} final-cta-section">
+                                <h2>${section.fields.title}</h2>
+                                <p>${section.fields.subtitle}</p>
+                                <a href="${section.fields.cta_url}" class="btn-primary">${section.fields.cta_text}</a>
+                            </div>
+                        `;
+                        break;
+
+                    case 'Resources Section':
+                        previewHTML += `
+                            <div class="${sectionClass} resources-section">
+                                <h2>${section.fields.section_title}</h2>
+                                <div class="resources-grid">
+                                    ${section.fields.resources.map(resource => `
+                                        <div class="resource-card" onclick="window.open('${resource.cta_url}', '_blank')">
+                                            <div class="resource-icon">${resource.icon}</div>
+                                            <span class="resource-badge">${resource.badge}</span>
+                                            <h3>${resource.title}</h3>
+                                            <p>${resource.description}</p>
+                                            <span class="resource-cta">${resource.cta_text}</span>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `;
+                        break;
+
+                    case 'Business Integrations':
+                        previewHTML += `
+                            <div class="${sectionClass} business-integrations-section">
+                                <h2>${section.fields.section_title}</h2>
+                                <p class="integrations-subtitle">${section.fields.subtitle}</p>
+                                <div class="integrations-grid">
+                                    ${section.fields.integrations.map(integration => `
+                                        <div class="integration-card">
+                                            <div class="integration-logo">
+                                                ${integration.logo_url ? 
+                                                    `<img src="${integration.logo_url}" alt="${integration.title}">` : 
+                                                    integration.logo_text
+                                                }
+                                            </div>
+                                            <h3>${integration.title}</h3>
+                                            <p>${integration.description}</p>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `;
+                        break;
+
+                    case 'Security Section':
+                        previewHTML += `
+                            <div class="${sectionClass} security-section">
+                                <h2>${section.fields.section_title}</h2>
+                                <p class="security-subtitle">${section.fields.subtitle}</p>
+                                <div class="security-grid">
+                                    ${section.fields.security_features.map(feature => `
+                                        <div class="security-card">
+                                            <div class="security-front">
+                                                <div class="security-icon">${feature.icon}</div>
+                                                <h3>${feature.title}</h3>
+                                                <p class="security-subtitle-card">${feature.subtitle_card}</p>
+                                            </div>
+                                            <div class="security-back">
+                                                <h3>${feature.title}</h3>
+                                                <p>${feature.description}</p>
+                                                <span class="security-badge">${feature.badge}</span>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `;
+                        break;
+
+                    case 'Testimonials Carousel':
+                        previewHTML += `
+                            <div class="${sectionClass} testimonials-section">
+                                <h2>${section.fields.section_title}</h2>
+                                <div class="testimonials-carousel">
+                                    <button class="carousel-btn carousel-btn-prev">‹</button>
+                                    <div class="testimonials-track-container">
+                                        <div class="testimonials-track">
+                                            ${section.fields.testimonials.map(testimonial => `
+                                                <div class="testimonial-slide">
+                                                    <div class="testimonial-avatar">
+                                                        <div class="avatar-circle">${testimonial.initials}</div>
+                                                        ${testimonial.company_logo ? 
+                                                            `<img src="${testimonial.company_logo}" alt="${testimonial.company}" class="company-logo-testimonial">` : 
+                                                            `<span class="company-name-text">${testimonial.company}</span>`
+                                                        }
+                                                    </div>
+                                                    <p class="testimonial-text">${testimonial.quote}</p>
+                                                    <div class="testimonial-author">${testimonial.name}</div>
+                                                    <div class="testimonial-title">${testimonial.title}</div>
+                                                </div>
+                                            `).join('')}
+                                        </div>
+                                    </div>
+                                    <button class="carousel-btn carousel-btn-next">›</button>
+                                </div>
+                                <div class="testimonial-dots">
+                                    ${section.fields.testimonials.map((_, index) => `
+                                        <div class="testimonial-dot ${index === 0 ? 'active' : ''}"></div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `;
+                        break;
+
+                    case 'User Personas':
+                        previewHTML += `
+                            <div class="${sectionClass} personas-section">
+                                <h2>${section.fields.section_title}</h2>
+                                <div class="personas-grid">
+                                    ${section.fields.personas.map(persona => `
+                                        <div class="persona-card">
+                                            <div class="persona-front">
+                                                <div class="persona-icon">${persona.icon}</div>
+                                                <h3>${persona.title}</h3>
+                                            </div>
+                                            <div class="persona-back">
+                                                <h3>${persona.title}</h3>
+                                                <p>${persona.description}</p>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `;
+                        break;
+
+                    case 'Industry Solutions':
+                        previewHTML += `
+                            <div class="${sectionClass} industry-solutions-section">
+                                <h2>${section.fields.section_title}</h2>
+                                <div class="industry-grid">
+                                    ${section.fields.industries.map(industry => `
+                                        <div class="industry-card">
+                                            <div class="industry-icon">${industry.icon}</div>
+                                            <h3>${industry.title}</h3>
+                                            <p>${industry.description}</p>
+                                            <a href="${industry.cta_url}" class="industry-learn-more">Learn More</a>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `;
+                        break;
+
+                    case 'Awards Section':
+                        previewHTML += `
+                            <div class="${sectionClass} awards-section">
+                                <h2>${section.fields.section_title}</h2>
+                                <div class="awards-grid">
+                                    ${section.fields.awards.map(award => `
+                                        <div class="award-item">
+                                            <div class="award-icon">${award.icon}</div>
+                                            <h3>${award.title}</h3>
+                                            <p>${award.description}</p>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `;
+                        break;
+
+                    case 'Customer Logos':
+                        previewHTML += `
+                            <div class="${sectionClass} customer-logos-section">
+                                <h2>${section.fields.section_title}</h2>
+                                <div class="logos-carousel">
+                                    <div class="logos-track">
+                                        ${section.fields.logos.map(logo => `<div class="logo-item">${logo}</div>`).join('')}
+                                        ${section.fields.logos.map(logo => `<div class="logo-item">${logo}</div>`).join('')}
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        break;
+
+                    case 'Video Section':
+                        previewHTML += `
+                            <div class="${sectionClass} video-section">
+                                <h2>${section.fields.section_title}</h2>
+                                <p class="description">${section.fields.description}</p>
+                                <div class="video-container">
+                                    <div class="video-placeholder" style="background-image: url('${section.fields.video_thumbnail}');">
+                                        <div class="video-play-button">▶</div>
+                                    </div>
+                                </div>
+                                <a href="#" class="btn-primary">${section.fields.cta_text}</a>
+                            </div>
+                        `;
+                        break;
+
+                    case 'Supported Platforms':
+                        previewHTML += `
+                            <div class="${sectionClass} platforms-section">
+                                <h2>${section.fields.section_title}</h2>
+                                <p class="subtitle">${section.fields.subtitle}</p>
+                                <div class="platforms-grid">
+                                    ${section.fields.platforms.map(platform => `
+                                        <div class="platform-card">
+                                            <span class="platform-status status-${platform.status}">${platform.status === 'available' ? 'Available' : 'Coming Soon'}</span>
+                                            <div class="platform-icon">${platform.icon}</div>
+                                            <h3>${platform.title}</h3>
+                                            <p>${platform.description}</p>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `;
+                        break;
+
+                    default:
+                        previewHTML += `
+                            <div class="${sectionClass}" style="padding: 40px; background: #f8f9fa; text-align: center; border: 1px solid #ddd;">
+                                <h3>Section Type: ${section.type}</h3>
+                                <p>Preview for this section type is being developed.</p>
+                            </div>
+                        `;
+                        break;
+                }
+            });
+
+            previewFrame.innerHTML = previewHTML || '<div style="padding: 40px; text-align: center; color: #666;">No content to preview</div>';
+        }
+
+        async function saveChanges() {
+            console.log('Attempting to save to database...');
+            
+            try {
+                const saveData = {
+                    page_title: `${templates[currentTemplate].name} - ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`,
+                    template_type: currentTemplate,
+                    sections_data: currentSections,
+                    template_version: TEMPLATE_VERSION,
+                    is_template_seed: false
+                };
+
+                const { data, error } = await supabaseClient
+                    .from('page_layouts')
+                    .insert([saveData])
+                    .select();
+
+                if (error) throw error;
+
+                console.log('Saved successfully to database:', data);
+                alert('Page saved successfully to database!');
+
+            } catch (error) {
+                console.error('Database save failed:', error.message);
+                alert('Database save failed: ' + error.message + '\nSaving to local storage instead.');
+                
+                // Fallback to localStorage
+                const savedPages = JSON.parse(localStorage.getItem('meeting_insights_pages') || '[]');
+                const pageData = {
+                    id: 'page_' + Date.now(),
+                    page_title: `${templates[currentTemplate].name} - ${new Date().toLocaleDateString()}`,
+                    template_type: currentTemplate,
+                    sections_data: currentSections,
+                    template_version: TEMPLATE_VERSION,
+                    created_at: new Date().toISOString()
+                };
+                savedPages.unshift(pageData);
+                localStorage.setItem('meeting_insights_pages', JSON.stringify(savedPages.slice(0, 50)));
+                console.log('Saved to local storage successfully');
+            }
+        }
+    </script>
+</body>
+</html>
