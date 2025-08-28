@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting Insights - Enterprise Brochure</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            color: #1a1a2e;
+            line-height: 1.6;
+            background: #f0f4f8;
+        }
+        
+        .brochure-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #0066CC 0%, #004499 100%);
+            color: white;
+            padding: 30px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #0066CC;
+            font-size: 20px;
+        }
+        
+        .brand-name {
+            font-size: 24px;
+            font-weight: 300;
+        }
+        
+        .tagline {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #0066CC 0%, #004499 100%);
+            color: white;
+            padding: 80px 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-subtitle {
+            font-size: 20px;
+            margin-bottom: 40px;
+            opacity: 0.95;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-badges {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .badge {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        /* Problem Section */
+        .problem-section {
+            padding: 80px 60px;
+            background: linear-gradient(180deg, #ffffff 0%, #f8f9fb 100%);
+        }
+        
+        .section-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #1a1a2e;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .problem-cards {
+            display: flex;
+            gap: 30px;
+            overflow-x: auto;
+            padding-bottom: 20px;
+        }
+        
+        .problem-card {
+            min-width: 400px;
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border: 1px solid #e0e0e0;
+        }
+        
+        /* Shadow AI Section */
+        .shadow-ai-section {
+            padding: 80px 60px;
+            background: #1a1a2e;
+            color: white;
+        }
+        
+        .shadow-ai-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .warning-icon {
+            font-size: 72px;
+            margin-bottom: 30px;
+        }
+        
+        .risk-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .risk-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: left;
+        }
+        
+        .risk-icon {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+        
+        .risk-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #FF6B6B;
+        }
+        
+        /* Benefits Section */
+        .benefits-section {
+            padding: 80px 60px;
+            background: white;
+        }
+        
+        .benefits-container {
+            display: flex;
+            gap: 30px;
+            overflow-x: auto;
+            padding-bottom: 20px;
+            margin-top: 40px;
+        }
+        
+        .benefit-card {
+            min-width: 350px;
+            background: white;
+            border-radius: 16px;
+            border: 1px solid #e0e0e0;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+        
+        .benefit-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 30px;
+            background: linear-gradient(135deg, #f8f9fb 0%, #ffffff 100%);
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .benefit-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #0066CC, #004499);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: white;
+        }
+        
+        .benefit-title {
+            flex: 1;
+        }
+        
+        .benefit-title h3 {
+            font-size: 22px;
+            color: #1a1a2e;
+            margin-bottom: 5px;
+        }
+        
+        .benefit-subtitle {
+            font-size: 14px;
+            color: #666;
+            font-style: italic;
+        }
+        
+        .benefit-list {
+            list-style: none;
+            padding: 30px;
+        }
+        
+        .benefit-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .benefit-item:last-child {
+            border-bottom: none;
+        }
+        
+        /* Testimonials */
+        .testimonials-section {
+            padding: 80px 60px;
+            background: linear-gradient(180deg, #f8f9fb 0%, #ffffff 100%);
+        }
+        
+        .testimonial-cards {
+            display: flex;
+            gap: 30px;
+            overflow-x: auto;
+            padding-bottom: 20px;
+            margin-top: 40px;
+        }
+        
+        .testimonial-card {
+            min-width: 380px;
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid #e0e0e0;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+        
+        .quote-mark {
+            font-size: 48px;
+            color: #0066CC;
+            opacity: 0.2;
+            position: absolute;
+            top: 20px;
+            left: 30px;
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            color: #444;
+            margin-bottom: 20px;
+            margin-top: 30px;
+            line-height: 1.6;
+        }
+        
+        .testimonial-author {
+            font-weight: 600;
+            color: #1a1a2e;
+        }
+        
+        .testimonial-role {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* Security Section */
+        .security-section {
+            padding: 80px 60px;
+            background: linear-gradient(135deg, #0066CC 0%, #004499 100%);
+            color: white;
+        }
+        
+        .security-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .security-feature {
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .security-feature:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-5px);
+        }
+        
+        .security-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .security-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        
+        /* ROI Section */
+        .roi-section {
+            padding: 80px 60px;
+            background: white;
+        }
+        
+        .roi-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .roi-metric {
+            text-align: center;
+        }
+        
+        .roi-number {
+            font-size: 48px;
+            font-weight: 700;
+            color: #0066CC;
+            margin-bottom: 10px;
+        }
+        
+        .roi-label {
+            font-size: 18px;
+            color: #666;
+        }
+        
+        .timeline {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 60px;
+            padding: 40px;
+            background: linear-gradient(135deg, #f8f9fb 0%, #ffffff 100%);
+            border-radius: 16px;
+            overflow-x: auto;
+        }
+        
+        .timeline-item {
+            flex: 1;
+            text-align: center;
+            min-width: 200px;
+        }
+        
+        .timeline-dot {
+            width: 20px;
+            height: 20px;
+            background: #0066CC;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            position: relative;
+            border: 4px solid white;
+            box-shadow: 0 2px 10px rgba(0,102,204,0.3);
+        }
+        
+        .timeline-label {
+            background: #0066CC;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+        
+        .timeline-description {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            padding: 80px 60px;
+            background: linear-gradient(135deg, #0066CC 0%, #004499 100%);
+            text-align: center;
+            color: white;
+        }
+        
+        .cta-title {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .cta-subtitle {
+            font-size: 20px;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+        
+        .cta-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .cta-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 16px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .cta-card:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-5px);
+        }
+        
+        .cta-icon {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+        
+        .cta-action {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .cta-detail {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #1a1a2e;
+            color: white;
+            padding: 40px 60px;
+            text-align: center;
+        }
+        
+        .contact-info {
+            margin-bottom: 20px;
+        }
+        
+        .contact-info a {
+            color: #00BCD4;
+            text-decoration: none;
+        }
+        
+        .footer-note {
+            font-size: 12px;
+            color: #888;
+            margin-top: 20px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header, .hero, .problem-section, .shadow-ai-section, 
+            .benefits-section, .testimonials-section, .security-section,
+            .roi-section, .cta-section, .footer {
+                padding: 40px 20px;
+            }
+            
+            .hero h1 {
+                font-size: 32px;
+            }
+            
+            .section-title {
+                font-size: 28px;
+            }
+            
+            .problem-card, .benefit-card, .testimonial-card {
+                min-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="brochure-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-section">
+                <div class="logo">AC</div>
+                <div>
+                    <div class="brand-name">AudioCodes Meeting Insights</div>
+                    <div class="tagline">Enterprise Meeting Intelligence That Scales</div>
+                </div>
+            </div>
+            <div style="text-align: right;">
+                <div style="font-size: 14px; opacity: 0.9;">Trusted by Fortune 100</div>
+                <div style="font-size: 14px; opacity: 0.9;">30+ Years of Excellence</div>
+            </div>
+        </header>
+        
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>The #1 Meeting Intelligence Platform for Organizations</h1>
+            <p class="hero-subtitle">
+                Transform every meeting into strategic business intelligence with enterprise-grade AI that scales across your entire organization.
+            </p>
+            <div class="hero-badges">
+                <div class="badge">✓ Native Teams & Zoom Integration</div>
+                <div class="badge">✓ GDPR & SOC 2 Certified</div>
+                <div class="badge">✓ Your Data, Your Servers</div>
+            </div>
+        </section>
+        
+        <!-- Problem Section - Knowledge as Gold -->
+        <section class="problem-section">
+            <h2 class="section-title">Your Meeting Knowledge Is Pure Gold</h2>
+            <p style="text-align: center; font-size: 24px; color: #1a1a2e; margin-bottom: 20px; font-weight: 600;">
+                Every conversation contains nuggets of wisdom. Stop letting them vanish into thin air.
+            </p>
+            <p style="text-align: center; color: #666; margin-bottom: 50px; font-size: 18px; max-width: 800px; margin-left: auto; margin-right: auto;">
+                Your teams generate <strong>$2.5M worth of intellectual capital</strong> in meetings every year.<br>
+                Without proper capture, 80% of it disappears forever. It's time to mine that gold.
+            </p>
+            
+            <div style="display: flex; gap: 40px; justify-content: center; align-items: center; flex-wrap: wrap; margin-bottom: 50px;">
+                <div style="text-align: center;">
+                    <div style="font-size: 72px; margin-bottom: 10px;">💎</div>
+                    <div style="font-size: 18px; font-weight: 600; color: #1a1a2e;">Strategic Decisions</div>
+                    <div style="color: #666;">Worth millions when preserved</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 72px; margin-bottom: 10px;">🏆</div>
+                    <div style="font-size: 18px; font-weight: 600; color: #1a1a2e;">Customer Insights</div>
+                    <div style="color: #666;">Your competitive advantage</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 72px; margin-bottom: 10px;">🚀</div>
+                    <div style="font-size: 18px; font-weight: 600; color: #1a1a2e;">Innovation Ideas</div>
+                    <div style="color: #666;">Tomorrow's breakthroughs</div>
+                </div>
+            </div>
+            
+            <div class="problem-cards" style="max-width: 1200px; margin: 0 auto;">
+                <div class="problem-card" style="background: linear-gradient(135deg, #FFF5F5 0%, #FFEBEE 100%); flex: 1;">
+                    <h3 style="text-align: center; font-size: 28px; margin-bottom: 30px;">
+                        <span style="color: #FF4444;">Without</span> Meeting Insights
+                    </h3>
+                    <ul style="list-style: none; padding: 0; font-size: 16px;">
+                        <li style="padding: 15px 0; border-bottom: 1px solid rgba(0,0,0,0.05);">
+                            <span style="color: #FF4444; font-size: 20px; margin-right: 10px;">✗</span>
+                            <strong>73% of decisions</strong> get forgotten or misunderstood
+                        </li>
+                        <li style="padding: 15px 0; border-bottom: 1px solid rgba(0,0,0,0.05);">
+                            <span style="color: #FF4444; font-size: 20px; margin-right: 10px;">✗</span>
+                            Teams waste <strong>5 hours/week</strong> in follow-up meetings
+                        </li>
+                        <li style="padding: 15px 0; border-bottom: 1px solid rgba(0,0,0,0.05);">
+                            <span style="color: #FF4444; font-size: 20px; margin-right: 10px;">✗</span>
+                            <strong>$15M annual cost</strong> from repeated discussions
+                        </li>
+                        <li style="padding: 15px 0;">
+                            <span style="color: #FF4444; font-size: 20px; margin-right: 10px;">✗</span>
+                            Critical knowledge walks out the door with employees
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="problem-card" style="background: linear-gradient(135deg, #F5FFF5 0%, #EBFFEB 100%); flex: 1;">
+                    <h3 style="text-align: center; font-size: 28px; margin-bottom: 30px;">
+                        <span style="color: #44FF44;">With</span> Meeting Insights
+                    </h3>
+                    <ul style="list-style: none; padding: 0; font-size: 16px;">
+                        <li style="padding: 15px 0; border-bottom: 1px solid rgba(0,0,0,0.05);">
+                            <span style="color: #44FF44; font-size: 20px; margin-right: 10px;">✓</span>
+                            <strong>100% capture</strong> of every decision and action item
+                        </li>
+                        <li style="padding: 15px 0; border-bottom: 1px solid rgba(0,0,0,0.05);">
+                            <span style="color: #44FF44; font-size: 20px; margin-right: 10px;">✓</span>
+                            <strong>40% reduction</strong> in meeting time through better prep
+                        </li>
+                        <li style="padding: 15px 0; border-bottom: 1px solid rgba(0,0,0,0.05);">
+                            <span style="color: #44FF44; font-size: 20px; margin-right: 10px;">✓</span>
+                            <strong>ROI in 30 days</strong> with immediate productivity gains
+                        </li>
+                        <li style="padding: 15px 0;">
+                            <span style="color: #44FF44; font-size: 20px; margin-right: 10px;">✓</span>
+                            Permanent organizational memory that grows stronger daily
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Shadow AI Warning Section -->
+        <section class="shadow-ai-section">
+            <div class="shadow-ai-content">
+                <div class="warning-icon">⚠️</div>
+                <h2 class="section-title" style="color: white;">The Shadow AI Crisis Is Here</h2>
+                <p style="font-size: 20px; margin-bottom: 20px;">
+                    <strong style="color: #FF6B6B;">87% of your employees</strong> are already using unauthorized AI meeting tools
+                </p>
+                <p style="font-size: 18px; opacity: 0.9;">
+                    Your sensitive data is being recorded, transcribed, and stored on unknown servers right now.
+                </p>
+                
+                <div class="risk-grid">
+                    <div class="risk-card">
+                        <div class="risk-icon">🔓</div>
+                        <div class="risk-title">Data Breach Risk</div>
+                        <p>Average breach cost: $9.44M when confidential meeting data is exposed</p>
+                    </div>
+                    <div class="risk-card">
+                        <div class="risk-icon">⚖️</div>
+                        <div class="risk-title">Compliance Violations</div>
+                        <p>GDPR fines up to €20M for unauthorized data processing</p>
+                    </div>
+                    <div class="risk-card">
+                        <div class="risk-icon">🕵️</div>
+                        <div class="risk-title">IP Theft</div>
+                        <p>Trade secrets and strategies exposed to unknown third parties</p>
+                    </div>
+                    <div class="risk-card">
+                        <div class="risk-icon">🎯</div>
+                        <div class="risk-title">Competitive Exposure</div>
+                        <p>Your strategic discussions could be training competitor AI models</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Benefits Section -->
+        <section class="benefits-section">
+            <h2 class="section-title">Transform Every Meeting Into Strategic Value</h2>
+            <div class="benefits-container">
+                <!-- Individual Contributors Card -->
+                <div class="benefit-card">
+                    <div class="benefit-header">
+                        <div class="benefit-icon">💼</div>
+                        <div class="benefit-title">
+                            <h3>For Individual Contributors</h3>
+                            <div class="benefit-subtitle">Personal Productivity</div>
+                        </div>
+                    </div>
+                    <ul class="benefit-list">
+                        <li class="benefit-item">
+                            <span style="font-size: 18px; margin-right: 10px;">🎯</span>
+                            <span>Never miss an action item or deadline again</span>
+                        </li>
+                        <li class="benefit-item">
+                            <span style="font-size: 18px; margin-right: 10px;">📝</span>
+                            <span>Automatic meeting notes shared instantly</span>
+                        </li>
+                        <li class="benefit-item">
+                            <span style="font-size: 18px; margin-right: 10px;">💡</span>
+                            <span>Come prepared with intelligent context</span>
+                        </li>
+                        <li class="benefit-item">
+                            <span style="font-size: 18px; margin-right: 10px;">✅</span>
+                            <span>Own your accountability with clear action items</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Business Leaders Card -->
+                <div class="benefit-card">
+                    <div class="benefit-header">
+                        <div class="benefit-icon">🎯</div>
+                        <div class="benefit-title">
+                            <h3>For Business Leaders</h3>
+                            <div class="benefit-subtitle">Strategic Advantage</div>
+                        </div>
+                    </div>
+                    <ul class="benefit-list">
+                        <li class="benefit-item">
+                            <span style="font-size: 18px; margin-right: 10px;">🔍</span>
+                            <span>Complete visibility into organizational decisions</span>
+                        </li>
+                        <li class="benefit-item">
+                            <span style="font-size: 18px; margin-right: 10px;">📊</span>
+                            <span>Track initiatives and commitments automatically</span>
+                        </li>
+                        <li class="benefit-item">
+                            <span style="font-size: 18px; margin-right: 10px;">🚀</span>
+                            <span>Accelerate decision-making with instant context</span>
+                        </li>
+                        <li class="benefit-item">
+                            <span style="font-size: 18px; margin-right: 10px;">💎</span>
+                            <span>Mine insights from thousands of conversations</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- IT & Security Card -->
+                <div class="benefit-card">
+                    <div class="benefit-header">
+                        <div class="benefit-icon">🔒</div>
+                        <div class="benefit-title">
+                            <h3>For IT & Security</h3>
+                            <div class="benefit-subtitle">Enterprise Control</div>
+                        </div>
+                    </div>
+                    <ul class="benefit-list">
+                        <li class="benefit-item">
+                            <span style="font-size: 18px; margin-right: 10px;">🛡️</span>
+                            <span>Eliminate shadow AI with approved solution</span>
+                        </li>
+                        <li class="benefit-item">
+                            <span style="font-size: 18px; margin-right: 10px;">🔐</span>
+                            <span>Your data stays on your servers, always</span>
+                        </li>
+                        <li class="benefit-item">
+                            <span style="font-size: 18px; margin-right: 10px;">✅</span>
+                            <span>Full GDPR, SOC 2, HIPAA compliance</span>
+                        </li>
+                        <li class="benefit-item">
+                            <span style="font-size: 18px; margin-right: 10px;">⚡</span>
+                            <span>Native integration with existing infrastructure</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Testimonials Section -->
+        <section class="testimonials-section">
+            <h2 class="section-title">Trusted by Industry Leaders</h2>
+            <div class="testimonial-cards">
+                <div class="testimonial-card">
+                    <div class="quote-mark">"</div>
+                    <p class="testimonial-text">
+                        Meeting Insights transformed how we operate. We've reduced meeting time by 40% while improving decision quality. The ROI was evident within the first month.
+                    </p>
+                    <div class="testimonial-author">Sarah Chen</div>
+                    <div class="testimonial-role">CTO, Fortune 500 Financial Services</div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="quote-mark">"</div>
+                    <p class="testimonial-text">
+                        Finally, a solution that satisfies both our security requirements and our users' needs. Shadow AI usage dropped to zero within weeks of deployment.
+                    </p>
+                    <div class="testimonial-author">Michael Rodriguez</div>
+                    <div class="testimonial-role">CISO, Global Healthcare Provider</div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="quote-mark">"</div>
+                    <p class="testimonial-text">
+                        The ability to instantly search across thousands of meetings has been game-changing. We're making better decisions faster than ever before.
+                    </p>
+                    <div class="testimonial-author">Jennifer Park</div>
+                    <div class="testimonial-role">VP Operations, Tech Unicorn</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Security & Compliance Section -->
+        <section class="security-section">
+            <div style="max-width: 1200px; margin: 0 auto; text-align: center;">
+                <h2 class="section-title" style="color: white;">Enterprise-Grade Security You Can Trust</h2>
+                <p style="font-size: 20px; margin-bottom: 40px; opacity: 0.95;">
+                    Your data never leaves your control. Ever.
+                </p>
+                
+                <div class="security-grid">
+                    <div class="security-feature">
+                        <div class="security-icon">🏢</div>
+                        <div class="security-title">On-Premise or Private Cloud</div>
+                        <p>Deploy on your infrastructure. Your data stays exactly where you want it.</p>
+                    </div>
+                    <div class="security-feature">
+                        <div class="security-icon">🔐</div>
+                        <div class="security-title">End-to-End Encryption</div>
+                        <p>Military-grade AES-256 encryption for all data at rest and in transit.</p>
+                    </div>
+                    <div class="security-feature">
+                        <div class="security-icon">✅</div>
+                        <div class="security-title">Full Compliance</div>
+                        <p>GDPR, SOC 2, HIPAA, ISO 27001 certified. Meet any regulatory requirement.</p>
+                    </div>
+                    <div class="security-feature">
+                        <div class="security-icon">👤</div>
+                        <div class="security-title">Granular Access Control</div>
+                        <p>Role-based permissions ensure people only see what they should.</p>
+                    </div>
+                    <div class="security-feature">
+                        <div class="security-icon">📊</div>
+                        <div class="security-title">Complete Audit Trail</div>
+                        <p>Track every access, modification, and export for full accountability.</p>
+                    </div>
+                    <div class="security-feature">
+                        <div class="security-icon">🌍</div>
+                        <div class="security-title">Data Sovereignty</div>
+                        <p>Choose where your data resides. Comply with any regional requirements.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ROI Section -->
+        <section class="roi-section">
+            <h2 class="section-title">Proven ROI in 30 Days</h2>
+            <div class="roi-metrics">
+                <div class="roi-metric">
+                    <div class="roi-number">40%</div>
+                    <div class="roi-label">Reduction in Meeting Time</div>
+                </div>
+                <div class="roi-metric">
+                    <div class="roi-number">87%</div>
+                    <div class="roi-label">Faster Decision Making</div>
+                </div>
+                <div class="roi-metric">
+                    <div class="roi-number">$2.5M</div>
+                    <div class="roi-label">Annual Knowledge Value Captured</div>
+                </div>
+                <div class="roi-metric">
+                    <div class="roi-number">100%</div>
+                    <div class="roi-label">Shadow AI Elimination</div>
+                </div>
+            </div>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-label">Week 1</div>
+                    <div class="timeline-description">Deploy & onboard your first teams</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-label">Week 2</div>
+                    <div class="timeline-description">See 50% reduction in note-taking time</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-label">Week 3</div>
+                    <div class="timeline-description">Experience faster decision-making</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-label">Week 4</div>
+                    <div class="timeline-description">Achieve positive ROI & scale organization-wide</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <h1 class="cta-title">Ready to Transform Your Meetings?</h1>
+            <p class="cta-subtitle">
+                Join Fortune 100 companies already using Meeting Insights to capture their organizational intelligence
+            </p>
+            <div class="cta-cards">
+                <div class="cta-card">
+                    <div class="cta-icon">📋</div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 15px; display: inline-block; margin-bottom: 10px; font-size: 12px; font-weight: 600;">Requirements Guide</div>
+                    <div class="cta-action">12 Must-Have Requirements</div>
+                    <div class="cta-detail">A comprehensive checklist to evaluate and select the right meeting intelligence solution for your enterprise.</div>
+                    <div style="margin-top: 20px; padding: 10px 20px; background: white; color: #0066CC; border-radius: 20px; display: inline-block; font-weight: 600; font-size: 14px;">Download Free Guide →</div>
+                </div>
+                
+                <div class="cta-card">
+                    <div class="cta-icon">📚</div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 15px; display: inline-block; margin-bottom: 10px; font-size: 12px; font-weight: 600;">Executive Guide</div>
+                    <div class="cta-action">Executive Guide</div>
+                    <div class="cta-detail">Strategic insights for C-suite leaders on transforming meetings into competitive advantages.</div>
+                    <div style="margin-top: 20px; padding: 10px 20px; background: white; color: #0066CC; border-radius: 20px; display: inline-block; font-weight: 600; font-size: 14px;">Get Executive Guide →</div>
+                </div>
+                
+                <div class="cta-card" style="background: rgba(255,255,255,0.15); border: 2px solid white;">
+                    <div class="cta-icon">🚀</div>
+                    <div style="background: rgba(255,255,255,0.3); padding: 5px 12px; border-radius: 15px; display: inline-block; margin-bottom: 10px; font-size: 12px; font-weight: 600;">Most Popular</div>
+                    <div class="cta-action">Start Your 30-Day Trial</div>
+                    <div class="cta-detail">Experience Meeting Insights with your team. No credit card required. Minimum 10 users.</div>
+                    <div style="margin-top: 20px; padding: 12px 24px; background: white; color: #0066CC; border-radius: 20px; display: inline-block; font-weight: 600; font-size: 14px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);">Start Trial Today →</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="contact-info">
+                <p><strong>Contact Our Enterprise Team</strong></p>
+                <p>Web: <a href="#">www.audiocodes.com/meeting-insights</a></p>
+                <p>Email: <a href="mailto:meetinginsights@audiocodes.com">meetinginsights@audiocodes.com</a></p>
+                <p>Phone: 1-888-AUDIOCODES</p>
+            </div>
+            <div class="footer-note">
+                <p>© 2024 AudioCodes Ltd. All rights reserved. Meeting Insights is a trademark of AudioCodes Ltd.</p>
+                <p style="margin-top: 10px; font-size: 11px;">
+                    Statistics: Microsoft Work Trend Index 2024, IBM Cost of Data Breach Report 2025, Cyberhaven Labs 2024, Glyph Survey 2024, Gartner 2024
+                </p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
